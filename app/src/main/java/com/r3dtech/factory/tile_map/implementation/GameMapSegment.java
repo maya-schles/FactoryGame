@@ -1,7 +1,6 @@
 package com.r3dtech.factory.tile_map.implementation;
 
 import android.graphics.Point;
-import android.util.Log;
 
 import com.r3dtech.factory.tile_map.MapSegment;
 import com.r3dtech.factory.tile_map.MapTile;
@@ -69,12 +68,17 @@ public class GameMapSegment implements MapSegment {
     public void movePos(int dx, int dy) {
         pos.x = pos.x - dx;
         pos.y = pos.y - dy;
-        Log.d("MOVINGGGGGGGGG-------------------------MOVING", "moved");
     }
 
     private Point topLeftTile() {
-        int x = (int) (pos.x/(float) Constants.TILE_SIZE -tiledWidth()/2f);
-        int y = (int) (pos.y/(float) Constants.TILE_SIZE -tiledHeight()/2f);
+        int x = (int) (pos.x - width()/2f)/Constants.TILE_SIZE;
+        int y = (int) (pos.y - height()/2f)/Constants.TILE_SIZE;
+        return new Point(x, y);
+    }
+
+    private Point bottomRightTile() {
+        int x = (int) Math.ceil(pos.x + width()/2f)/Constants.TILE_SIZE;
+        int y = (int) Math.ceil(pos.y + height()/2f)/Constants.TILE_SIZE;
         return new Point(x, y);
     }
     @Override
@@ -86,12 +90,12 @@ public class GameMapSegment implements MapSegment {
 
     @Override
     public int tiledHeight() {
-        return (int) Math.ceil(height()/(float) Constants.TILE_SIZE);
+        return bottomRightTile().y - topLeftTile().y + 1;
     }
 
     @Override
     public int tiledWidth() {
-        return (int) Math.ceil(width()/(float) Constants.TILE_SIZE);
+        return bottomRightTile().x - topLeftTile().x + 1;
     }
 
     @Override

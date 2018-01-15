@@ -124,12 +124,8 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
         Point centerPoint = Utils.offset(viewCenter, offset);
         Rect centeredRect = Utils.createCenteredRect(centerPoint, simulatedWidth(),
                 simulatedHeight());
-        if (centeredRect.top > 0) {
-            Log.d("WeeeooooWeeeeooooWeeeeoooo", "boooop boooop");
-            getPosOffset();
-        }
-        for (int x = 0; x <= tiledWidth(); x++) {
-            for (int y = 0; y <= tiledHeight(); y++) {
+        for (int x = 0; x < tiledWidth(); x++) {
+            for (int y = 0; y < tiledHeight(); y++) {
                 Drawable drawable = getTile(x, y).tileType().bitmapDrawable();
                 Rect dstRect = new Rect(x*Constants.TILE_SIZE, y*Constants.TILE_SIZE,
                         (x+1)*Constants.TILE_SIZE, (y+1)*Constants.TILE_SIZE);
