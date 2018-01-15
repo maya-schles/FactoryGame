@@ -16,23 +16,20 @@ import java.util.Arrays;
  */
 
 public enum TileType {
-    GRASS(R.drawable.grass),
-    FOREST(R.drawable.forest),
-    STONE(R.drawable.stone),
-    EMPTY(R.drawable.empty);
+    GRASS("grass"),
+    FOREST("forest"),
+    STONE("stone"),
+    EMPTY("empty");
 
-    private BitmapDrawable bitmap;
+    private String name;
 
-    private TileType(int id) {
-        Resources res = FullscreenActivity.context.getResources();
-        Bitmap btmp = BitmapFactory.decodeResource(res, id);
-        bitmap = new BitmapDrawable(res, btmp);
+    private TileType(String name) {
+        this.name = name;
     }
 
-    public BitmapDrawable bitmapDrawable() {
-        return bitmap;
+    public String getName() {
+        return name;
     }
-
     public static TileType fromInt(int i) {
         return values()[i];
     }

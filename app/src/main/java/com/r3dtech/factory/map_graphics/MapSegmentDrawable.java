@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.r3dtech.factory.FullscreenActivity;
 import com.r3dtech.factory.Utils;
 import com.r3dtech.factory.tile_map.MapSegment;
 import com.r3dtech.factory.tile_map.MapTile;
@@ -126,7 +127,7 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
                 simulatedHeight());
         for (int x = -1; x <= tiledWidth(); x++) {
             for (int y = -1; y <= tiledHeight(); y++) {
-                Drawable drawable = getTile(x, y).tileType().bitmapDrawable();
+                Drawable drawable = getTile(x, y).getDrawable(FullscreenActivity.context);
                 Rect dstRect = new Rect(x*Constants.TILE_SIZE, y*Constants.TILE_SIZE,
                         (x+1)*Constants.TILE_SIZE, (y+1)*Constants.TILE_SIZE);
                 dstRect.offset(centeredRect.left, centeredRect.top);

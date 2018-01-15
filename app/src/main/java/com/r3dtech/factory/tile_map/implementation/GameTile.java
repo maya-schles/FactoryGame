@@ -1,6 +1,9 @@
 package com.r3dtech.factory.tile_map.implementation;
 
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileType;
 
@@ -43,5 +46,12 @@ public class GameTile implements MapTile {
 
     public String toString() {
         return Integer.toString(tileType.toInt());
+    }
+
+    @Override
+    public Drawable getDrawable(Context context) {
+        int rID = context.getResources().getIdentifier("com.r3dtech.factory:drawable/"+tileType.getName(), null, null);
+        Drawable drawable = context.getResources().getDrawable(rID, null);
+        return drawable;
     }
 }

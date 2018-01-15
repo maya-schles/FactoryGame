@@ -1,5 +1,8 @@
 package com.r3dtech.factory.tile_map;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+
 /**
  * A tile interface for a tiled map game.
  *
@@ -9,4 +12,5 @@ package com.r3dtech.factory.tile_map;
 public interface MapTile {
     public TileType tileType();
     public void setTileType(TileType tileType);
+    public Drawable getDrawable(Context context);
 }
