@@ -17,10 +17,12 @@ import java.util.Arrays;
 
 public enum TileType {
     GRASS(R.drawable.grass),
-    DIRT(R.drawable.dirt),
+    FOREST(R.drawable.forest),
+    STONE(R.drawable.stone),
     EMPTY(R.drawable.empty);
 
     private BitmapDrawable bitmap;
+
     private TileType(int id) {
         Resources res = FullscreenActivity.context.getResources();
         Bitmap btmp = BitmapFactory.decodeResource(res, id);
