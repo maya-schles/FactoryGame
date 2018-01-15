@@ -18,5 +18,4 @@ public interface MapSegment extends TileMap {
     public int getLeftDist();
     public int getTopDist();
     public void movePos(int dx, int dy);
-    public void updatePos();
 }

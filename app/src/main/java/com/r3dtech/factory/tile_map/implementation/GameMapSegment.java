@@ -18,14 +18,12 @@ public class GameMapSegment implements MapSegment {
     private int sizeX;
     private int sizeY;
     private Point pos;
-    private Point newPos;
 
     public GameMapSegment(TileMap map, int sizeX, int sizeY, Point pos) {
         this.map = map;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.pos = pos;
-        newPos = pos;
     }
 
     public GameMapSegment(TileMap map) {
@@ -72,10 +70,6 @@ public class GameMapSegment implements MapSegment {
         pos.x = pos.x - dx;
         pos.y = pos.y - dy;
         Log.d("MOVINGGGGGGGGG-------------------------MOVING", "moved");
-    }
-
-    public void updatePos() {
-
     }
 
     private Point topLeftTile() {

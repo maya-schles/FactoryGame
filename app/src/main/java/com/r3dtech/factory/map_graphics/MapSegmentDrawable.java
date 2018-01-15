@@ -115,10 +115,6 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
         mapSegment.movePos(dx, dy);
     }
 
-    @Override
-    public void updatePos() {
-        mapSegment.updatePos();
-    }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
@@ -142,7 +138,6 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
                 drawable.draw(canvas);
             }
         }
-        mapSegment.updatePos();
     }
 
     @Override

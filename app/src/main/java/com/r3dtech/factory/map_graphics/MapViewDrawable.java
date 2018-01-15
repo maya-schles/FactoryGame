@@ -119,11 +119,6 @@ public class MapViewDrawable extends Drawable implements MapSegment{
         movePos((int) (dx/scale), (int) (dy/scale));
     }
 
-    @Override
-    public void updatePos() {
-        mapSegment.updatePos();
-    }
-
     public void setScale(float scale) {
         this.scale = scale;
         this.scale = Math.max(2, Math.min(5f,this.scale));
