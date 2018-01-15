@@ -63,11 +63,12 @@ public class GameMapSegment implements MapSegment {
     @Override
     public void setPos(Point pos) {
         this.pos = pos;
+        this.pos.x = Math.max(0, Math.min(Constants.WORLD_WIDTH, this.pos.x));
+        this.pos.y = Math.max(0, Math.min(Constants.WORLD_HEIGHT, this.pos.y));
     }
 
     public void movePos(int dx, int dy) {
-        pos.x = pos.x - dx;
-        pos.y = pos.y - dy;
+        setPos(new Point(pos.x - dx, pos.y - dy));
     }
 
     private Point topLeftTile() {
