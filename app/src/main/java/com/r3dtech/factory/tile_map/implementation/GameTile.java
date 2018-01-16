@@ -16,6 +16,7 @@ import com.r3dtech.factory.tile_map.TileType;
 public class GameTile implements MapTile {
     private TileType tileType;
     private int ver;
+    private Drawable drawable;
 
     public GameTile(TileType tileType, int ver) {
         super();
@@ -51,9 +52,7 @@ public class GameTile implements MapTile {
     }
 
     @Override
-    public Drawable getDrawable(Context context) {
-        int rID = context.getResources().getIdentifier("com.r3dtech.factory:drawable/"+tileType.getName(), null, null);
-        Drawable drawable = context.getResources().getDrawable(rID, null);
-        return drawable;
+    public int getVer() {
+        return ver;
     }
 }

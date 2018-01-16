@@ -7,6 +7,7 @@ import com.r3dtech.factory.tile_map.TileMap;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
@@ -17,8 +18,8 @@ import java.util.Scanner;
  */
 
 public class GameMap implements TileMap {
-
     private GameTile[][] map = new GameTile[Constants.MAP_HEIGHT][Constants.MAP_WIDTH];
+    private GameTile emptyTile = new GameTile(TileType.EMPTY, 0);
 
     public GameMap (GameTile[][] map) {
         this.map = map;
@@ -33,8 +34,9 @@ public class GameMap implements TileMap {
         int width = Constants.MAP_WIDTH;
         int[][] resArr = new int[height][width];
         int[][] vers = new int[height][width];
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(FullscreenActivity.context.getResources().openRawResource(id)));
+
+        InputStream in = this.getClass().getResourceAsStream("/res/raw/world.txt");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         for (int i = 0; i < height; i++) {
             Scanner lineScanner = new Scanner(reader.readLine());
             lineScanner.useDelimiter("[ :]");
@@ -54,7 +56,7 @@ public class GameMap implements TileMap {
             return map[y][x];
         }
         else {
-            return new GameTile(TileType.EMPTY, 0);
+            return emptyTile;
         }
     }
 

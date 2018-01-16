@@ -8,6 +8,7 @@ import android.graphics.Point;
  */
 
 public class Constants {
+    public static final int TILE_VARIETY = 1;
     public static final int MAP_WIDTH = 128;
     public static final int MAP_HEIGHT = 128;
     public static final int TILE_SIZE = 32;

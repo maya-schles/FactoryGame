@@ -27,10 +27,13 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
     private MapSegment mapSegment;
     private int alpha;
     private Rect bounds;
+    private TileDrawableCache drawableCache;
 
     public MapSegmentDrawable(MapSegment mapSegment) {
         super();
         this.mapSegment = mapSegment;
+        drawableCache = new TileDrawableCache();
+        drawableCache.load();
     }
 
     public MapSegmentDrawable(TileMap map) {
@@ -127,7 +130,8 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
                 simulatedHeight());
         for (int x = -1; x <= tiledWidth(); x++) {
             for (int y = -1; y <= tiledHeight(); y++) {
-                Drawable drawable = getTile(x, y).getDrawable(FullscreenActivity.context);
+                MapTile tile = getTile(x, y);
+                Drawable drawable = drawableCache.getDrawable(tile.tileType().toInt(), tile.getVer());
                 Rect dstRect = new Rect(x*Constants.TILE_SIZE, y*Constants.TILE_SIZE,
                         (x+1)*Constants.TILE_SIZE, (y+1)*Constants.TILE_SIZE);
                 dstRect.offset(centeredRect.left, centeredRect.top);

@@ -12,5 +12,5 @@ import android.graphics.drawable.Drawable;
 public interface MapTile {
     public TileType tileType();
     public void setTileType(TileType tileType);
-    public Drawable getDrawable(Context context);
+    public int getVer();
 }
