@@ -24,25 +24,28 @@ public class GameMap implements TileMap {
         this.map = map;
     }
 
-    public GameMap(int[][] map) {
-        this(GameTile.from2dArr(TileType.fromInt(map)));
+    public GameMap(int[][] map, int [][] vers) {
+        this(GameTile.from2dArr(TileType.fromInt(map), vers));
     }
 
     public GameMap(int id) throws IOException {
         int height = Constants.MAP_HEIGHT;
         int width = Constants.MAP_WIDTH;
         int[][] resArr = new int[height][width];
+        int[][] vers = new int[height][width];
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(FullscreenActivity.context.getResources().openRawResource(id)));
         for (int i = 0; i < height; i++) {
             Scanner lineScanner = new Scanner(reader.readLine());
+            lineScanner.useDelimiter("[ :]");
             for (int j = 0; j < width; j++) {
                 resArr[i][j] =  lineScanner.nextInt();
+                vers[i][j] = lineScanner.nextInt();
             }
             lineScanner.close();
         }
         reader.close();
-        this.map = GameTile.from2dArr(TileType.fromInt(resArr));
+        this.map = GameTile.from2dArr(TileType.fromInt(resArr), vers);
     }
 
     @Override
@@ -51,7 +54,7 @@ public class GameMap implements TileMap {
             return map[y][x];
         }
         else {
-            return new GameTile(TileType.EMPTY);
+            return new GameTile(TileType.EMPTY, 0);
         }
     }
 
