@@ -16,8 +16,8 @@ import java.util.Arrays;
  */
 
 public enum TileType {
-    GRASS("grass"),
     FOREST("forest"),
+    GRASS("grass"),
     STONE("stone"),
     EMPTY("empty");
 
