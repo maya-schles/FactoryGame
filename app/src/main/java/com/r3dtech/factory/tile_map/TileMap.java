@@ -10,11 +10,11 @@ import java.io.IOException;
  */
 
 public interface TileMap {
-    public MapTile getTile(int x, int y);
-    public int height();
-    public int width();
-    public int tiledHeight();
-    public int tiledWidth();
-    public int simulatedHeight();
-    public int simulatedWidth();
+    MapTile getTile(int x, int y);
+    int height();
+    int width();
+    int tiledHeight();
+    int tiledWidth();
+    int simulatedHeight();
+    int simulatedWidth();
 }

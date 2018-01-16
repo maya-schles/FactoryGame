@@ -1,9 +1,6 @@
 package com.r3dtech.factory.tile_map.implementation;
 
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileType;
 
@@ -16,7 +13,6 @@ import com.r3dtech.factory.tile_map.TileType;
 public class GameTile implements MapTile {
     private TileType tileType;
     private int ver;
-    private Drawable drawable;
 
     public GameTile(TileType tileType, int ver) {
         super();

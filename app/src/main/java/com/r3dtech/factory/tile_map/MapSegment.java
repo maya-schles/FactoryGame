@@ -9,13 +9,13 @@ import android.graphics.Point;
  */
 
 public interface MapSegment extends TileMap {
-    public TileMap getMap();
-    public void setSizeX(int sizeX);
-    public void setSizeY(int sizeY);
-    public Point getPos();
-    public void setPos(Point pos);
-    public Point getPosOffset();
-    public int getLeftDist();
-    public int getTopDist();
-    public void movePos(int dx, int dy);
+    TileMap getMap();
+    void setSizeX(int sizeX);
+    void setSizeY(int sizeY);
+    Point getPos();
+    void setPos(Point pos);
+    Point getPosOffset();
+    int getLeftDist();
+    int getTopDist();
+    void movePos(int dx, int dy);
 }

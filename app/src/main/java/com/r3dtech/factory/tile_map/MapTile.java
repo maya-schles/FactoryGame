@@ -1,7 +1,5 @@
 package com.r3dtech.factory.tile_map;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 
 /**
  * A tile interface for a tiled map game.

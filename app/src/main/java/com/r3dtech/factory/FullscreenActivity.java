@@ -1,8 +1,6 @@
 package com.r3dtech.factory;
 
-import android.content.Context;
 import android.graphics.Point;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import static android.view.MotionEvent.INVALID_POINTER_ID;
  * status bar and navigation/system bar) with user interaction.
  */
 public class FullscreenActivity extends AppCompatActivity {
-    public static Context context;
     private AndroidFastRenderView mContentView;
 
     private ScaleGestureDetector scaleDetector;
@@ -44,7 +41,6 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = this;
 
         scaleDetector = new ScaleGestureDetector(this,new ScaleListener());
 
@@ -55,8 +51,9 @@ public class FullscreenActivity extends AppCompatActivity {
         }catch (IOException e) {
             throw new RuntimeException("Map file not found");
         }
-        Log.d("-----------------HERE:", map.toString());
+        Log.d("WORLD MAP:", map.toString());
         Point size = new Point();
+
         getWindowManager().getDefaultDisplay().getRealSize(size);
         int width = size.x;
         int height = size.y;
@@ -65,23 +62,20 @@ public class FullscreenActivity extends AppCompatActivity {
         hide();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        scaleDetector.onTouchEvent(ev);
-
-        final int action = MotionEventCompat.getActionMasked(ev);
+    private void dragMotionMove(MotionEvent ev) {
+        final int action = ev.getActionMasked();
 
         switch (action) {
             case MotionEvent.ACTION_DOWN: {
-                final int pointerIndex = MotionEventCompat.getActionIndex(ev);
-                final float x = MotionEventCompat.getX(ev, pointerIndex);
-                final float y = MotionEventCompat.getY(ev, pointerIndex);
+                final int pointerIndex = ev.getActionIndex();
+                final float x = ev.getX(pointerIndex);
+                final float y = ev.getY(pointerIndex);
 
                 // Remember where we started (for dragging)
                 mLastTouchX = x;
                 mLastTouchY = y;
                 // Save the ID of this pointer (for dragging)
-                activePointerId = MotionEventCompat.getPointerId(ev, 0);
+                activePointerId = ev.getPointerId(0);
                 break;
             }
 
@@ -118,20 +112,26 @@ public class FullscreenActivity extends AppCompatActivity {
 
             case MotionEvent.ACTION_POINTER_UP: {
 
-                final int pointerIndex = MotionEventCompat.getActionIndex(ev);
-                final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
+                final int pointerIndex = ev.getActionIndex();
+                final int pointerId = ev.getPointerId(pointerIndex);
 
                 if (pointerId == activePointerId) {
                     // This was our active pointer going up. Choose a new
                     // active pointer and adjust accordingly.
                     final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-                    mLastTouchX = MotionEventCompat.getX(ev, newPointerIndex);
-                    mLastTouchY = MotionEventCompat.getY(ev, newPointerIndex);
+                    mLastTouchX = ev.getX(newPointerIndex);
+                    mLastTouchY = ev.getY(newPointerIndex);
                     activePointerId = ev.getPointerId(newPointerIndex);
                 }
                 break;
             }
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        scaleDetector.onTouchEvent(ev);
+        dragMotionMove(ev);
         return true;
     }
 

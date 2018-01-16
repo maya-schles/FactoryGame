@@ -1,12 +1,5 @@
 package com.r3dtech.factory.tile_map;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-
-import com.r3dtech.factory.FullscreenActivity;
-import com.r3dtech.factory.R;
 
 import java.util.Arrays;
 
@@ -23,7 +16,7 @@ public enum TileType {
 
     private String name;
 
-    private TileType(String name) {
+    TileType(String name) {
         this.name = name;
     }
 
