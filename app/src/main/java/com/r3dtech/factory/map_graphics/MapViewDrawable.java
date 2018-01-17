@@ -126,7 +126,7 @@ public class MapViewDrawable extends Drawable implements MapSegment{
 
     public void setScale(float scale) {
         this.scale = scale;
-        this.scale = Math.max(1, Math.min(5f,this.scale));
+        this.scale = Math.max(1.5f, Math.min(5f,this.scale));
     }
 
     public float getScale() {

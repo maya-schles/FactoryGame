@@ -24,10 +24,13 @@ import static android.view.MotionEvent.INVALID_POINTER_ID;
 public class FullscreenActivity extends AppCompatActivity {
     private AndroidFastRenderView mContentView;
 
+    private static final int CLICK_ACTION_THRESHOLD = 5;
     private ScaleGestureDetector scaleDetector;
     private int activePointerId = INVALID_POINTER_ID;
     private float mLastTouchX;
     private  float mLastTouchY;
+    private float startX;
+    private float startY;
 
     private class ScaleListener
             extends ScaleGestureDetector.SimpleOnScaleGestureListener {
@@ -128,10 +131,27 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isAClick(float startX, float endX, float startY, float endY) {
+        float differenceX = Math.abs(startX - endX);
+        float differenceY = Math.abs(startY - endY);
+        return !(differenceX > CLICK_ACTION_THRESHOLD || differenceY > CLICK_ACTION_THRESHOLD);
+    }
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         scaleDetector.onTouchEvent(ev);
         dragMotionMove(ev);
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                startX = ev.getX();
+                startY = ev.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                float endX = ev.getX();
+                float endY = ev.getY();
+                if (isAClick(startX, endX, startY, endY)) {
+                    Log.d("ON_TOUCH_EVENT:", "click");
+                }
+        }
         return true;
     }
 
