@@ -1,6 +1,7 @@
 package com.r3dtech.factory.map_graphics;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -11,6 +12,9 @@ import android.support.annotation.Nullable;
 import com.r3dtech.factory.tile_map.MapSegment;
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileMap;
+import com.r3dtech.factory.tile_map.implementation.Constants;
+
+import java.util.Random;
 
 /**
  * This class represents a drawable map display.
@@ -21,8 +25,10 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     private MapSegmentDrawable mapSegment;
     private float scale = 2;
     private Rect bounds;
+    private SpaceDrawable space = new SpaceDrawable();
 
     public MapViewDrawable(MapSegmentDrawable mapSegment) {
+        Random random = new Random();
         this.mapSegment = mapSegment;
     }
 
@@ -132,6 +138,8 @@ public class MapViewDrawable extends Drawable implements MapSegment{
         int scaledWidth = (int) (bounds.width()/scale);
         int scaledHeight = (int) (bounds.height()/scale);
         mapSegment.setBounds(0, 0, scaledWidth, scaledHeight);
+        space.setBounds(bounds);
+        space.draw(canvas);
         canvas.save();
         canvas.translate(bounds.left, bounds.top);
         canvas.scale(scale, scale);

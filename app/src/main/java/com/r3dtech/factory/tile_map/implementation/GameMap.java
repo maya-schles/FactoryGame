@@ -1,6 +1,5 @@
 package com.r3dtech.factory.tile_map.implementation;
 
-import com.r3dtech.factory.FullscreenActivity;
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileType;
 import com.r3dtech.factory.tile_map.TileMap;

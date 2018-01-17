@@ -18,6 +18,9 @@ class TileDrawableCache {
             for (int ver = 0; ver < drawables[0].length; ver++) {
                 drawables[type][ver] = Drawable.createFromStream(this.getClass().getResourceAsStream(
                         "/res/drawable/"+TileType.values()[type].getName()+ver+".jpg"), "src");
+                if (TileType.values()[type] == TileType.EMPTY) {
+                    drawables[type][ver].setAlpha(0);
+                }
             }
         }
     }
