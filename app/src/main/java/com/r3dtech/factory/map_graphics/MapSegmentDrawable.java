@@ -12,6 +12,7 @@ import com.r3dtech.factory.Utils;
 import com.r3dtech.factory.tile_map.MapSegment;
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileMap;
+import com.r3dtech.factory.tile_map.TileType;
 import com.r3dtech.factory.tile_map.implementation.Constants;
 import com.r3dtech.factory.tile_map.implementation.GameMapSegment;
 
@@ -129,6 +130,9 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
         for (int x = -1; x <= tiledWidth(); x++) {
             for (int y = -1; y <= tiledHeight(); y++) {
                 MapTile tile = getTile(x, y);
+                if (tile.tileType() == TileType.EMPTY) {
+                    continue;
+                }
                 Drawable drawable = drawableCache.getDrawable(tile.tileType().toInt(), tile.getVer());
                 Rect dstRect = new Rect(x*Constants.TILE_SIZE, y*Constants.TILE_SIZE,
                         (x+1)*Constants.TILE_SIZE, (y+1)*Constants.TILE_SIZE);
