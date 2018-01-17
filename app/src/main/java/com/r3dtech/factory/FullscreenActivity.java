@@ -22,6 +22,7 @@ import static android.view.MotionEvent.INVALID_POINTER_ID;
  * status bar and navigation/system bar) with user interaction.
  */
 public class FullscreenActivity extends AppCompatActivity {
+    private MapViewDrawable mapView;
     private AndroidFastRenderView mContentView;
 
     private static final int CLICK_ACTION_THRESHOLD = 5;
@@ -36,7 +37,7 @@ public class FullscreenActivity extends AppCompatActivity {
             extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-            mContentView.zoom(scaleDetector.getScaleFactor());
+            mapView.zoom(scaleDetector.getScaleFactor());
             return true;
         }
     }
@@ -60,7 +61,8 @@ public class FullscreenActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getRealSize(size);
         int width = size.x;
         int height = size.y;
-        mContentView = new AndroidFastRenderView(this, new MapViewDrawable(map), width, height);
+        mapView = new MapViewDrawable(map);
+        mContentView = new AndroidFastRenderView(this, mapView, width, height, this);
         setContentView(mContentView);
         hide();
     }
@@ -94,7 +96,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 final float dy = y - mLastTouchY;
 
                 // Move Map
-                mContentView.movePos(dx, dy);
+                mapView.movePosFloat(dx, dy);
 
                 // Remember this touch position for the next move event
                 mLastTouchX = x;
@@ -179,5 +181,9 @@ public class FullscreenActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    public void update(float deltaTime) {
+        mapView.update();
     }
 }

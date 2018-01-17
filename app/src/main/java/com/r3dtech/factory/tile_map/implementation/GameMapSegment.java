@@ -15,14 +15,20 @@ import com.r3dtech.factory.tile_map.TileMap;
 public class GameMapSegment implements MapSegment {
     private TileMap map;
     private int sizeX;
+    private int newSizeX;
     private int sizeY;
+    private int newSizeY;
     private Point pos;
+    private Point newPos;
 
     public GameMapSegment(TileMap map, int sizeX, int sizeY, Point pos) {
         this.map = map;
         this.sizeX = sizeX;
+        this.newSizeX = sizeX;
         this.sizeY = sizeY;
+        this.newSizeY = sizeY;
         this.pos = pos;
+        this.newPos = new Point(pos);
     }
 
     public GameMapSegment(TileMap map) {
@@ -42,7 +48,7 @@ public class GameMapSegment implements MapSegment {
 
     @Override
     public void setSizeX(int sizeX) {
-        this.sizeX = sizeX;
+        newSizeX = sizeX;
     }
 
     @Override
@@ -52,7 +58,7 @@ public class GameMapSegment implements MapSegment {
 
     @Override
     public void setSizeY(int sizeY) {
-        this.sizeY = sizeY;
+        this.newSizeY = sizeY;
     }
 
     @Override
@@ -62,13 +68,12 @@ public class GameMapSegment implements MapSegment {
 
     @Override
     public void setPos(Point pos) {
-        this.pos = pos;
-        this.pos.x = Math.max(0, Math.min(Constants.WORLD_WIDTH, this.pos.x));
-        this.pos.y = Math.max(0, Math.min(Constants.WORLD_HEIGHT, this.pos.y));
+        this.newPos.x = Math.max(0, Math.min(Constants.WORLD_WIDTH, pos.x));
+        this.newPos.y = Math.max(0, Math.min(Constants.WORLD_HEIGHT, pos.y));
     }
 
     public void movePos(int dx, int dy) {
-        setPos(new Point(pos.x - dx, pos.y - dy));
+        setPos(new Point(newPos.x - dx, newPos.y - dy));
     }
 
     private Point topLeftTile() {
@@ -124,5 +129,14 @@ public class GameMapSegment implements MapSegment {
     @Override
     public int getTopDist() {
         return topLeftTile().y*Constants.TILE_SIZE;
+    }
+
+    @Override
+    public void update() {
+        this.sizeX = newSizeX;
+        this.sizeY = newSizeY;
+        this.pos.x = newPos.x;
+        this.pos.y = newPos.y;
+
     }
 }

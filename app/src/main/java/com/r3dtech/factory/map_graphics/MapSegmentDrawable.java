@@ -165,4 +165,9 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
         mapSegment.setSizeY(bounds.height());
 
     }
+
+    @Override
+    public void update() {
+        mapSegment.update();
+    }
 }

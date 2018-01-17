@@ -24,6 +24,7 @@ import java.util.Random;
 public class MapViewDrawable extends Drawable implements MapSegment{
     private MapSegmentDrawable mapSegment;
     private float scale = 2;
+    private float newScale = scale;
     private Rect bounds;
     private SpaceDrawable space = new SpaceDrawable();
 
@@ -112,7 +113,7 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     }
 
     public void zoom(float scale) {
-        setScale(this.scale*scale);
+        setScale(newScale*scale);
     }
 
     @Override
@@ -120,13 +121,13 @@ public class MapViewDrawable extends Drawable implements MapSegment{
         mapSegment.movePos(dx, dy);
     }
 
-    public void movePos(float dx, float dy) {
+    public void movePosFloat(float dx, float dy) {
         movePos((int) (dx/scale), (int) (dy/scale));
     }
 
     public void setScale(float scale) {
-        this.scale = scale;
-        this.scale = Math.max(1.5f, Math.min(5f,this.scale));
+        newScale = scale;
+        newScale = Math.max(1.5f, Math.min(5f,this.newScale));
     }
 
     public float getScale() {
@@ -165,5 +166,11 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     @Override
     protected void onBoundsChange(Rect bounds) {
         this.bounds = bounds;
+    }
+
+    @Override
+    public void update() {
+        scale = newScale;
+        mapSegment.update();
     }
 }

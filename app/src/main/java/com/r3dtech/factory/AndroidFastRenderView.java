@@ -21,17 +21,15 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
     SurfaceHolder holder;
     volatile boolean running = false;
     private Canvas bufferCanvas;
-    private float zoom = 1;
-    private boolean needZoom = false;
-    private float dx, dy;
-    private boolean needPos = false;
+    private FullscreenActivity game;
 
-    public AndroidFastRenderView(Context context, MapViewDrawable drawable, int width, int height) {
+    public AndroidFastRenderView(Context context, MapViewDrawable drawable, int width, int height, FullscreenActivity game) {
         super(context);
         this.drawable = drawable;
         this.frameBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         this.holder = getHolder();
         this.bufferCanvas = new Canvas(frameBuffer);
+        this.game = game;
     }
 
     public void resume() {
@@ -55,18 +53,9 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
 
             deltaTime = Math.min(deltaTime, (float) 3.15);
 
+            game.update(deltaTime);
+
             drawable.setBounds(bufferCanvas.getClipBounds());
-            if (needZoom) {
-                drawable.zoom(zoom);
-                needZoom = false;
-                this.zoom = 1;
-            }
-            if (needPos) {
-                drawable.movePos(dx, dy);
-                needPos = false;
-                this.dx = 0;
-                this.dy = 0;
-            }
             drawable.draw(bufferCanvas);
 
             Canvas canvas = holder.lockCanvas();
@@ -86,16 +75,5 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
                 // Retry
             }
         }
-    }
-
-    public void zoom(float zoom) {
-        this.zoom *= zoom;
-        needZoom = true;
-    }
-
-    public void movePos(float dx, float dy) {
-        this.dx += dx;
-        this.dy += dy;
-        needPos = true;
     }
 }
