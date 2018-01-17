@@ -12,15 +12,12 @@ import com.r3dtech.factory.tile_map.implementation.Constants;
  */
 
 class TileDrawableCache {
-    private Drawable[][] drawables = new Drawable[TileType.values().length][Constants.TILE_VARIETY];
+    private Drawable[][] drawables = new Drawable[TileType.values().length-1][Constants.TILE_VARIETY];
     void load() {
         for (int type = 0; type < drawables.length; type++) {
             for (int ver = 0; ver < drawables[0].length; ver++) {
                 drawables[type][ver] = Drawable.createFromStream(this.getClass().getResourceAsStream(
                         "/res/drawable/"+TileType.values()[type].getName()+ver+".jpg"), "src");
-                if (TileType.values()[type] == TileType.EMPTY) {
-                    drawables[type][ver].setAlpha(0);
-                }
             }
         }
     }
