@@ -6,9 +6,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.r3dtech.factory.framework.FileIO;
 import com.r3dtech.factory.framework.Game;
 import com.r3dtech.factory.framework.GameInput;
 import com.r3dtech.factory.framework.GameScreen;
+
 
 /**
  * This class is used to manage an android game.
@@ -20,6 +22,7 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
     private GameScreen screen;
     private Bitmap frameBuffer;
     private GameInput input;
+    private FileIO fileIO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,8 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
         input.setClickCallback(getClickCallback());
         input.setScaleCallback(getScaleCallback());
         input.setScrollCallback(getScrollCalback());
+
+        fileIO = new AndroidFileIO();
     }
 
     @Override
@@ -69,7 +74,10 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
         renderView.pause();
     }
 
-
+    @Override
+    public FileIO getFileIO() {
+        return fileIO;
+    }
     private void hide() {
         // Hide UI first
         ActionBar actionBar = getSupportActionBar();
@@ -83,5 +91,4 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
-
 }

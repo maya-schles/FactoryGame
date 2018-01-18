@@ -7,5 +7,5 @@ package com.r3dtech.factory.framework;
  */
 
 public interface ScrollCallback {
-    public void onScroll(float dx, float dy);
+    void onScroll(float dx, float dy);
 }

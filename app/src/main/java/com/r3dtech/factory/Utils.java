@@ -18,10 +18,6 @@ public class Utils {
         return new Rect(left, top, right, bottom);
     }
 
-    public static Point pointMul(Point point, float scalar) {
-        return new Point((int) (point.x*scalar), (int) (point.y*scalar));
-    }
-
     public static Point offset(Point a, Point b) {
         return new Point(a.x + b.x, a.y + b.y);
     }

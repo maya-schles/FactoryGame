@@ -8,7 +8,7 @@ package com.r3dtech.factory.tile_map;
  */
 
 public interface MapTile {
-    public TileType tileType();
-    public void setTileType(TileType tileType);
-    public int getVer();
+    TileType tileType();
+    void setTileType(TileType tileType);
+    int getVer();
 }

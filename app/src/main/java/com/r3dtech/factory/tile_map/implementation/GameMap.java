@@ -20,15 +20,7 @@ public class GameMap implements TileMap {
     private GameTile[][] map = new GameTile[Constants.MAP_HEIGHT][Constants.MAP_WIDTH];
     private GameTile emptyTile = new GameTile(TileType.EMPTY, 0);
 
-    public GameMap (GameTile[][] map) {
-        this.map = map;
-    }
-
-    public GameMap(int[][] map, int [][] vers) {
-        this(GameTile.from2dArr(TileType.fromInt(map), vers));
-    }
-
-    public GameMap(int id) throws IOException {
+    public GameMap() throws IOException {
         int height = Constants.MAP_HEIGHT;
         int width = Constants.MAP_WIDTH;
         int[][] resArr = new int[height][width];

@@ -7,5 +7,5 @@ package com.r3dtech.factory.framework;
  */
 
 public interface ClickCallback {
-    public void onClick(int x, int y);
+    void onClick(int x, int y);
 }

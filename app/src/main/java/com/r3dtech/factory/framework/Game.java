@@ -18,4 +18,5 @@ public interface Game {
     ScaleCallback getScaleCallback();
     ScrollCallback getScrollCalback();
     ClickCallback getClickCallback();
+    FileIO getFileIO();
 }

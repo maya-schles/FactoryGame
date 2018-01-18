@@ -1,7 +1,6 @@
 package com.r3dtech.factory.map_graphics;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -10,11 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.r3dtech.factory.framework.Game;
-import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.tile_map.MapSegment;
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileMap;
-import com.r3dtech.factory.tile_map.implementation.Constants;
 
 import java.util.Random;
 
@@ -33,7 +30,6 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     private Game game;
 
     public MapViewDrawable(MapSegmentDrawable mapSegment, Game game) {
-        Random random = new Random();
         this.mapSegment = mapSegment;
         this.game = game;
     }

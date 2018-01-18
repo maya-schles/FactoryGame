@@ -17,5 +17,5 @@ public interface TileMap {
     int tiledWidth();
     int simulatedHeight();
     int simulatedWidth();
-    public MapTile getTileFromLoc(int x, int y);
+    MapTile getTileFromLoc(int x, int y);
 }

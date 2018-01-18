@@ -1,10 +1,8 @@
 package com.r3dtech.factory;
 
 import android.graphics.Point;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.r3dtech.factory.framework.ClickCallback;
 import com.r3dtech.factory.framework.GameScreen;
@@ -63,7 +61,7 @@ public class FullscreenActivity extends AndroidGame {
     private TileMap createMap() {
         TileMap map;
         try {
-            map = new GameMap(R.raw.world);
+            map = new GameMap();
         }catch (IOException e) {
             throw new RuntimeException("Map file not found");
         }
