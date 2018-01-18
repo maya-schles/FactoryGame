@@ -32,6 +32,8 @@ public class FullscreenActivity extends AppCompatActivity {
     private  float mLastTouchY;
     private float startX;
     private float startY;
+    private int screenWidth;
+    private int screenHeight;
 
     private class ScaleListener
             extends ScaleGestureDetector.SimpleOnScaleGestureListener {
@@ -59,10 +61,10 @@ public class FullscreenActivity extends AppCompatActivity {
         Point size = new Point();
 
         getWindowManager().getDefaultDisplay().getRealSize(size);
-        int width = size.x;
-        int height = size.y;
+        screenWidth = size.x;
+        screenHeight = size.y;
         mapView = new MapViewDrawable(map);
-        mContentView = new AndroidFastRenderView(this, mapView, width, height, this);
+        mContentView = new AndroidFastRenderView(this, mapView, screenWidth, screenHeight, this);
         setContentView(mContentView);
         hide();
     }
@@ -151,7 +153,9 @@ public class FullscreenActivity extends AppCompatActivity {
                 float endX = ev.getX();
                 float endY = ev.getY();
                 if (isAClick(startX, endX, startY, endY)) {
-                    Log.d("ON_TOUCH_EVENT:", "click");
+                    Log.d("ON_TOUCH_EVENT:", "clicked " +
+                            mapView.getTileFromLoc((int) startX -screenWidth/2,
+                                    (int) startY - screenHeight/2).tileType().getName());
                 }
         }
         return true;

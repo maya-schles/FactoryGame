@@ -18,6 +18,7 @@ import java.util.Random;
 
 /**
  * This class represents a drawable map display.
+ *
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 15/01/2018.
  */
 
@@ -172,5 +173,10 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     public void update() {
         scale = newScale;
         mapSegment.update();
+    }
+
+    @Override
+    public MapTile getTileFromLoc(int x, int y) {
+        return mapSegment.getTileFromLoc((int) (x/scale), (int) (y/scale));
     }
 }

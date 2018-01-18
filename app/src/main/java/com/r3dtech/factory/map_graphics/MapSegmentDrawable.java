@@ -118,6 +118,10 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
         mapSegment.movePos(dx, dy);
     }
 
+    @Override
+    public MapTile getTileFromLoc(int x, int y) {
+        return mapSegment.getTileFromLoc(x, y);
+    }
 
     @Override
     public void draw(@NonNull Canvas canvas) {

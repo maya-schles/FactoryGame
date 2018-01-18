@@ -100,4 +100,9 @@ public class GameMap implements TileMap {
     public int simulatedWidth() {
         return tiledWidth()*Constants.TILE_SIZE;
     }
+
+    @Override
+    public MapTile getTileFromLoc(int x, int y) {
+        return map[y/Constants.TILE_SIZE][x/Constants.TILE_SIZE];
+    }
 }

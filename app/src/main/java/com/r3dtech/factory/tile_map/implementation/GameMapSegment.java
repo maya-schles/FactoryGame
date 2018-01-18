@@ -137,6 +137,10 @@ public class GameMapSegment implements MapSegment {
         this.sizeY = newSizeY;
         this.pos.x = newPos.x;
         this.pos.y = newPos.y;
+    }
 
+    @Override
+    public MapTile getTileFromLoc(int x, int y) {
+        return map.getTileFromLoc(x + pos.x, y + pos.y);
     }
 }
