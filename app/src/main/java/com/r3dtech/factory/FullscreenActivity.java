@@ -1,8 +1,6 @@
 package com.r3dtech.factory;
 
-import android.graphics.Point;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -14,6 +12,7 @@ import com.r3dtech.factory.framework.implementation.AndroidFastRenderView;
 import com.r3dtech.factory.framework.implementation.AndroidGame;
 import com.r3dtech.factory.map_graphics.DrawableScreen;
 import com.r3dtech.factory.map_graphics.MapViewDrawable;
+import com.r3dtech.factory.tile_map.TileMap;
 import com.r3dtech.factory.tile_map.implementation.GameMap;
 
 import java.io.IOException;
@@ -176,21 +175,19 @@ public class FullscreenActivity extends AndroidGame {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
-    @Override
-    public GameScreen getInitScreen() {
-        //Create the game map
-        GameMap map;
+    private TileMap createMap() {
+        TileMap map;
         try {
             map = new GameMap(R.raw.world);
         }catch (IOException e) {
             throw new RuntimeException("Map file not found");
         }
         Log.d("WORLD MAP:", map.toString());
-        Point size = new Point();
-
-        getWindowManager().getDefaultDisplay().getRealSize(size);
-        screenWidth = size.x;
-        screenHeight = size.y;
+        return map;
+    }
+    @Override
+    public GameScreen getInitScreen() {
+        TileMap map = createMap();
         mapView = new MapViewDrawable(map, this);
 
         return new DrawableScreen(mapView, getFrameBuffer());
