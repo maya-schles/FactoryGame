@@ -24,20 +24,18 @@ import java.util.Random;
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 15/01/2018.
  */
 
-public class MapViewDrawable extends Drawable implements MapSegment, GameScreen {
+public class MapViewDrawable extends Drawable implements MapSegment{
     private MapSegmentDrawable mapSegment;
     private float scale = 2;
     private float newScale = scale;
     private Rect bounds;
     private SpaceDrawable space = new SpaceDrawable();
     private Game game;
-    private Canvas canvas;
 
     public MapViewDrawable(MapSegmentDrawable mapSegment, Game game) {
         Random random = new Random();
         this.mapSegment = mapSegment;
         this.game = game;
-        canvas = new Canvas(game.getFrameBuffer());
     }
 
     public MapViewDrawable(TileMap map, Game game) {
@@ -184,11 +182,5 @@ public class MapViewDrawable extends Drawable implements MapSegment, GameScreen 
     @Override
     public MapTile getTileFromLoc(int x, int y) {
         return mapSegment.getTileFromLoc((int) (x/scale), (int) (y/scale));
-    }
-
-    @Override
-    public void paint() {
-        setBounds(canvas.getClipBounds());
-        draw(canvas);
     }
 }

@@ -7,6 +7,5 @@ package com.r3dtech.factory.framework;
  */
 
 public interface GameScreen {
-    void update();
     void paint();
 }

@@ -12,6 +12,7 @@ import android.view.View;
 import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.framework.implementation.AndroidFastRenderView;
 import com.r3dtech.factory.framework.implementation.AndroidGame;
+import com.r3dtech.factory.map_graphics.DrawableScreen;
 import com.r3dtech.factory.map_graphics.MapViewDrawable;
 import com.r3dtech.factory.tile_map.implementation.GameMap;
 
@@ -192,7 +193,7 @@ public class FullscreenActivity extends AndroidGame {
         screenHeight = size.y;
         mapView = new MapViewDrawable(map, this);
 
-        return mapView;
+        return new DrawableScreen(mapView, getFrameBuffer());
     }
 
     public void update(float deltaTime) {
