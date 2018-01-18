@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.r3dtech.factory.framework.Game;
+import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.tile_map.MapSegment;
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileMap;
@@ -22,20 +24,24 @@ import java.util.Random;
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 15/01/2018.
  */
 
-public class MapViewDrawable extends Drawable implements MapSegment{
+public class MapViewDrawable extends Drawable implements MapSegment, GameScreen {
     private MapSegmentDrawable mapSegment;
     private float scale = 2;
     private float newScale = scale;
     private Rect bounds;
     private SpaceDrawable space = new SpaceDrawable();
+    private Game game;
+    private Canvas canvas;
 
-    public MapViewDrawable(MapSegmentDrawable mapSegment) {
+    public MapViewDrawable(MapSegmentDrawable mapSegment, Game game) {
         Random random = new Random();
         this.mapSegment = mapSegment;
+        this.game = game;
+        canvas = new Canvas(game.getFrameBuffer());
     }
 
-    public MapViewDrawable(TileMap map) {
-        this(new MapSegmentDrawable(map));
+    public MapViewDrawable(TileMap map, Game game) {
+        this(new MapSegmentDrawable(map), game);
     }
 
     @Override
@@ -178,5 +184,11 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     @Override
     public MapTile getTileFromLoc(int x, int y) {
         return mapSegment.getTileFromLoc((int) (x/scale), (int) (y/scale));
+    }
+
+    @Override
+    public void paint() {
+        setBounds(canvas.getClipBounds());
+        draw(canvas);
     }
 }

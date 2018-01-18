@@ -9,6 +9,9 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
+import com.r3dtech.factory.framework.GameScreen;
+import com.r3dtech.factory.framework.implementation.AndroidFastRenderView;
+import com.r3dtech.factory.framework.implementation.AndroidGame;
 import com.r3dtech.factory.map_graphics.MapViewDrawable;
 import com.r3dtech.factory.tile_map.implementation.GameMap;
 
@@ -21,7 +24,7 @@ import static android.view.MotionEvent.INVALID_POINTER_ID;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class FullscreenActivity extends AppCompatActivity {
+public class FullscreenActivity extends AndroidGame {
     private MapViewDrawable mapView;
     private AndroidFastRenderView mContentView;
 
@@ -49,22 +52,7 @@ public class FullscreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         scaleDetector = new ScaleGestureDetector(this,new ScaleListener());
-
-        //Create the game map
-        GameMap map;
-        try {
-            map = new GameMap(R.raw.world);
-        }catch (IOException e) {
-            throw new RuntimeException("Map file not found");
-        }
-        Log.d("WORLD MAP:", map.toString());
-        Point size = new Point();
-
-        getWindowManager().getDefaultDisplay().getRealSize(size);
-        screenWidth = size.x;
-        screenHeight = size.y;
-        mapView = new MapViewDrawable(map);
-        mContentView = new AndroidFastRenderView(this, mapView, screenWidth, screenHeight, this);
+        mContentView = new AndroidFastRenderView(this);
         setContentView(mContentView);
         hide();
     }
@@ -185,6 +173,26 @@ public class FullscreenActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    @Override
+    public GameScreen getInitScreen() {
+        //Create the game map
+        GameMap map;
+        try {
+            map = new GameMap(R.raw.world);
+        }catch (IOException e) {
+            throw new RuntimeException("Map file not found");
+        }
+        Log.d("WORLD MAP:", map.toString());
+        Point size = new Point();
+
+        getWindowManager().getDefaultDisplay().getRealSize(size);
+        screenWidth = size.x;
+        screenHeight = size.y;
+        mapView = new MapViewDrawable(map, this);
+
+        return mapView;
     }
 
     public void update(float deltaTime) {

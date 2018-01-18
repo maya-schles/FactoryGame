@@ -1,4 +1,4 @@
-package com.r3dtech.factory;
+package com.r3dtech.factory.framework.implementation;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,6 +7,8 @@ import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.r3dtech.factory.FullscreenActivity;
+import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.map_graphics.MapViewDrawable;
 
 
@@ -15,21 +17,15 @@ import com.r3dtech.factory.map_graphics.MapViewDrawable;
  */
 
 public class AndroidFastRenderView extends SurfaceView implements Runnable {
-    Bitmap frameBuffer;
-    private MapViewDrawable drawable;
     Thread renderThread = null;
     SurfaceHolder holder;
     volatile boolean running = false;
-    private Canvas bufferCanvas;
-    private FullscreenActivity game;
+    private AndroidGame game;
 
-    public AndroidFastRenderView(Context context, MapViewDrawable drawable, int width, int height, FullscreenActivity game) {
-        super(context);
-        this.drawable = drawable;
-        this.frameBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        this.holder = getHolder();
-        this.bufferCanvas = new Canvas(frameBuffer);
+    public AndroidFastRenderView(AndroidGame game) {
+        super(game);
         this.game = game;
+        holder = getHolder();
     }
 
     public void resume() {
@@ -54,13 +50,11 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
             deltaTime = Math.min(deltaTime, (float) 3.15);
 
             game.update(deltaTime);
-
-            drawable.setBounds(bufferCanvas.getClipBounds());
-            drawable.draw(bufferCanvas);
+            game.getCurrentScreen().paint();
 
             Canvas canvas = holder.lockCanvas();
             canvas.getClipBounds(dstRect);
-            canvas.drawBitmap(frameBuffer, null, dstRect, null);
+            canvas.drawBitmap(game.getFrameBuffer(), null, dstRect, null);
             holder.unlockCanvasAndPost(canvas);
         }
     }
