@@ -2,7 +2,9 @@ package com.r3dtech.factory.framework.implementation;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.r3dtech.factory.framework.Game;
 import com.r3dtech.factory.framework.GameInput;
@@ -27,6 +29,7 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
         screen = getInitScreen();
         renderView = new AndroidFastRenderView(this);
         setContentView(renderView);
+        hide();
         input = new AndroidInput(this, renderView);
         input.setClickCallback(getClickCallback());
         input.setScaleCallback(getScaleCallback());
@@ -57,6 +60,7 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
     protected void onResume() {
         super.onResume();
         renderView.resume();
+        hide();
     }
 
     @Override
@@ -64,4 +68,20 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
         super.onPause();
         renderView.pause();
     }
+
+
+    private void hide() {
+        // Hide UI first
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+        renderView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
 }
