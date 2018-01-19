@@ -22,4 +22,6 @@ public interface Game {
     ScrollCallback getScrollCalback();
     ClickCallback getClickCallback();
     FileIO getFileIO();
+    void setMainScreen();
+    void setInventoryScreen();
 }

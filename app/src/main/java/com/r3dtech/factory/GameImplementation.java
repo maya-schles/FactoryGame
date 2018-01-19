@@ -11,11 +11,13 @@ import com.r3dtech.factory.framework.ScreenOverlay;
 import com.r3dtech.factory.framework.ScrollCallback;
 import com.r3dtech.factory.framework.implementation.AndroidGame;
 import com.r3dtech.factory.inventory.GameItem;
-import com.r3dtech.factory.map_graphics.DrawableScreen;
+import com.r3dtech.factory.inventory.Inventory;
+import com.r3dtech.factory.inventory.InventoryScreen;
+import com.r3dtech.factory.map_graphics.MapScreen;
 import com.r3dtech.factory.map_graphics.MapViewDrawable;
+import com.r3dtech.factory.overlay_graphics.EmptyOverlay;
 import com.r3dtech.factory.overlay_graphics.ResourceLoadingOverlay;
 import com.r3dtech.factory.tile_map.TileMap;
-import com.r3dtech.factory.tile_map.TileType;
 import com.r3dtech.factory.tile_map.implementation.GameMap;
 
 import java.io.IOException;
@@ -25,12 +27,10 @@ import java.io.IOException;
 /**
  * The app's main activity.
  */
-public class MainActivity extends AndroidGame {
+public class GameImplementation extends AndroidGame {
     private MapViewDrawable mapView;
-
-    private int screenWidth;
-    private int screenHeight;
     private ResourceLoadingOverlay resourceLoadingOverlay;
+    private Inventory inventory = new Inventory();
 
     private class mScaleCallback implements ScaleCallback {
         @Override
@@ -49,13 +49,7 @@ public class MainActivity extends AndroidGame {
     private class mClickCallback implements ClickCallback {
         @Override
         public void onClick(int x, int y) {
-            TileType type = mapView.getTileFromLoc(x - screenWidth/2,
-                    y - screenHeight/2).tileType();
-            Log.d("onClick ", type.getName());
-            GameItem resource = type.getResource();
-            if (resource != null) {
-                manualHarvestResource(resource);
-            }
+            getCurrentScreen().onClick(x, y);
         }
     }
 
@@ -64,9 +58,14 @@ public class MainActivity extends AndroidGame {
         super.onCreate(savedInstanceState);
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getRealSize(size);
-        screenWidth = size.x;
-        screenHeight = size.y;
         resourceLoadingOverlay = (ResourceLoadingOverlay) getCurrentScreenOverlay();
+        try {
+            inventory.loadFromFile(getFileIO());
+        }
+        catch (IOException e) {
+            inventory.increaseAmount(GameItem.STONE, 10);
+            //throw new RuntimeException("Couldn't load inventory from file");
+        }
     }
 
     private TileMap createMap() {
@@ -83,7 +82,7 @@ public class MainActivity extends AndroidGame {
     public GameScreen getInitScreen() {
         TileMap map = createMap();
         mapView = new MapViewDrawable(map, this);
-        return new DrawableScreen(mapView, getFrameBuffer());
+        return new MapScreen(mapView, getFrameBuffer(), this);
     }
 
     public void update(int deltaTime) {
@@ -111,7 +110,21 @@ public class MainActivity extends AndroidGame {
         return new ResourceLoadingOverlay(getFrameBuffer());
     }
 
-    private void manualHarvestResource(GameItem resource) {
-        resourceLoadingOverlay.addTimer(resource);
+    public void manualHarvestResource(GameItem resource) {
+        if (resource != null) {
+            resourceLoadingOverlay.addTimer(resource);
+        }
+    }
+
+    @Override
+    public void setMainScreen() {
+        setScreen(new MapScreen(mapView, getFrameBuffer(), this));
+        setScreenOverlay(resourceLoadingOverlay);
+    }
+
+    @Override
+    public void setInventoryScreen() {
+        setScreen(new InventoryScreen(getFrameBuffer(), inventory, this));
+        setScreenOverlay(new EmptyOverlay());
     }
 }

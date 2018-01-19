@@ -1,15 +1,16 @@
 package com.r3dtech.factory.inventory;
 
 
+
 import com.r3dtech.factory.framework.FileIO;
 import com.r3dtech.factory.tile_map.TileType;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -23,7 +24,9 @@ public class Inventory {
     private HashMap<GameItem, Integer> inventory = new HashMap<>(GameItem.values().length);
 
     public Inventory() {
-
+        for (GameItem item: GameItem.values()) {
+            inventory.put(item, 0);
+        }
     }
 
     public void loadFromFile(FileIO fileIO) throws IOException {
@@ -58,5 +61,28 @@ public class Inventory {
 
     public void increaseAmount(GameItem item, int amountToAdd) {
         setAmount(item, getAmount(item)+amountToAdd);
+    }
+
+    public int getItemNum() {
+        int cnt = 0;
+        for (int num : inventory.values()) {
+            if (num > 0) {
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+
+    public GameItem getItem(int n) {
+        int cnt = 0;
+        for (Map.Entry<GameItem, Integer> entry: inventory.entrySet()) {
+            if (entry.getValue() > 0) {
+                if (cnt == n) {
+                    return entry.getKey();
+                }
+                cnt++;
+            }
+        }
+        return null;
     }
 }

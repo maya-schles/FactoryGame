@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
 import com.r3dtech.factory.inventory.GameItem;
+import com.r3dtech.factory.inventory.GameItemDrawableCache;
 
 /**
  * This class is a loading timer for a manual resource harvest.

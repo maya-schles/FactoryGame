@@ -1,8 +1,7 @@
-package com.r3dtech.factory.overlay_graphics;
+package com.r3dtech.factory.inventory;
 
 import android.graphics.drawable.Drawable;
 
-import com.r3dtech.factory.inventory.GameItem;
 
 /**
  * This class is used as a cache for GameItem drawables.
@@ -13,7 +12,7 @@ import com.r3dtech.factory.inventory.GameItem;
 public class GameItemDrawableCache {
     private Drawable[] drawables = new Drawable[GameItem.values().length];
 
-    void load() {
+    public void load() {
         for (int item = 0; item < drawables.length; item++) {
                 drawables[item] = Drawable.createFromStream(this.getClass().getResourceAsStream(
                         "/res/drawable/icon_"+GameItem.values()[item].getName()+".jpg"), "src");
@@ -21,7 +20,7 @@ public class GameItemDrawableCache {
     }
 
 
-    Drawable getDrawable(int gameItem) {
+    public Drawable getDrawable(int gameItem) {
         return drawables[gameItem];
     }
 }
