@@ -88,4 +88,9 @@ public class LoadingTimerDrawable extends Drawable implements LoadingTimerInterf
     public boolean isDone() {
         return timer.isDone();
     }
+
+    @Override
+    public void reset() {
+        timer.reset();
+    }
 }

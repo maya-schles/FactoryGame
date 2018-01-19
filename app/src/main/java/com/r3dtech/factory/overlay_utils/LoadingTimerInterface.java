@@ -11,4 +11,5 @@ public interface LoadingTimerInterface {
     void update(int deltaTime);
     float progress();
     boolean isDone();
+    void reset();
 }

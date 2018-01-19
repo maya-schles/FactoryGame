@@ -34,4 +34,9 @@ public class LoadingTimer implements LoadingTimerInterface{
     public boolean isDone() {
         return currTime == goalTime;
     }
+
+    @Override
+    public void reset() {
+        currTime = 0;
+    }
 }

@@ -1,5 +1,7 @@
 package com.r3dtech.factory.inventory;
 
+import java.util.Arrays;
+
 /**
  * This enum is used for the types of items in the game.
  *
@@ -7,6 +9,20 @@ package com.r3dtech.factory.inventory;
  */
 
 public enum GameItem {
-    STONE,
-    WOOD
+    STONE("stone"),
+    WOOD("wood");
+
+    private String name;
+
+    GameItem(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int toInt() {
+        return Arrays.asList(values()).indexOf(this);
+    }
 }

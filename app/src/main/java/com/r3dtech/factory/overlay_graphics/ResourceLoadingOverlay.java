@@ -3,14 +3,15 @@ package com.r3dtech.factory.overlay_graphics;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 
 import com.r3dtech.factory.framework.ScreenOverlay;
-import com.r3dtech.factory.overlay_utils.LoadingTimerInterface;
+import com.r3dtech.factory.inventory.GameItem;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is a screen overlay for the resource harvest loading.
@@ -19,45 +20,50 @@ import java.util.List;
  */
 
 public class ResourceLoadingOverlay implements ScreenOverlay {
-    private static final int MAX_TIMERS = 10;
-    private static final int TIMER_WIDTH = 256;
-    private static final int TIMER_HEIGHT = 64;
-    private List<LoadingTimerDrawable> loadingTimers = new ArrayList<>();
-    private List<LoadingTimerDrawable> loadingTimersBuffer = new ArrayList<>();
+    private static final int MAX_PER_RESOURCE = 10;
+    private static final int TIMER_WIDTH = 384;
+    private static final int TIMER_HEIGHT = 96;
+    private static final int TIMERS_DIST = 5;
+
+    private Map<GameItem, ResourceHarvestLoadingTimer> loadingTimers = new HashMap<>();
+    private List<GameItem> itemsBuffer = new ArrayList<>();
     private Canvas canvas;
 
     public ResourceLoadingOverlay(Bitmap frameBuffer) {
         canvas = new Canvas(frameBuffer);
+        ResourceHarvestLoadingTimer.drawableCache.load();
+        for (GameItem item : GameItem.values()) {
+            loadingTimers.put(item, new ResourceHarvestLoadingTimer(item));
+        }
     }
 
-    public boolean addTimer(int goalTime, Drawable icon) {
-        if (loadingTimers.size() + loadingTimersBuffer.size() <= MAX_TIMERS) {
-            loadingTimersBuffer.add(new LoadingTimerDrawable(goalTime, icon));
-            return true;
+    public void addTimer(GameItem item) {
+        if(loadingTimers.get(item).getResourceNum() < MAX_PER_RESOURCE) {
+            itemsBuffer.add(item);
         }
-        return false;
     }
 
     @Override
     public void paint() {
         Rect timerBounds = new Rect(0, 0, TIMER_WIDTH, TIMER_HEIGHT);
-        for (LoadingTimerDrawable timer : loadingTimers) {
-            timer.setBounds(timerBounds);
-            timer.draw(canvas);
-            timerBounds.offset(0, timerBounds.height());
+        for (ResourceHarvestLoadingTimer timer : loadingTimers.values()) {
+            if (timer.getResourceNum() > 0) {
+                timer.setBounds(timerBounds);
+                timer.draw(canvas);
+                timerBounds.offset(0, timerBounds.height()+TIMERS_DIST);
+            }
         }
     }
 
     @Override
     public void update(int deltaTime) {
-        loadingTimers.addAll(loadingTimersBuffer);
-        loadingTimersBuffer.clear();
-        for (Iterator<LoadingTimerDrawable> itr = loadingTimers.iterator(); itr.hasNext();) {
-            LoadingTimerInterface timer = itr.next();
+        for (GameItem item : itemsBuffer) {
+            loadingTimers.get(item).add();
+        }
+        itemsBuffer.clear();
+
+        for (ResourceHarvestLoadingTimer timer : loadingTimers.values()) {
             timer.update(deltaTime);
-            if (timer.isDone()) {
-                itr.remove();
-            }
         }
     }
 }

@@ -1,8 +1,6 @@
 package com.r3dtech.factory;
 
-import android.content.res.Resources;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -12,6 +10,7 @@ import com.r3dtech.factory.framework.ScaleCallback;
 import com.r3dtech.factory.framework.ScreenOverlay;
 import com.r3dtech.factory.framework.ScrollCallback;
 import com.r3dtech.factory.framework.implementation.AndroidGame;
+import com.r3dtech.factory.inventory.GameItem;
 import com.r3dtech.factory.map_graphics.DrawableScreen;
 import com.r3dtech.factory.map_graphics.MapViewDrawable;
 import com.r3dtech.factory.overlay_graphics.ResourceLoadingOverlay;
@@ -53,7 +52,10 @@ public class MainActivity extends AndroidGame {
             TileType type = mapView.getTileFromLoc(x - screenWidth/2,
                     y - screenHeight/2).tileType();
             Log.d("onClick ", type.getName());
-            resourceLoadingOverlay.addTimer(300, getDrawable(R.drawable.stone_icon));
+            GameItem resource = type.getResource();
+            if (resource != null) {
+                manualHarvestResource(resource);
+            }
         }
     }
 
@@ -107,5 +109,9 @@ public class MainActivity extends AndroidGame {
     @Override
     public ScreenOverlay getInitScreenOverlay() {
         return new ResourceLoadingOverlay(getFrameBuffer());
+    }
+
+    private void manualHarvestResource(GameItem resource) {
+        resourceLoadingOverlay.addTimer(resource);
     }
 }
