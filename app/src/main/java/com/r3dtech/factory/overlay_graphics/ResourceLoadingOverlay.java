@@ -23,7 +23,7 @@ public class ResourceLoadingOverlay implements ScreenOverlay {
     private static final int MAX_PER_RESOURCE = 10;
     private static final int TIMER_WIDTH = 384;
     private static final int TIMER_HEIGHT = 96;
-    private static final int TIMERS_DIST = 5;
+    private static final int TIMERS_DIST = 16;
 
     private Map<GameItem, ResourceHarvestLoadingTimer> loadingTimers = new HashMap<>();
     private List<GameItem> itemsBuffer = new ArrayList<>();
@@ -45,7 +45,7 @@ public class ResourceLoadingOverlay implements ScreenOverlay {
 
     @Override
     public void paint() {
-        Rect timerBounds = new Rect(0, 0, TIMER_WIDTH, TIMER_HEIGHT);
+        Rect timerBounds = new Rect(0, TIMERS_DIST, TIMER_WIDTH, TIMER_HEIGHT);
         for (ResourceHarvestLoadingTimer timer : loadingTimers.values()) {
             if (timer.getResourceNum() > 0) {
                 timer.setBounds(timerBounds);

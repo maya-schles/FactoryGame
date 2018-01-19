@@ -41,7 +41,7 @@ public class ResourceHarvestLoadingTimer extends LoadingTimerDrawable {
         if (resourceNum > 0) {
             super.draw(canvas);
             Rect bounds = getBounds();
-            numPaint.setTextSize(bounds.height()/2);
+            numPaint.setTextSize(bounds.height()*3/4);
             canvas.drawText(Integer.toString(resourceNum), bounds.left, bounds.bottom, numPaint);
         }
     }

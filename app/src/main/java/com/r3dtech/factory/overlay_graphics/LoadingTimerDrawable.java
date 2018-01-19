@@ -10,7 +10,6 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.r3dtech.factory.overlay_utils.LoadingTimer;
 import com.r3dtech.factory.overlay_utils.LoadingTimerInterface;
@@ -44,10 +43,12 @@ public class LoadingTimerDrawable extends Drawable implements LoadingTimerInterf
         int barWidth = bounds.width() - bounds.height();
         RectF barBounds = new RectF(newIconBounds.right, bounds.top, bounds.left + barWidth,
                 bounds.bottom);
-        canvas.drawRect(barBounds, barPaint);
+        int rx = bounds.height()/4;
+        int ry = rx;
+        canvas.drawRoundRect(barBounds, rx, ry, barPaint);
         RectF progressBounds = new RectF(barBounds.left, barBounds.top,
                 barBounds.left + progress()*barBounds.width(), barBounds.bottom);
-        canvas.drawRect(progressBounds, progressPaint);
+        canvas.drawRoundRect(progressBounds, rx, ry, progressPaint);
     }
 
     @Override
