@@ -10,4 +10,5 @@ public interface LoadingTimerInterface {
     int getGoalTime();
     void update(int deltaTime);
     float progress();
+    boolean isDone();
 }

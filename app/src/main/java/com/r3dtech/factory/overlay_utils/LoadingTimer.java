@@ -22,10 +22,16 @@ public class LoadingTimer implements LoadingTimerInterface{
     @Override
     public void update(int deltaTime) {
         currTime += deltaTime;
+        currTime = Math.min(currTime, goalTime);
     }
 
     @Override
     public float progress() {
-        return currTime/goalTime;
+        return currTime/(float) goalTime;
+    }
+
+    @Override
+    public boolean isDone() {
+        return currTime == goalTime;
     }
 }

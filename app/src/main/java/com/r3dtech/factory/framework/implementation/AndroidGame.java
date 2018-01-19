@@ -10,6 +10,7 @@ import com.r3dtech.factory.framework.FileIO;
 import com.r3dtech.factory.framework.Game;
 import com.r3dtech.factory.framework.GameInput;
 import com.r3dtech.factory.framework.GameScreen;
+import com.r3dtech.factory.framework.ScreenOverlay;
 
 
 /**
@@ -20,6 +21,7 @@ import com.r3dtech.factory.framework.GameScreen;
 public abstract class AndroidGame extends AppCompatActivity implements Game{
     protected AndroidFastRenderView renderView;
     private GameScreen screen;
+    private ScreenOverlay screenOverlay;
     private Bitmap frameBuffer;
     private GameInput input;
     private FileIO fileIO;
@@ -30,6 +32,7 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
 
         frameBuffer = Bitmap.createBitmap(1080, 1920, Bitmap.Config.RGB_565);
         screen = getInitScreen();
+        screenOverlay = getInitScreenOverlay();
         renderView = new AndroidFastRenderView(this);
         setContentView(renderView);
         hide();
@@ -90,5 +93,15 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    @Override
+    public void setScreenOverlay(ScreenOverlay screenOverlay) {
+        this.screenOverlay = screenOverlay;
+    }
+
+    @Override
+    public ScreenOverlay getCurrentScreenOverlay() {
+        return screenOverlay;
     }
 }

@@ -1,6 +1,5 @@
 package com.r3dtech.factory.overlay_graphics;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -11,6 +10,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.r3dtech.factory.overlay_utils.LoadingTimer;
 import com.r3dtech.factory.overlay_utils.LoadingTimerInterface;
@@ -44,10 +44,10 @@ public class LoadingTimerDrawable extends Drawable implements LoadingTimerInterf
         int barWidth = bounds.width() - bounds.height();
         RectF barBounds = new RectF(newIconBounds.right, bounds.top, bounds.left + barWidth,
                 bounds.bottom);
-        canvas.drawOval(barBounds, barPaint);
+        canvas.drawRect(barBounds, barPaint);
         RectF progressBounds = new RectF(barBounds.left, barBounds.top,
-                barBounds.left + progress()*barBounds.height(), barBounds.bottom);
-        canvas.drawOval(progressBounds, progressPaint);
+                barBounds.left + progress()*barBounds.width(), barBounds.bottom);
+        canvas.drawRect(progressBounds, progressPaint);
     }
 
     @Override
@@ -82,5 +82,10 @@ public class LoadingTimerDrawable extends Drawable implements LoadingTimerInterf
     @Override
     public float progress() {
         return timer.progress();
+    }
+
+    @Override
+    public boolean isDone() {
+        return timer.isDone();
     }
 }

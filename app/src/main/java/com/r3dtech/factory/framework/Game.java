@@ -9,10 +9,13 @@ import android.graphics.Bitmap;
  */
 
 public interface Game {
-    void update(float deltaTime);
+    void update(int deltaTime);
     void setScreen(GameScreen screen);
+    void setScreenOverlay(ScreenOverlay screenOverlay);
     GameScreen getCurrentScreen();
+    ScreenOverlay getCurrentScreenOverlay();
     GameScreen getInitScreen();
+    ScreenOverlay getInitScreenOverlay();
     GameInput getInput();
     Bitmap getFrameBuffer();
     ScaleCallback getScaleCallback();

@@ -1,17 +1,22 @@
 package com.r3dtech.factory;
 
+import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.r3dtech.factory.framework.ClickCallback;
 import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.framework.ScaleCallback;
+import com.r3dtech.factory.framework.ScreenOverlay;
 import com.r3dtech.factory.framework.ScrollCallback;
 import com.r3dtech.factory.framework.implementation.AndroidGame;
 import com.r3dtech.factory.map_graphics.DrawableScreen;
 import com.r3dtech.factory.map_graphics.MapViewDrawable;
+import com.r3dtech.factory.overlay_graphics.ResourceLoadingOverlay;
 import com.r3dtech.factory.tile_map.TileMap;
+import com.r3dtech.factory.tile_map.TileType;
 import com.r3dtech.factory.tile_map.implementation.GameMap;
 
 import java.io.IOException;
@@ -26,6 +31,7 @@ public class MainActivity extends AndroidGame {
 
     private int screenWidth;
     private int screenHeight;
+    private ResourceLoadingOverlay resourceLoadingOverlay;
 
     private class mScaleCallback implements ScaleCallback {
         @Override
@@ -44,8 +50,10 @@ public class MainActivity extends AndroidGame {
     private class mClickCallback implements ClickCallback {
         @Override
         public void onClick(int x, int y) {
-            Log.d("onClick ", mapView.getTileFromLoc(x - screenWidth/2,
-                    y - screenHeight/2).tileType().getName());
+            TileType type = mapView.getTileFromLoc(x - screenWidth/2,
+                    y - screenHeight/2).tileType();
+            Log.d("onClick ", type.getName());
+            resourceLoadingOverlay.addTimer(300, getDrawable(R.drawable.stone_icon));
         }
     }
 
@@ -56,6 +64,7 @@ public class MainActivity extends AndroidGame {
         getWindowManager().getDefaultDisplay().getRealSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
+        resourceLoadingOverlay = (ResourceLoadingOverlay) getCurrentScreenOverlay();
     }
 
     private TileMap createMap() {
@@ -75,8 +84,9 @@ public class MainActivity extends AndroidGame {
         return new DrawableScreen(mapView, getFrameBuffer());
     }
 
-    public void update(float deltaTime) {
+    public void update(int deltaTime) {
         mapView.update();
+        getCurrentScreenOverlay().update(deltaTime);
     }
 
     @Override
@@ -92,5 +102,10 @@ public class MainActivity extends AndroidGame {
     @Override
     public ClickCallback getClickCallback() {
         return new mClickCallback();
+    }
+
+    @Override
+    public ScreenOverlay getInitScreenOverlay() {
+        return new ResourceLoadingOverlay(getFrameBuffer());
     }
 }
