@@ -1,4 +1,4 @@
-package com.r3dtech.factory.graphics;
+package com.r3dtech.factory.map_graphics;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
