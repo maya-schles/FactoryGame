@@ -1,4 +1,4 @@
-package com.r3dtech.factory.map_graphics;
+package com.r3dtech.factory.graphics;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -12,8 +12,6 @@ import com.r3dtech.factory.framework.Game;
 import com.r3dtech.factory.tile_map.MapSegment;
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileMap;
-
-import java.util.Random;
 
 /**
  * This class represents a drawable map display.

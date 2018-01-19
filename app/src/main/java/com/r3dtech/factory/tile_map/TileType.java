@@ -1,23 +1,27 @@
 package com.r3dtech.factory.tile_map;
 
+import com.r3dtech.factory.inventory.GameItem;
 
 import java.util.Arrays;
 
 /**
  * An enum for the possible types of world tiles in the game map.
+ *
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 13/01/2018.
  */
 
 public enum TileType {
-    FOREST("forest"),
-    GRASS("grass"),
-    STONE("stone"),
-    EMPTY("empty");
+    FOREST("forest", GameItem.WOOD),
+    GRASS("grass", null),
+    STONE("stone", GameItem.STONE),
+    EMPTY("empty", null);
 
     private String name;
+    private GameItem resource;
 
-    TileType(String name) {
+    TileType(String name, GameItem resource) {
         this.name = name;
+        this.resource = resource;
     }
 
     public String getName() {
@@ -45,5 +49,9 @@ public enum TileType {
 
     public int toInt() {
         return Arrays.asList(values()).indexOf(this);
+    }
+
+    public GameItem getResource() {
+        return resource;
     }
 }

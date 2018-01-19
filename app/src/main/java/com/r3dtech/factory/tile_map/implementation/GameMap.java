@@ -17,6 +17,7 @@ import java.util.Scanner;
  */
 
 public class GameMap implements TileMap {
+    private static final String MAP_FILE = "/res/raw/world.txt";
     private GameTile[][] map = new GameTile[Constants.MAP_HEIGHT][Constants.MAP_WIDTH];
     private GameTile emptyTile = new GameTile(TileType.EMPTY, 0);
 
@@ -26,7 +27,7 @@ public class GameMap implements TileMap {
         int[][] resArr = new int[height][width];
         int[][] vers = new int[height][width];
 
-        InputStream in = this.getClass().getResourceAsStream("/res/raw/world.txt");
+        InputStream in = this.getClass().getResourceAsStream(MAP_FILE);
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         for (int i = 0; i < height; i++) {
             Scanner lineScanner = new Scanner(reader.readLine());

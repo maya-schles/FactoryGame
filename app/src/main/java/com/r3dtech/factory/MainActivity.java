@@ -9,8 +9,8 @@ import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.framework.ScaleCallback;
 import com.r3dtech.factory.framework.ScrollCallback;
 import com.r3dtech.factory.framework.implementation.AndroidGame;
-import com.r3dtech.factory.map_graphics.DrawableScreen;
-import com.r3dtech.factory.map_graphics.MapViewDrawable;
+import com.r3dtech.factory.graphics.DrawableScreen;
+import com.r3dtech.factory.graphics.MapViewDrawable;
 import com.r3dtech.factory.tile_map.TileMap;
 import com.r3dtech.factory.tile_map.implementation.GameMap;
 
@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * The app's main activity.
  */
-public class FullscreenActivity extends AndroidGame {
+public class MainActivity extends AndroidGame {
     private MapViewDrawable mapView;
 
     private int screenWidth;

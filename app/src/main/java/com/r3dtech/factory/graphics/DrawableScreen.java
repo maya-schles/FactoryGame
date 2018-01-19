@@ -1,4 +1,4 @@
-package com.r3dtech.factory.map_graphics;
+package com.r3dtech.factory.graphics;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

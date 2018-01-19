@@ -1,15 +1,9 @@
 package com.r3dtech.factory.framework.implementation;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.r3dtech.factory.FullscreenActivity;
-import com.r3dtech.factory.framework.GameScreen;
-import com.r3dtech.factory.map_graphics.MapViewDrawable;
 
 
 /**

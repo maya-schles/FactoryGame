@@ -1,7 +1,8 @@
-package com.r3dtech.factory.map_graphics;
+package com.r3dtech.factory.graphics;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -24,7 +25,6 @@ import com.r3dtech.factory.tile_map.implementation.GameMapSegment;
 
 public class MapSegmentDrawable extends Drawable implements MapSegment {
     private MapSegment mapSegment;
-    private int alpha;
     private Rect bounds;
     private TileDrawableCache drawableCache;
 
@@ -149,7 +149,7 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
 
     @Override
     public void setAlpha(int i) {
-        alpha = i;
+
     }
 
     @Override
@@ -159,7 +159,7 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
 
     @Override
     public int getOpacity() {
-        return alpha;
+        return PixelFormat.OPAQUE;
     }
 
     @Override
