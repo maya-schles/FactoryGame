@@ -20,10 +20,14 @@ import com.r3dtech.factory.framework.GameScreen;
 public class InventoryScreen implements GameScreen{
     private static final int SLOT_BEGIN_TOP = 128;
     private static final int SLOTS_PER_ROW = 5;
-    private static final int TOP_DIST = 16;
+    private static final int TOP_DIST = 64;
+    private static final int TEXT_BOT_DIST = 16;
     private static final int LEFT_DIST = 16;
     private static final int SLOT_SIZE = 128;
     private static final int TITLE_TEXT_SIZE = 64;
+    private static final int TITLE_LEFT_DIST = 16;
+    private static final int MAP_BUTTON_WIDTH = 128;
+    private static final int MAP_BUTTON_HEIGHT = 128;
     private Rect[][] bounds;
     private Canvas canvas;
     private Paint slotPaint = new Paint();
@@ -32,6 +36,7 @@ public class InventoryScreen implements GameScreen{
     private Game game;
     private Paint textPaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
     private Paint numPaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
+    private Drawable mapButtom;
 
     public InventoryScreen(Bitmap frameBuffer, Inventory inventory, Game game) {
         this.game = game;
@@ -49,15 +54,21 @@ public class InventoryScreen implements GameScreen{
         textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(TITLE_TEXT_SIZE);
         numPaint.setColor(Color.BLACK);
-        numPaint.setTextSize(SLOT_SIZE/3);
+        numPaint.setTextSize(TOP_DIST- TEXT_BOT_DIST);
+        numPaint.setTextAlign(Paint.Align.CENTER);
         slotPaint.setColor(Color.WHITE);
         drawableCache.load();
+
+        mapButtom = Drawable.createFromStream(this.getClass().
+                getResourceAsStream("/res/drawable/map_icon.jpg"), "src");
+        mapButtom.setBounds(canvas.getWidth()-MAP_BUTTON_WIDTH,
+                0, canvas.getWidth(), MAP_BUTTON_HEIGHT);
     }
 
     @Override
     public void paint() {
         canvas.drawColor(Color.GRAY);
-        canvas.drawText("Inventory", 0, textPaint.getTextSize(), textPaint);
+        canvas.drawText("Inventory", TITLE_LEFT_DIST, textPaint.getTextSize(), textPaint);
         for (int i = 0; i < inventory.getItemNum(); i++) {
             int row = i/SLOTS_PER_ROW;
             int col = i%SLOTS_PER_ROW;
@@ -68,12 +79,17 @@ public class InventoryScreen implements GameScreen{
             icon.setBounds(bounds[row][col]);
             icon.draw(canvas);
             canvas.drawText(Integer.toString(inventory.getAmount(item)),
-                    bounds[row][col].left, bounds[row][col].bottom, numPaint);
+                    bounds[row][col].centerX(), bounds[row][col].bottom+numPaint.getTextSize(), numPaint);
+
         }
+
+        mapButtom.draw(canvas);
     }
 
     @Override
     public void onClick(int x, int y) {
-        game.setMainScreen();
+        if (mapButtom.getBounds().contains(x, y)) {
+            game.setMainScreen();
+        }
     }
 }
