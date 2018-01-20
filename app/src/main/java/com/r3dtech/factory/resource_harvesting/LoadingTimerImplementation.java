@@ -1,4 +1,4 @@
-package com.r3dtech.factory.ResourceHarvesting;
+package com.r3dtech.factory.resource_harvesting;
 
 /**
  * This class serves as a timer with progress checks.
@@ -8,7 +8,7 @@ package com.r3dtech.factory.ResourceHarvesting;
 
 public class LoadingTimerImplementation implements LoadingTimer {
     private int goalTime;
-    private int currTime = 0;
+    private float currTime = 0;
     private TimerCallback callback;
     private boolean isRunning = false;
 
@@ -24,7 +24,7 @@ public class LoadingTimerImplementation implements LoadingTimer {
     }
 
     @Override
-    public void update(int deltaTime) {
+    public void update(float deltaTime) {
         if (isRunning) {
             currTime += deltaTime;
             currTime = Math.min(currTime, goalTime);

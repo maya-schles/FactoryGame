@@ -1,4 +1,4 @@
-package com.r3dtech.factory.ResourceHarvesting;
+package com.r3dtech.factory.resource_harvesting;
 
 /**
  * This interface is for a timer with progress checks.
@@ -8,7 +8,7 @@ package com.r3dtech.factory.ResourceHarvesting;
 
 public interface LoadingTimer {
     int getGoalTime();
-    void update(int deltaTime);
+    void update(float deltaTime);
     float progress();
     boolean isDone();
     void reset();

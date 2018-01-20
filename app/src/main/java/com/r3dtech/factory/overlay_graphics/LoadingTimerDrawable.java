@@ -11,9 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.r3dtech.factory.ResourceHarvesting.LoadingTimerImplementation;
-import com.r3dtech.factory.ResourceHarvesting.LoadingTimer;
-import com.r3dtech.factory.ResourceHarvesting.TimerCallback;
+import com.r3dtech.factory.resource_harvesting.LoadingTimer;
 
 /**
  * This class is a drawable loading timer.
@@ -77,7 +75,7 @@ public class LoadingTimerDrawable extends Drawable implements LoadingTimer {
     }
 
     @Override
-    public void update(int deltaTime) {
+    public void update(float deltaTime) {
         timer.update(deltaTime);
     }
 

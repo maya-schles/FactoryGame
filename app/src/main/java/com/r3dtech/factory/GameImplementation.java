@@ -4,7 +4,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.r3dtech.factory.ResourceHarvesting.ManualHarvestingManager;
+import com.r3dtech.factory.resource_harvesting.ManualHarvestingManager;
 import com.r3dtech.factory.framework.ClickCallback;
 import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.framework.ScaleCallback;
@@ -86,7 +86,8 @@ public class GameImplementation extends AndroidGame {
         return new MapScreen(mapView, getFrameBuffer(), this);
     }
 
-    public void update(int deltaTime) {
+    @Override
+    public void update(float deltaTime) {
         mapView.update();
         harvestingManager.update(deltaTime);
     }
@@ -125,7 +126,7 @@ public class GameImplementation extends AndroidGame {
 
     @Override
     public void setInventoryScreen() {
-        setScreen(new InventoryScreen(getFrameBuffer(), inventory, this));
+        setScreen(new InventoryScreen(getFrameBuffer(), inventory, this, getAssets()));
         setScreenOverlay(new EmptyOverlay());
     }
 

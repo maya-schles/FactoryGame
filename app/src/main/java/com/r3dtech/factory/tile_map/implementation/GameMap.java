@@ -19,7 +19,6 @@ import java.util.Scanner;
 public class GameMap implements TileMap {
     private static final String MAP_FILE = "/res/raw/world.txt";
     private GameTile[][] map = new GameTile[Constants.MAP_HEIGHT][Constants.MAP_WIDTH];
-    private GameTile emptyTile = new GameTile(TileType.EMPTY, 0);
 
     public GameMap() throws IOException {
         int height = Constants.MAP_HEIGHT;
@@ -48,7 +47,7 @@ public class GameMap implements TileMap {
             return map[y][x];
         }
         else {
-            return emptyTile;
+            return null;
         }
     }
 
@@ -96,6 +95,6 @@ public class GameMap implements TileMap {
 
     @Override
     public MapTile getTileFromLoc(int x, int y) {
-        return map[y/Constants.TILE_SIZE][x/Constants.TILE_SIZE];
+        return getTile( x/Constants.TILE_SIZE, y/Constants.TILE_SIZE);
     }
 }

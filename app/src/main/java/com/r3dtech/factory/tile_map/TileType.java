@@ -13,8 +13,7 @@ import java.util.Arrays;
 public enum TileType {
     FOREST("forest", GameItem.WOOD),
     GRASS("grass", null),
-    STONE("stone", GameItem.STONE),
-    EMPTY("empty", null);
+    STONE("stone", GameItem.STONE);
 
     private String name;
     private GameItem resource;

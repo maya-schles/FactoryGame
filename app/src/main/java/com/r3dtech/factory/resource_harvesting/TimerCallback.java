@@ -1,4 +1,4 @@
-package com.r3dtech.factory.ResourceHarvesting;
+package com.r3dtech.factory.resource_harvesting;
 
 
 /**

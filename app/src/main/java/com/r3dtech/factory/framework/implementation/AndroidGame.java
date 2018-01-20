@@ -82,6 +82,7 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
     public FileIO getFileIO() {
         return fileIO;
     }
+
     private void hide() {
         // Hide UI first
         ActionBar actionBar = getSupportActionBar();

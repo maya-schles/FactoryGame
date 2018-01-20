@@ -2,6 +2,7 @@ package com.r3dtech.factory.framework.implementation;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -38,7 +39,7 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
                 continue;
             }
 
-            int deltaTime = (int) (System.currentTimeMillis() - startTime) /10;
+            float deltaTime = (System.currentTimeMillis() - startTime)/10f;
             startTime = System.currentTimeMillis();
 
             deltaTime = Math.min(deltaTime, 100);

@@ -8,6 +8,7 @@ import com.r3dtech.factory.GameImplementation;
 import com.r3dtech.factory.framework.Game;
 import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.overlay_graphics.EmptyOverlay;
+import com.r3dtech.factory.tile_map.MapTile;
 
 /**
  * This class is a GameScreen that relies on a mapView object.
@@ -48,8 +49,11 @@ public class MapScreen implements GameScreen{
             game.setScreenOverlay(new EmptyOverlay());
         }
         else {
-            ((GameImplementation) game).manualHarvestResource(
-                    mapView.getTileFromLoc(x - canvas.getWidth()/2, y-canvas.getHeight()/2).tileType().getResource());
+            MapTile tile = mapView.getTileFromLoc(x - canvas.getWidth()/2, y-canvas.getHeight()/2);
+            if (tile != null) {
+                ((GameImplementation) game).manualHarvestResource(
+                        tile.tileType().getResource());
+            }
         }
     }
 }

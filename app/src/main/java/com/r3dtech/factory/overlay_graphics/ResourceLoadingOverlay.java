@@ -5,10 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.r3dtech.factory.ResourceHarvesting.ManualHarvestingManager;
+import com.r3dtech.factory.resource_harvesting.ManualHarvestingManager;
 import com.r3dtech.factory.framework.ScreenOverlay;
 import com.r3dtech.factory.inventory.GameItem;
-import com.r3dtech.factory.ResourceHarvesting.LoadingTimer;
+import com.r3dtech.factory.resource_harvesting.LoadingTimer;
 import com.r3dtech.factory.inventory.GameItemDrawableCache;
 
 

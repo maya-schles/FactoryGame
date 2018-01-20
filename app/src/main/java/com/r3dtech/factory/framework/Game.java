@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
  */
 
 public interface Game {
-    void update(int deltaTime);
+    void update(float deltaTime);
     void setScreen(GameScreen screen);
     void setScreenOverlay(ScreenOverlay screenOverlay);
     GameScreen getCurrentScreen();

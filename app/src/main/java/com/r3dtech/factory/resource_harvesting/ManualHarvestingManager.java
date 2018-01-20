@@ -1,4 +1,4 @@
-package com.r3dtech.factory.ResourceHarvesting;
+package com.r3dtech.factory.resource_harvesting;
 
 
 import com.r3dtech.factory.inventory.GameItem;
@@ -45,7 +45,7 @@ public class ManualHarvestingManager {
         return loadingTimers;
     }
 
-    public void update(int deltaTime) {
+    public void update(float deltaTime) {
         for (GameItem item: itemBuffer) {
             int i = item.toInt();
             if (timersNum[i] == 0) {

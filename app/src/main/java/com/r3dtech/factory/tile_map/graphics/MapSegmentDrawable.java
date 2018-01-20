@@ -134,7 +134,7 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
         for (int x = -1; x <= tiledWidth(); x++) {
             for (int y = -1; y <= tiledHeight(); y++) {
                 MapTile tile = getTile(x, y);
-                if (tile.tileType() == TileType.EMPTY) {
+                if (tile == null) {
                     continue;
                 }
                 Drawable drawable = drawableCache.getDrawable(tile.tileType().toInt(), tile.getVer());
