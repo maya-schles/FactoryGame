@@ -35,10 +35,6 @@ public class ResourceLoadingOverlay implements ScreenOverlay {
         numPaint.setTextSize(TIMER_HEIGHT/2);
     }
 
-    public void addTimer(GameItem item) {
-        harvestingManager.addTimer(item);
-    }
-
     @Override
     public void paint() {
         Rect timerBounds = new Rect(0, TIMERS_DIST, TIMER_WIDTH, TIMER_HEIGHT);

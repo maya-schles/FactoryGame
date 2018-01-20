@@ -28,6 +28,7 @@ public class InventoryScreen implements GameScreen{
     private static final int TITLE_LEFT_DIST = 16;
     private static final int MAP_BUTTON_WIDTH = 128;
     private static final int MAP_BUTTON_HEIGHT = 128;
+    private static final int MAP_BUTTON_RIGHT_DIST = 16;
     private Rect[][] bounds;
     private Canvas canvas;
     private Paint slotPaint = new Paint();
@@ -61,8 +62,8 @@ public class InventoryScreen implements GameScreen{
 
         mapButtom = Drawable.createFromStream(this.getClass().
                 getResourceAsStream("/res/drawable/map_icon.jpg"), "src");
-        mapButtom.setBounds(canvas.getWidth()-MAP_BUTTON_WIDTH,
-                0, canvas.getWidth(), MAP_BUTTON_HEIGHT);
+        mapButtom.setBounds(canvas.getWidth()-MAP_BUTTON_WIDTH-MAP_BUTTON_RIGHT_DIST,
+                0, canvas.getWidth()-MAP_BUTTON_RIGHT_DIST, MAP_BUTTON_HEIGHT);
     }
 
     @Override

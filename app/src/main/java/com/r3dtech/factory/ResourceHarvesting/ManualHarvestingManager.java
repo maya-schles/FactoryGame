@@ -48,8 +48,10 @@ public class ManualHarvestingManager {
     public void update(int deltaTime) {
         for (GameItem item: itemBuffer) {
             int i = item.toInt();
+            if (timersNum[i] == 0) {
+                loadingTimers[i].reset();
+            }
             timersNum[i] = Math.min(MAX_PER_RESOURCE, timersNum[i]+1);
-            loadingTimers[i].reset();
         }
         itemBuffer.clear();
         for(LoadingTimer timer: loadingTimers) {

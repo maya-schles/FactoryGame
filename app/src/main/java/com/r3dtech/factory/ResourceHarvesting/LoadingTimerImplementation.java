@@ -10,7 +10,7 @@ public class LoadingTimerImplementation implements LoadingTimer {
     private int goalTime;
     private int currTime = 0;
     private TimerCallback callback;
-    private boolean isRunning = true;
+    private boolean isRunning = false;
 
     public LoadingTimerImplementation(int goalTime, TimerCallback callback) {
         this.goalTime = goalTime;
@@ -25,11 +25,13 @@ public class LoadingTimerImplementation implements LoadingTimer {
 
     @Override
     public void update(int deltaTime) {
-        currTime += deltaTime;
-        currTime = Math.min(currTime, goalTime);
-        if (isDone() && isRunning) {
-            callback.onTimerDone(this);
-            isRunning = false;
+        if (isRunning) {
+            currTime += deltaTime;
+            currTime = Math.min(currTime, goalTime);
+            if (isDone()) {
+                isRunning = false;
+                callback.onTimerDone(this);
+            }
         }
     }
 
