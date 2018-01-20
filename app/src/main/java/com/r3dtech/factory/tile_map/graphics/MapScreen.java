@@ -1,12 +1,8 @@
-package com.r3dtech.factory.map_graphics;
+package com.r3dtech.factory.tile_map.graphics;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
 
 import com.r3dtech.factory.GameImplementation;
 import com.r3dtech.factory.framework.Game;

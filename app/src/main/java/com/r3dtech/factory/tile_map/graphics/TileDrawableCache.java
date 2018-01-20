@@ -1,4 +1,4 @@
-package com.r3dtech.factory.map_graphics;
+package com.r3dtech.factory.tile_map.graphics;
 
 import android.graphics.drawable.Drawable;
 
@@ -16,8 +16,16 @@ public class TileDrawableCache {
     void load() {
         for (int type = 0; type < drawables.length; type++) {
             for (int ver = 0; ver < drawables[0].length; ver++) {
-                drawables[type][ver] = Drawable.createFromStream(this.getClass().getResourceAsStream(
-                        "/res/drawable/"+TileType.values()[type].getName()+ver+".jpg"), "src");
+                if (type == TileType.GRASS.toInt()) {
+                    drawables[type][ver] = new GrassDrawable(ver);
+                }
+                else if (type == TileType.STONE.toInt()) {
+                    drawables[type][ver] = new StoneDrawable(ver);
+                }
+                else {
+                    drawables[type][ver] = Drawable.createFromStream(this.getClass().getResourceAsStream(
+                            "/res/drawable/" + TileType.values()[type].getName() + ver + ".jpg"), "src");
+                }
             }
         }
     }

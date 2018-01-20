@@ -1,4 +1,4 @@
-package com.r3dtech.factory.inventory;
+package com.r3dtech.factory.inventory.graphics;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,6 +10,9 @@ import android.graphics.drawable.Drawable;
 
 import com.r3dtech.factory.framework.Game;
 import com.r3dtech.factory.framework.GameScreen;
+import com.r3dtech.factory.inventory.GameItem;
+import com.r3dtech.factory.inventory.GameItemDrawableCache;
+import com.r3dtech.factory.inventory.Inventory;
 
 /**
  * This class is used as a screen for the inventory;
@@ -22,8 +25,8 @@ public class InventoryScreen implements GameScreen{
     private static final int SLOTS_PER_ROW = 5;
     private static final int TOP_DIST = 64;
     private static final int TEXT_BOT_DIST = 16;
-    private static final int LEFT_DIST = 16;
-    private static final int SLOT_SIZE = 128;
+    private static final int LEFT_DIST = 32;
+    private static final int SLOT_SIZE = 192;
     private static final int TITLE_TEXT_SIZE = 64;
     private static final int TITLE_LEFT_DIST = 16;
     private static final int MAP_BUTTON_WIDTH = 128;

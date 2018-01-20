@@ -1,4 +1,4 @@
-package com.r3dtech.factory.map_graphics;
+package com.r3dtech.factory.tile_map.graphics;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
