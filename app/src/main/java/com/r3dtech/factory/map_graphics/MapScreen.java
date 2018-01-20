@@ -3,6 +3,8 @@ package com.r3dtech.factory.map_graphics;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 
@@ -18,11 +20,11 @@ import com.r3dtech.factory.overlay_graphics.EmptyOverlay;
  */
 
 public class MapScreen implements GameScreen{
-    private static final int INVENTORY_BUTTON_WIDTH = 64;
-    private static final int INVENTORY_BUTTON_HEIGHT = 64;
+    private static final int INVENTORY_BUTTON_WIDTH = 128;
+    private static final int INVENTORY_BUTTON_HEIGHT = 128;
     private MapViewDrawable mapView;
     private Canvas canvas;
-    private ShapeDrawable inventoryButton;
+    private Drawable inventoryButton;
     private Game game;
 
     public MapScreen(MapViewDrawable drawable, Bitmap frameBuffer, Game game) {
@@ -30,8 +32,8 @@ public class MapScreen implements GameScreen{
         this.mapView = drawable;
         canvas = new Canvas(frameBuffer);
         drawable.setBounds(canvas.getClipBounds());
-        inventoryButton = new ShapeDrawable(new RoundRectShape(null, null, null));
-        inventoryButton.getPaint().setColor(Color.GRAY);
+        inventoryButton = Drawable.createFromStream(this.getClass().
+                getResourceAsStream("/res/drawable/inventory.jpg"), "src");
         inventoryButton.setBounds(canvas.getWidth()-INVENTORY_BUTTON_WIDTH,
                 0, canvas.getWidth(), INVENTORY_BUTTON_HEIGHT);
     }

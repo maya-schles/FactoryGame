@@ -11,24 +11,25 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.r3dtech.factory.overlay_utils.LoadingTimer;
-import com.r3dtech.factory.overlay_utils.LoadingTimerInterface;
+import com.r3dtech.factory.ResourceHarvesting.LoadingTimerImplementation;
+import com.r3dtech.factory.ResourceHarvesting.LoadingTimer;
+import com.r3dtech.factory.ResourceHarvesting.TimerCallback;
 
 /**
  * This class is a drawable loading timer.
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 19/01/2018.
  */
 
-public class LoadingTimerDrawable extends Drawable implements LoadingTimerInterface {
-    private LoadingTimerInterface timer;
+public class LoadingTimerDrawable extends Drawable implements LoadingTimer {
+    private LoadingTimer timer;
     private Drawable icon;
     private Rect bounds;
     private Paint barPaint = new Paint();
     private Paint progressPaint = new Paint();
 
-    public LoadingTimerDrawable(int goalTime, Drawable icon) {
+    public LoadingTimerDrawable(Drawable icon, LoadingTimer timer) {
         super();
-        timer = new LoadingTimer(goalTime);
+        this.timer = timer;
         this.icon = icon; // icon must be square!
         barPaint.setColor(Color.WHITE);
         progressPaint.setColor(Color.GREEN);
@@ -94,4 +95,5 @@ public class LoadingTimerDrawable extends Drawable implements LoadingTimerInterf
     public void reset() {
         timer.reset();
     }
+
 }

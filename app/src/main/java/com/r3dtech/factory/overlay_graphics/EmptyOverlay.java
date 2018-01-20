@@ -13,9 +13,4 @@ public class EmptyOverlay implements ScreenOverlay{
     public void paint() {
 
     }
-
-    @Override
-    public void update(int deltaTime) {
-
-    }
 }

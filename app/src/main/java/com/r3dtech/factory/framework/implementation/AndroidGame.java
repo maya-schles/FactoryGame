@@ -41,7 +41,7 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
         input.setScaleCallback(getScaleCallback());
         input.setScrollCallback(getScrollCalback());
 
-        fileIO = new AndroidFileIO();
+        fileIO = new AndroidFileIO(this);
     }
 
     @Override

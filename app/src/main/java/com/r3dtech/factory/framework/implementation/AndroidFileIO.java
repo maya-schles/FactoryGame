@@ -1,6 +1,8 @@
 package com.r3dtech.factory.framework.implementation;
 
+import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import com.r3dtech.factory.framework.FileIO;
 
@@ -18,19 +20,20 @@ import java.io.OutputStream;
  */
 
 public class AndroidFileIO implements FileIO {
-    private String externalStoragePath;
+    private Context context;
 
-    public AndroidFileIO() {
-        externalStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator;
+    public AndroidFileIO(Context context) {
+        this.context = context;
     }
 
     @Override
     public InputStream readFile(String filename) throws IOException {
-        return new FileInputStream(externalStoragePath+filename);
+        Log.d("FILE_IO", context.getDataDir().getAbsolutePath());
+        return context.openFileInput(filename);
     }
 
     @Override
     public OutputStream writeFile(String filename) throws IOException{
-        return new FileOutputStream(externalStoragePath + filename);
+        return context.openFileOutput(filename, Context.MODE_PRIVATE);
     }
 }

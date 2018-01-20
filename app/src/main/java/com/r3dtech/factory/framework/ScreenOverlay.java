@@ -8,5 +8,4 @@ package com.r3dtech.factory.framework;
 
 public interface ScreenOverlay {
     void paint();
-    void update(int deltaTime);
 }

@@ -1,4 +1,4 @@
-package com.r3dtech.factory.overlay_utils;
+package com.r3dtech.factory.ResourceHarvesting;
 
 /**
  * This interface is for a timer with progress checks.
@@ -6,7 +6,7 @@ package com.r3dtech.factory.overlay_utils;
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 19/01/2018.
  */
 
-public interface LoadingTimerInterface {
+public interface LoadingTimer {
     int getGoalTime();
     void update(int deltaTime);
     float progress();

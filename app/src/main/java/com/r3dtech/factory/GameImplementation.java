@@ -4,6 +4,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.r3dtech.factory.ResourceHarvesting.ManualHarvestingManager;
 import com.r3dtech.factory.framework.ClickCallback;
 import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.framework.ScaleCallback;
@@ -23,7 +24,6 @@ import com.r3dtech.factory.tile_map.implementation.GameMap;
 import java.io.IOException;
 
 
-
 /**
  * The app's main activity.
  */
@@ -31,6 +31,7 @@ public class GameImplementation extends AndroidGame {
     private MapViewDrawable mapView;
     private ResourceLoadingOverlay resourceLoadingOverlay;
     private Inventory inventory = new Inventory();
+    private ManualHarvestingManager harvestingManager = new ManualHarvestingManager(inventory);
 
     private class mScaleCallback implements ScaleCallback {
         @Override
@@ -62,7 +63,7 @@ public class GameImplementation extends AndroidGame {
         try {
             inventory.loadFromFile(getFileIO());
         }
-        catch (IOException e) {
+        catch (Exception e) {
             inventory.increaseAmount(GameItem.STONE, 10);
             //throw new RuntimeException("Couldn't load inventory from file");
         }
@@ -87,7 +88,7 @@ public class GameImplementation extends AndroidGame {
 
     public void update(int deltaTime) {
         mapView.update();
-        getCurrentScreenOverlay().update(deltaTime);
+        harvestingManager.update(deltaTime);
     }
 
     @Override
@@ -107,12 +108,12 @@ public class GameImplementation extends AndroidGame {
 
     @Override
     public ScreenOverlay getInitScreenOverlay() {
-        return new ResourceLoadingOverlay(getFrameBuffer());
+        return new ResourceLoadingOverlay(getFrameBuffer(), harvestingManager);
     }
 
     public void manualHarvestResource(GameItem resource) {
         if (resource != null) {
-            resourceLoadingOverlay.addTimer(resource);
+            harvestingManager.addTimer(resource);
         }
     }
 
@@ -126,5 +127,15 @@ public class GameImplementation extends AndroidGame {
     public void setInventoryScreen() {
         setScreen(new InventoryScreen(getFrameBuffer(), inventory, this));
         setScreenOverlay(new EmptyOverlay());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            inventory.saveToFile(getFileIO());
+        } catch (IOException e) {
+            Log.d("GAME ", "unable to load inventory to file");
+        }
     }
 }

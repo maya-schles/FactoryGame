@@ -2,9 +2,12 @@ package com.r3dtech.factory.inventory;
 
 
 
+import android.util.Log;
+
 import com.r3dtech.factory.framework.FileIO;
 import com.r3dtech.factory.tile_map.TileType;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,7 +35,7 @@ public class Inventory {
     public void loadFromFile(FileIO fileIO) throws IOException {
         InputStream in = fileIO.readFile(INVENTORY_FILE);
         Scanner scanner = new Scanner(in);
-        scanner.useDelimiter("[ :]");
+        scanner.useDelimiter("[:\n]");
         for (int i = 0; i < GameItem.values().length; i++) {
             GameItem item = GameItem.values()[scanner.nextInt()];
             int amount = scanner.nextInt();
@@ -41,14 +44,16 @@ public class Inventory {
         scanner.close();
     }
 
-    public void loadToFIle(FileIO fileIO) throws IOException {
+    public void saveToFile(FileIO fileIO) throws IOException {
         OutputStream out = fileIO.writeFile(INVENTORY_FILE);
         PrintWriter writer = new PrintWriter(out);
         for(int i = 0; i< GameItem.values().length; i++) {
             writer.write(Integer.toString(i));
             writer.write(":");
-            writer.write(Integer.toString(inventory.get(TileType.values()[i])));
+            writer.write(Integer.toString(inventory.get(GameItem.values()[i])));
+            writer.write("\n");
         }
+        writer.close();
     }
 
     public int getAmount(GameItem item) {

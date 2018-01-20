@@ -41,7 +41,7 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
             int deltaTime = (int) (System.currentTimeMillis() - startTime) /10;
             startTime = System.currentTimeMillis();
 
-            deltaTime = Math.min(deltaTime, 3);
+            deltaTime = Math.min(deltaTime, 100);
 
             game.update(deltaTime);
             game.getCurrentScreen().paint();

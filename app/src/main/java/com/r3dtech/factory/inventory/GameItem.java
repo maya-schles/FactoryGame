@@ -25,4 +25,8 @@ public enum GameItem {
     public int toInt() {
         return Arrays.asList(values()).indexOf(this);
     }
+
+    public static GameItem fromInt(int i) {
+        return values()[i];
+    }
 }
