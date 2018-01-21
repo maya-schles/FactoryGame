@@ -154,4 +154,9 @@ public class GameMapSegment implements MapSegment {
     public boolean isLocDiscovered(int x, int y) {
         return map.isLocDiscovered(x + pos.x, y + pos.y);
     }
+
+    @Override
+    public int getSmallDistFromDiscovered(int x, int y) {
+        return map.getSmallDistFromDiscovered(x + topLeftTile().x, y + topLeftTile().y);
+    }
 }

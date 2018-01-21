@@ -35,7 +35,6 @@ public class MapScreen implements GameScreen{
                 0, canvas.getWidth(), INVENTORY_BUTTON_HEIGHT);
     }
 
-
     @Override
     public void paint() {
         mapView.draw(canvas);

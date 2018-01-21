@@ -121,4 +121,18 @@ public class GameMap implements TileMap {
     public boolean isLocDiscovered(int x, int y) {
         return isDiscovered(x/Constants.TILE_SIZE, y/Constants.TILE_SIZE);
     }
+
+    @Override
+    public int getSmallDistFromDiscovered(int x, int y) {
+        for (int i = 0; i < 5; i++) {
+            for (int x0 = x - i; x0 <= x+i; x0++) {
+                for (int y0 = y - i; y0 <= y+i; y0++) {
+                    if (isDiscovered(x0, y0)) {
+                        return i;
+                    }
+                }
+            }
+        }
+        return 5;
+    }
 }

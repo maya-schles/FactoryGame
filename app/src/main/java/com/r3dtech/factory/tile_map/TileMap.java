@@ -20,4 +20,5 @@ public interface TileMap {
     MapTile getTileFromLoc(int x, int y);
     boolean isDiscovered(int x, int y);
     boolean isLocDiscovered(int x, int y);
+    int getSmallDistFromDiscovered(int x, int y);
 }

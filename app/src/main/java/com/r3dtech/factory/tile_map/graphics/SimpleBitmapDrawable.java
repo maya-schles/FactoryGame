@@ -124,12 +124,12 @@ public class SimpleBitmapDrawable extends Drawable{
 
     public static SimpleBitmapDrawable add(SimpleBitmapDrawable a, SimpleBitmapDrawable b, int alpha) {
         int size = a.bitmap[0].length;
-        int maxColors = a.colors.length*b.colors.length;
+        int bColors = b.colors.length;
         int[][] resBitmap = new int[size][size];
-        int[] resColors = new int[maxColors];
+        int[] resColors = new int[bColors*a.colors.length];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                resBitmap[i][j] = a.bitmap[i][j]*maxColors+b.bitmap[i][j];
+                resBitmap[i][j] = a.bitmap[i][j]*bColors+b.bitmap[i][j];
                 resColors[resBitmap[i][j]] = colorOffset(b.colors[b.bitmap[i][j]],
                         a.colors[a.bitmap[i][j]], alpha);
             }

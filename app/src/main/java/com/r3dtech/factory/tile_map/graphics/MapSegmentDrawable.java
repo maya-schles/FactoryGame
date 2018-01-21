@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.r3dtech.factory.Utils;
 import com.r3dtech.factory.tile_map.MapSegment;
@@ -148,15 +149,20 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
                 if (tile == null) {
                     continue;
                 }
-                Drawable drawable;
+                SimpleBitmapDrawable drawable;
                 Rect dstRect = new Rect(x*Constants.TILE_SIZE, y*Constants.TILE_SIZE,
                         (x+1)*Constants.TILE_SIZE, (y+1)*Constants.TILE_SIZE);
                 dstRect.offset(centeredRect.left, centeredRect.top);
                 drawable = drawableCache.getDrawable(tile.tileType().toInt(), tile.getVer());
                 if(!isDiscovered(x, y)) {
-                    SimpleBitmapDrawable FogDrawable = fogDrawables[(Utils.hash(
+                    SimpleBitmapDrawable fogDrawable = fogDrawables[(Utils.hash(
                             x+topLeftTile().x,
                             y+topLeftTile().y))%fogDrawables.length][tile.tileType().toInt()];
+                    if (getSmallDistFromDiscovered(x, y) < 5) {
+                        Log.d("Im here!", "dbug");
+                    }
+                    drawable = SimpleBitmapDrawable.add(fogDrawable, drawable,
+                            (getSmallDistFromDiscovered(x,y)*46));
                 }
                 drawable.setBounds(dstRect);
                 drawable.draw(canvas);
@@ -205,5 +211,10 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
     @Override
     public boolean isLocDiscovered(int x, int y) {
         return mapSegment.isLocDiscovered(x, y);
+    }
+
+    @Override
+    public int getSmallDistFromDiscovered(int x, int y) {
+        return mapSegment.getSmallDistFromDiscovered(x, y);
     }
 }

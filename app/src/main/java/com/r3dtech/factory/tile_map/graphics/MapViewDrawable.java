@@ -190,4 +190,9 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     public Point topLeftTile() {
         return mapSegment.topLeftTile();
     }
+
+    @Override
+    public int getSmallDistFromDiscovered(int x, int y) {
+        return mapSegment.getSmallDistFromDiscovered(x, y);
+    }
 }
