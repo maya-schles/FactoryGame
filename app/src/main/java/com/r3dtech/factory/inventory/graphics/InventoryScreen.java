@@ -41,6 +41,7 @@ public class InventoryScreen implements GameScreen{
     private Inventory inventory;
     private Game game;
     private Paint slotPaint = new Paint();
+    private Paint emptySlotPaint = new Paint();
     private Paint slotOutlinePaint = new Paint();
     private Paint textPaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
     private Paint numPaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
@@ -68,6 +69,7 @@ public class InventoryScreen implements GameScreen{
         numPaint.setTextAlign(Paint.Align.CENTER);
         Typeface numFont = Typeface.createFromAsset(assets, "num_font.ttf");
         numPaint.setTypeface(numFont);
+        emptySlotPaint.setColor(Color.rgb(0xa0, 0xa0, 0xa0));
         slotPaint.setColor(Color.WHITE);
         slotOutlinePaint.setColor(Color.rgb(0x11, 0x11, 0x11));
         slotOutlinePaint.setStyle(Paint.Style.STROKE);
@@ -84,6 +86,8 @@ public class InventoryScreen implements GameScreen{
         canvas.drawRoundRect(new RectF(bounds), bounds.height()/4, bounds.height()/4, slotOutlinePaint);
         if (! isEmpty) {
             canvas.drawRoundRect(new RectF(bounds), bounds.height() / 4, bounds.height() / 4, slotPaint);
+        } else {
+            canvas.drawRoundRect(new RectF(bounds), bounds.height() / 4, bounds.height() / 4, emptySlotPaint);
         }
 
     }

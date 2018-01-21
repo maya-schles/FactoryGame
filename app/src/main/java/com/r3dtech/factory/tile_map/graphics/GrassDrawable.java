@@ -38,7 +38,7 @@ public class GrassDrawable extends SimpleBitmapDrawable {
             {0, 0, 0, 0, 0, 0, 0, 0}};
     private static final int[][][] vers = {ver0, ver1, ver2};
     private static final int[] colors = {Color.rgb(0x45, 0xb5, 0x4f), Color.rgb(0x72, 0xc2, 0x7b)};
-    public GrassDrawable(int ver) {
+    public GrassDrawable(Integer ver) {
         super(vers[ver], colors);
     }
 }

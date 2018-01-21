@@ -1,9 +1,11 @@
 package com.r3dtech.factory.overlay_graphics;
 
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 
 import com.r3dtech.factory.resource_harvesting.ManualHarvestingManager;
 import com.r3dtech.factory.framework.ScreenOverlay;
@@ -28,10 +30,12 @@ public class ResourceLoadingOverlay implements ScreenOverlay {
     private Canvas canvas;
     private Paint numPaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
 
-    public ResourceLoadingOverlay(Bitmap frameBuffer, ManualHarvestingManager harvestingManager) {
+    public ResourceLoadingOverlay(Bitmap frameBuffer, ManualHarvestingManager harvestingManager, AssetManager assets) {
         this.harvestingManager = harvestingManager;
         canvas = new Canvas(frameBuffer);
         drawableCache.load();
+        Typeface numFont = Typeface.createFromAsset(assets, "num_font.ttf");
+        numPaint.setTypeface(numFont);
         numPaint.setTextSize(TIMER_HEIGHT/2);
     }
 

@@ -38,13 +38,13 @@ public class StoneDrawable extends SimpleBitmapDrawable {
             {0, 0, 4, 4, 4, 4, 0, 0}};
     private static final int[][][] vers = {ver0, ver1, ver2};
     private static final int[] colors = {
-            Color.rgb(0x71, 0x71, 0x71),
+            Color.rgb(0x81, 0x81, 0x81),
             Color.rgb( 0x91, 0x91, 0x91),
             Color.rgb(0xb1, 0xb1, 0xb1),
             Color.rgb( 0x51, 0x51, 0x51),
             Color.rgb( 0x31, 0x31, 0x31)};
 
-    public StoneDrawable(int ver) {
+    public StoneDrawable(Integer ver) {
         super(vers[ver], colors);
     }
 }

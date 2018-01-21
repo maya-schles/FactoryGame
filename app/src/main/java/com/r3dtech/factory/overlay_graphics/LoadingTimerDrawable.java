@@ -19,11 +19,13 @@ import com.r3dtech.factory.resource_harvesting.LoadingTimer;
  */
 
 public class LoadingTimerDrawable extends Drawable implements LoadingTimer {
+    private static final int STROKE_WIDTH = 5;
     private LoadingTimer timer;
     private Drawable icon;
     private Rect bounds;
     private Paint barPaint = new Paint();
     private Paint progressPaint = new Paint();
+    private Paint outlinePaint = new Paint();
 
     public LoadingTimerDrawable(Drawable icon, LoadingTimer timer) {
         super();
@@ -31,7 +33,9 @@ public class LoadingTimerDrawable extends Drawable implements LoadingTimer {
         this.icon = icon; // icon must be square!
         barPaint.setColor(Color.WHITE);
         progressPaint.setColor(Color.GREEN);
-
+        outlinePaint.setColor(Color.BLACK);
+        outlinePaint.setStyle(Paint.Style.STROKE);
+        outlinePaint.setStrokeWidth(STROKE_WIDTH);
     }
     @Override
     public void draw(@NonNull Canvas canvas) {
@@ -40,14 +44,21 @@ public class LoadingTimerDrawable extends Drawable implements LoadingTimer {
         icon.setBounds(newIconBounds);
         icon.draw(canvas);
         int barWidth = bounds.width() - bounds.height();
-        RectF barBounds = new RectF(newIconBounds.right, bounds.top, bounds.left + barWidth,
+        Rect barBounds = new Rect(newIconBounds.right, bounds.top, bounds.left + barWidth,
                 bounds.bottom);
+        canvas.drawRect(barBounds, barPaint);
+        Rect progressBounds = new Rect(barBounds.left, barBounds.top,
+                barBounds.left +  (int ) (progress()*barBounds.width()), barBounds.bottom);
+        canvas.drawRect(progressBounds, progressPaint);
+        canvas.drawRect(barBounds, outlinePaint);
+        /*
         int rx = bounds.height()/4;
         int ry = rx;
         canvas.drawRoundRect(barBounds, rx, ry, barPaint);
         RectF progressBounds = new RectF(barBounds.left, barBounds.top,
                 barBounds.left + progress()*barBounds.width(), barBounds.bottom);
         canvas.drawRoundRect(progressBounds, rx, ry, progressPaint);
+        canvas.drawRoundRect(barBounds, rx, ry, outlinePaint);*/
     }
 
     @Override

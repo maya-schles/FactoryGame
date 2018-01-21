@@ -17,19 +17,26 @@ import android.support.annotation.Nullable;
  */
 
 public class SimpleBitmapDrawable extends Drawable{
+    private static final int DEFAULT_ALPHA = 255;
     private int[][] bitmap;
     private Paint[] paints;
     private int size;
 
-    public SimpleBitmapDrawable(int[][] bitmap, int[] colors) {
+    public SimpleBitmapDrawable(int[][] bitmap, int[] colors, int alpha) {
         this.bitmap = bitmap;
         size = bitmap.length;
         paints = new Paint[colors.length];
         for (int i = 0; i < paints.length; i++) {
             paints[i] = new Paint();
             paints[i].setColor(colors[i]);
+            paints[i].setAlpha(alpha);
         }
     }
+
+    public SimpleBitmapDrawable(int[][] bitmap, int[] colors) {
+        this(bitmap, colors, DEFAULT_ALPHA);
+    }
+
     @Override
     public void draw(@NonNull Canvas canvas) {
         Rect bounds = getBounds(); // has to be a square.

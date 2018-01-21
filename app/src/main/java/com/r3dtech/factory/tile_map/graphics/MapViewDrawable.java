@@ -25,11 +25,9 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     private float newScale = scale;
     private Rect bounds;
     private SpaceDrawable space = new SpaceDrawable();
-    private Game game;
 
     public MapViewDrawable(MapSegmentDrawable mapSegment, Game game) {
         this.mapSegment = mapSegment;
-        this.game = game;
     }
 
     public MapViewDrawable(TileMap map, Game game) {
@@ -176,5 +174,20 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     @Override
     public MapTile getTileFromLoc(int x, int y) {
         return mapSegment.getTileFromLoc((int) (x/scale), (int) (y/scale));
+    }
+
+    @Override
+    public boolean isLocDiscovered(int x, int y) {
+        return mapSegment.isLocDiscovered((int)(x/scale), (int) (y/scale));
+    }
+
+    @Override
+    public boolean isDiscovered(int x, int y) {
+        return mapSegment.isDiscovered(x, y);
+    }
+
+    @Override
+    public Point topLeftTile() {
+        return mapSegment.topLeftTile();
     }
 }

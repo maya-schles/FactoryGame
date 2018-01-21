@@ -76,7 +76,8 @@ public class GameMapSegment implements MapSegment {
         setPos(new Point(newPos.x - dx, newPos.y - dy));
     }
 
-    private Point topLeftTile() {
+    @Override
+    public Point topLeftTile() {
         int x = (int) (pos.x - width()/2f)/Constants.TILE_SIZE;
         int y = (int) (pos.y - height()/2f)/Constants.TILE_SIZE;
         return new Point(x, y);
@@ -142,5 +143,15 @@ public class GameMapSegment implements MapSegment {
     @Override
     public MapTile getTileFromLoc(int x, int y) {
         return map.getTileFromLoc(x + pos.x, y + pos.y);
+    }
+
+    @Override
+    public boolean isDiscovered(int x, int y) {
+        return map.isDiscovered(x + topLeftTile().x, y + topLeftTile().y);
+    }
+
+    @Override
+    public boolean isLocDiscovered(int x, int y) {
+        return map.isLocDiscovered(x + pos.x, y + pos.y);
     }
 }

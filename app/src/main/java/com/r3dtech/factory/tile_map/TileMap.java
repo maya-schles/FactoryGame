@@ -18,4 +18,6 @@ public interface TileMap {
     int simulatedHeight();
     int simulatedWidth();
     MapTile getTileFromLoc(int x, int y);
+    boolean isDiscovered(int x, int y);
+    boolean isLocDiscovered(int x, int y);
 }

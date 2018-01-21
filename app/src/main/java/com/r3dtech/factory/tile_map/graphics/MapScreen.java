@@ -50,7 +50,8 @@ public class MapScreen implements GameScreen{
         }
         else {
             MapTile tile = mapView.getTileFromLoc(x - canvas.getWidth()/2, y-canvas.getHeight()/2);
-            if (tile != null) {
+            if (tile != null &&
+                    mapView.isLocDiscovered(x - canvas.getWidth()/2, y-canvas.getHeight()/2)) {
                 ((GameImplementation) game).manualHarvestResource(
                         tile.tileType().getResource());
             }

@@ -27,9 +27,11 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
     private MapSegment mapSegment;
     private Rect bounds;
     private TileDrawableCache drawableCache;
+    private Drawable[] fogDrawables = {new FogDrawable(0), new FogDrawable(1), new FogDrawable(2)};
 
     public MapSegmentDrawable(MapSegment mapSegment) {
         super();
+        Utils.loadHash();
         this.mapSegment = mapSegment;
         drawableCache = new TileDrawableCache();
         drawableCache.load();
@@ -141,8 +143,17 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
                 Rect dstRect = new Rect(x*Constants.TILE_SIZE, y*Constants.TILE_SIZE,
                         (x+1)*Constants.TILE_SIZE, (y+1)*Constants.TILE_SIZE);
                 dstRect.offset(centeredRect.left, centeredRect.top);
-                drawable.setBounds(dstRect);
-                drawable.draw(canvas);
+                if (isDiscovered(x, y)) {
+                    drawable.setBounds(dstRect);
+                    drawable.draw(canvas);
+                } else {
+                    drawable = fogDrawables[(Utils.hash(
+                            x+topLeftTile().x,
+                            y+topLeftTile().y))%fogDrawables.length];
+                    //drawable = drawableCache.getFog();
+                    drawable.setBounds(dstRect);
+                    drawable.draw(canvas);
+                }
             }
         }
     }
@@ -173,5 +184,20 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
     @Override
     public void update() {
         mapSegment.update();
+    }
+
+    @Override
+    public boolean isDiscovered(int x, int y) {
+        return mapSegment.isDiscovered(x, y);
+    }
+
+    @Override
+    public Point topLeftTile() {
+        return mapSegment.topLeftTile();
+    }
+
+    @Override
+    public boolean isLocDiscovered(int x, int y) {
+        return mapSegment.isLocDiscovered(x, y);
     }
 }

@@ -1,5 +1,6 @@
 package com.r3dtech.factory.tile_map.implementation;
 
+
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileType;
 import com.r3dtech.factory.tile_map.TileMap;
@@ -10,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
+
 /**
  * This class represents a tiled map of the game.
  *
@@ -19,6 +21,10 @@ import java.util.Scanner;
 public class GameMap implements TileMap {
     private static final String MAP_FILE = "/res/raw/world.txt";
     private GameTile[][] map = new GameTile[Constants.MAP_HEIGHT][Constants.MAP_WIDTH];
+    private static final int VISIBLE_WIDTH_START = 16;
+    private static final int VISIBLE_HEIGHT_START = 16;
+
+    private boolean[][] isDiscovered = new boolean[Constants.MAP_HEIGHT][Constants.MAP_WIDTH];
 
     public GameMap() throws IOException {
         int height = Constants.MAP_HEIGHT;
@@ -39,6 +45,14 @@ public class GameMap implements TileMap {
         }
         reader.close();
         this.map = GameTile.from2dArr(TileType.fromInt(resArr), vers);
+
+        for (int i = tiledHeight()/2 - VISIBLE_HEIGHT_START/2;
+             i < tiledHeight()/2 + VISIBLE_HEIGHT_START/2; i++) {
+            for (int j = tiledWidth()/2 - VISIBLE_WIDTH_START/2;
+                    j < tiledWidth()/2 + VISIBLE_WIDTH_START/2; j++) {
+                isDiscovered[i][j] = true;
+            }
+        }
     }
 
     @Override
@@ -96,5 +110,15 @@ public class GameMap implements TileMap {
     @Override
     public MapTile getTileFromLoc(int x, int y) {
         return getTile( x/Constants.TILE_SIZE, y/Constants.TILE_SIZE);
+    }
+
+    @Override
+    public boolean isDiscovered(int x, int y) {
+        return isDiscovered[y][x];
+    }
+
+    @Override
+    public boolean isLocDiscovered(int x, int y) {
+        return isDiscovered(x/Constants.TILE_SIZE, y/Constants.TILE_SIZE);
     }
 }

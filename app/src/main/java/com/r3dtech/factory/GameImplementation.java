@@ -109,7 +109,7 @@ public class GameImplementation extends AndroidGame {
 
     @Override
     public ScreenOverlay getInitScreenOverlay() {
-        return new ResourceLoadingOverlay(getFrameBuffer(), harvestingManager);
+        return new ResourceLoadingOverlay(getFrameBuffer(), harvestingManager, getAssets());
     }
 
     public void manualHarvestResource(GameItem resource) {
