@@ -41,4 +41,8 @@ public class GrassDrawable extends SimpleBitmapDrawable {
     public GrassDrawable(Integer ver) {
         super(vers[ver], colors);
     }
+
+    public static int getMainColor() {
+        return colors[0];
+    }
 }

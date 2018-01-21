@@ -27,7 +27,16 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
     private MapSegment mapSegment;
     private Rect bounds;
     private TileDrawableCache drawableCache;
-    private Drawable[] fogDrawables = {new FogDrawable(0), new FogDrawable(1), new FogDrawable(2)};
+    private SimpleBitmapDrawable[][] fogDrawables = {
+            {new FogDrawable(0, GrassDrawable.getMainColor()),
+                    new FogDrawable(1, GrassDrawable.getMainColor()),
+                    new FogDrawable(2, GrassDrawable.getMainColor())},
+            {new FogDrawable(0, GrassDrawable.getMainColor()),
+                    new FogDrawable(1, GrassDrawable.getMainColor()),
+                    new FogDrawable(2, GrassDrawable.getMainColor())},
+            {new FogDrawable(0, StoneDrawable.getMainColor()),
+                    new FogDrawable(1, StoneDrawable.getMainColor()),
+                    new FogDrawable(2, StoneDrawable.getMainColor())}};
 
     public MapSegmentDrawable(MapSegment mapSegment) {
         super();
@@ -139,21 +148,18 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
                 if (tile == null) {
                     continue;
                 }
-                Drawable drawable = drawableCache.getDrawable(tile.tileType().toInt(), tile.getVer());
+                Drawable drawable;
                 Rect dstRect = new Rect(x*Constants.TILE_SIZE, y*Constants.TILE_SIZE,
                         (x+1)*Constants.TILE_SIZE, (y+1)*Constants.TILE_SIZE);
                 dstRect.offset(centeredRect.left, centeredRect.top);
-                if (isDiscovered(x, y)) {
-                    drawable.setBounds(dstRect);
-                    drawable.draw(canvas);
-                } else {
-                    drawable = fogDrawables[(Utils.hash(
+                drawable = drawableCache.getDrawable(tile.tileType().toInt(), tile.getVer());
+                if(!isDiscovered(x, y)) {
+                    SimpleBitmapDrawable FogDrawable = fogDrawables[(Utils.hash(
                             x+topLeftTile().x,
-                            y+topLeftTile().y))%fogDrawables.length];
-                    //drawable = drawableCache.getFog();
-                    drawable.setBounds(dstRect);
-                    drawable.draw(canvas);
+                            y+topLeftTile().y))%fogDrawables.length][tile.tileType().toInt()];
                 }
+                drawable.setBounds(dstRect);
+                drawable.draw(canvas);
             }
         }
     }

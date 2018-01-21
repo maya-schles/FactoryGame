@@ -47,4 +47,8 @@ public class StoneDrawable extends SimpleBitmapDrawable {
     public StoneDrawable(Integer ver) {
         super(vers[ver], colors);
     }
+
+    public static int getMainColor() {
+        return colors[0];
+    }
 }
