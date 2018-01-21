@@ -80,10 +80,10 @@ public class Inventory {
 
     public GameItem getItem(int n) {
         int cnt = 0;
-        for (Map.Entry<GameItem, Integer> entry: inventory.entrySet()) {
-            if (entry.getValue() > 0) {
+        for (GameItem item : GameItem.values()) {
+            if (inventory.get(item) > 0) {
                 if (cnt == n) {
-                    return entry.getKey();
+                    return item;
                 }
                 cnt++;
             }

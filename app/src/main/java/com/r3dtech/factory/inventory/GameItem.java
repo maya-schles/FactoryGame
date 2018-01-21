@@ -11,7 +11,7 @@ import java.util.Arrays;
 public enum GameItem {
     STONE("stone"),
     WOOD("wood"),
-    PLACEHOLDER0("placeholder"),
+    STONE_BRICK("stone_brick"),
     PLACEHOLDER1("placeholder"),
     PLACEHOLDER2("placeholder"),
     PLACEHOLDER3("placeholder"),

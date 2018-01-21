@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 import com.r3dtech.factory.GameImplementation;
 import com.r3dtech.factory.framework.Game;
 import com.r3dtech.factory.framework.GameScreen;
-import com.r3dtech.factory.overlay_graphics.EmptyOverlay;
+import com.r3dtech.factory.resource_harvesting.graphics.EmptyOverlay;
 import com.r3dtech.factory.tile_map.MapTile;
 
 /**

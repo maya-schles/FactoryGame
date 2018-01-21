@@ -114,7 +114,12 @@ public class GameMap implements TileMap {
 
     @Override
     public boolean isDiscovered(int x, int y) {
-        return isDiscovered[y][x];
+        if ( 0<=x  && x < tiledWidth() && 0<=y && y < tiledHeight()) {
+            return isDiscovered[y][x];
+        }
+        else {
+            return false;
+        }
     }
 
     @Override

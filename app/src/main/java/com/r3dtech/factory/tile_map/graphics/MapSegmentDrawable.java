@@ -28,16 +28,9 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
     private MapSegment mapSegment;
     private Rect bounds;
     private TileDrawableCache drawableCache;
-    private SimpleBitmapDrawable[][] fogDrawables = {
-            {new FogDrawable(0, GrassDrawable.getMainColor()),
-                    new FogDrawable(1, GrassDrawable.getMainColor()),
-                    new FogDrawable(2, GrassDrawable.getMainColor())},
-            {new FogDrawable(0, GrassDrawable.getMainColor()),
-                    new FogDrawable(1, GrassDrawable.getMainColor()),
-                    new FogDrawable(2, GrassDrawable.getMainColor())},
-            {new FogDrawable(0, StoneDrawable.getMainColor()),
-                    new FogDrawable(1, StoneDrawable.getMainColor()),
-                    new FogDrawable(2, StoneDrawable.getMainColor())}};
+    private SimpleBitmapDrawable[] fogDrawables = {new FogDrawable(0), new FogDrawable(1), new FogDrawable(2)};
+    private SimpleBitmapDrawable[][][] foggedTiles = new SimpleBitmapDrawable[
+            TileType.values().length][Constants.TILE_VARIETY][5];
 
     public MapSegmentDrawable(MapSegment mapSegment) {
         super();
@@ -45,6 +38,16 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
         this.mapSegment = mapSegment;
         drawableCache = new TileDrawableCache();
         drawableCache.load();
+
+        for (int i = 0; i < TileType.values().length; i++) {
+            for (int j = 0; j < Constants.TILE_VARIETY; j++) {
+                for (int k = 1; k < 6; k++) {
+                    SimpleBitmapDrawable drawable = drawableCache.getDrawable(i, j);
+                    SimpleBitmapDrawable fog = fogDrawables[Math.abs((int) System.currentTimeMillis()%3)];
+                    foggedTiles[i][j][k-1] = SimpleBitmapDrawable.add(fog, drawable, (k*46));
+                }
+            }
+        }
     }
 
     public MapSegmentDrawable(TileMap map) {
@@ -153,16 +156,10 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
                 Rect dstRect = new Rect(x*Constants.TILE_SIZE, y*Constants.TILE_SIZE,
                         (x+1)*Constants.TILE_SIZE, (y+1)*Constants.TILE_SIZE);
                 dstRect.offset(centeredRect.left, centeredRect.top);
-                drawable = drawableCache.getDrawable(tile.tileType().toInt(), tile.getVer());
-                if(!isDiscovered(x, y)) {
-                    SimpleBitmapDrawable fogDrawable = fogDrawables[(Utils.hash(
-                            x+topLeftTile().x,
-                            y+topLeftTile().y))%fogDrawables.length][tile.tileType().toInt()];
-                    if (getSmallDistFromDiscovered(x, y) < 5) {
-                        Log.d("Im here!", "dbug");
-                    }
-                    drawable = SimpleBitmapDrawable.add(fogDrawable, drawable,
-                            (getSmallDistFromDiscovered(x,y)*46));
+                if (isDiscovered(x, y)) {
+                    drawable = drawableCache.getDrawable(tile.tileType().toInt(), tile.getVer());
+                } else  {
+                    drawable = foggedTiles[tile.tileType().toInt()][tile.getVer()][getSmallDistFromDiscovered(x, y)-1];
                 }
                 drawable.setBounds(dstRect);
                 drawable.draw(canvas);

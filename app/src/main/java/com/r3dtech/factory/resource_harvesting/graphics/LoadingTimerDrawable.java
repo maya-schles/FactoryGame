@@ -1,4 +1,4 @@
-package com.r3dtech.factory.overlay_graphics;
+package com.r3dtech.factory.resource_harvesting.graphics;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

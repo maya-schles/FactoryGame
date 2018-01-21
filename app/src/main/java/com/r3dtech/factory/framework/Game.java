@@ -24,4 +24,5 @@ public interface Game {
     FileIO getFileIO();
     void setMainScreen();
     void setInventoryScreen();
+    void setCraftingScreen();
 }

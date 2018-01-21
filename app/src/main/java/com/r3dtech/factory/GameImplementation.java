@@ -4,6 +4,9 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.r3dtech.factory.crafting.RecipePool;
+import com.r3dtech.factory.crafting.graphics.CraftingScreen;
+import com.r3dtech.factory.crafting.implementation.AndroidRecipePool;
 import com.r3dtech.factory.resource_harvesting.ManualHarvestingManager;
 import com.r3dtech.factory.framework.ClickCallback;
 import com.r3dtech.factory.framework.GameScreen;
@@ -16,8 +19,8 @@ import com.r3dtech.factory.inventory.Inventory;
 import com.r3dtech.factory.inventory.graphics.InventoryScreen;
 import com.r3dtech.factory.tile_map.graphics.MapScreen;
 import com.r3dtech.factory.tile_map.graphics.MapViewDrawable;
-import com.r3dtech.factory.overlay_graphics.EmptyOverlay;
-import com.r3dtech.factory.overlay_graphics.ResourceLoadingOverlay;
+import com.r3dtech.factory.resource_harvesting.graphics.EmptyOverlay;
+import com.r3dtech.factory.resource_harvesting.graphics.ResourceLoadingOverlay;
 import com.r3dtech.factory.tile_map.TileMap;
 import com.r3dtech.factory.tile_map.implementation.GameMap;
 
@@ -32,6 +35,7 @@ public class GameImplementation extends AndroidGame {
     private ResourceLoadingOverlay resourceLoadingOverlay;
     private Inventory inventory = new Inventory();
     private ManualHarvestingManager harvestingManager = new ManualHarvestingManager(inventory);
+    private RecipePool recipePool;
 
     private class mScaleCallback implements ScaleCallback {
         @Override
@@ -57,6 +61,7 @@ public class GameImplementation extends AndroidGame {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        recipePool = new AndroidRecipePool();
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getRealSize(size);
         resourceLoadingOverlay = (ResourceLoadingOverlay) getCurrentScreenOverlay();
@@ -138,5 +143,11 @@ public class GameImplementation extends AndroidGame {
         } catch (IOException e) {
             Log.d("GAME ", "unable to load inventory to file");
         }
+    }
+
+    @Override
+    public void setCraftingScreen() {
+        setScreen(new CraftingScreen(getFrameBuffer(), inventory, this, getAssets()));
+        setScreenOverlay(new EmptyOverlay());
     }
 }

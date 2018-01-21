@@ -15,6 +15,7 @@ import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.inventory.GameItem;
 import com.r3dtech.factory.inventory.GameItemDrawableCache;
 import com.r3dtech.factory.inventory.Inventory;
+import com.r3dtech.factory.overlay_graphics.MenuButton;
 
 /**
  * This class is used as a screen for the inventory;
@@ -29,12 +30,12 @@ public class InventoryScreen implements GameScreen{
     private static final int TEXT_BOT_DIST = 16;
     private static final int LEFT_DIST = 32;
     private static final int SLOT_SIZE = 160;
-    private static final int TITLE_TEXT_SIZE = 64;
-    private static final int TITLE_LEFT_DIST = 16;
     private static final int MAP_BUTTON_WIDTH = 128;
     private static final int MAP_BUTTON_HEIGHT = 128;
     private static final int MAP_BUTTON_RIGHT_DIST = 16;
     private static final int SLOT_OUTLINE_WIDTH = 8;
+    private static final int BUTTON_WIDTH = 384;
+    private static final int BUTTON_HEIGHT = 96;
     private Rect[][] bounds;
     private Canvas canvas;
     private GameItemDrawableCache drawableCache = new GameItemDrawableCache();
@@ -43,13 +44,19 @@ public class InventoryScreen implements GameScreen{
     private Paint slotPaint = new Paint();
     private Paint emptySlotPaint = new Paint();
     private Paint slotOutlinePaint = new Paint();
-    private Paint textPaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
+    private Drawable inventoryButton;
+    private Drawable craftingButton;
     private Paint numPaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
     private Drawable mapButtom;
 
     public InventoryScreen(Bitmap frameBuffer, Inventory inventory, Game game, AssetManager assets) {
         this.game = game;
-
+        inventoryButton = new MenuButton("Inventory", true, assets);
+        Rect buttonBounds = new Rect(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT);
+        inventoryButton.setBounds(buttonBounds);
+        craftingButton = new MenuButton("Crafting", false, assets);
+        buttonBounds.offset(BUTTON_WIDTH, 0);
+        craftingButton.setBounds(buttonBounds);
         this.inventory = inventory;
         canvas = new Canvas(frameBuffer);
         bounds = new Rect[(int) Math.ceil(GameItem.values().length/(float) SLOTS_PER_ROW)][SLOTS_PER_ROW];
@@ -60,10 +67,6 @@ public class InventoryScreen implements GameScreen{
             int top = SLOT_BEGIN_TOP+row*(TOP_DIST+SLOT_SIZE);
             bounds[row][col] = new Rect(left, top, left+SLOT_SIZE, top+SLOT_SIZE);
         }
-        textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(TITLE_TEXT_SIZE);
-        Typeface textFont = Typeface.createFromAsset(assets, "text_font.ttf");
-        textPaint.setTypeface(textFont);
         numPaint.setColor(Color.BLACK);
         numPaint.setTextSize(TOP_DIST- TEXT_BOT_DIST);
         numPaint.setTextAlign(Paint.Align.CENTER);
@@ -94,7 +97,8 @@ public class InventoryScreen implements GameScreen{
     @Override
     public void paint() {
         canvas.drawColor(Color.GRAY);
-        canvas.drawText("Inventory", TITLE_LEFT_DIST, textPaint.getTextSize(), textPaint);
+        inventoryButton.draw(canvas);
+        craftingButton.draw(canvas);
         for (int i = 0; i < GameItem.values().length; i++) {
             int row = i/SLOTS_PER_ROW;
             int col = i%SLOTS_PER_ROW;
@@ -117,6 +121,9 @@ public class InventoryScreen implements GameScreen{
     public void onClick(int x, int y) {
         if (mapButtom.getBounds().contains(x, y)) {
             game.setMainScreen();
+        }
+        if (craftingButton.getBounds().contains(x, y)) {
+            game.setCraftingScreen();
         }
     }
 }
