@@ -1,6 +1,8 @@
 package com.r3dtech.factory.tile_map;
 
 
+import com.r3dtech.factory.Machines.Machine;
+
 /**
  * A tile interface for a tiled map game.
  *
@@ -11,4 +13,6 @@ public interface MapTile {
     TileType tileType();
     void setTileType(TileType tileType);
     int getVer();
+    Machine getMachine();
+    void setMachine(Machine machine);
 }

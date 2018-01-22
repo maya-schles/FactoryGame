@@ -2,6 +2,7 @@ package com.r3dtech.factory.tile_map.implementation;
 
 import android.graphics.Point;
 
+import com.r3dtech.factory.Machines.Machine;
 import com.r3dtech.factory.tile_map.MapSegment;
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileMap;
@@ -159,5 +160,10 @@ public class GameMapSegment implements MapSegment {
     @Override
     public int getSmallDistFromDiscovered(int x, int y) {
         return map.getSmallDistFromDiscovered(x + topLeftTile().x, y + topLeftTile().y);
+    }
+
+    @Override
+    public void addMachine(int x, int y, Machine machine) {
+        map.addMachine(x + topLeftTile().x, y + topLeftTile().y, machine);
     }
 }

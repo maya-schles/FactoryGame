@@ -3,6 +3,8 @@ package com.r3dtech.factory.tile_map.implementation;
 
 import android.graphics.Point;
 
+import com.r3dtech.factory.Machines.Machine;
+import com.r3dtech.factory.framework.FileIO;
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileType;
 import com.r3dtech.factory.tile_map.TileMap;
@@ -11,6 +13,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 
@@ -22,6 +28,8 @@ import java.util.Scanner;
 
 public class GameMap implements TileMap {
     private static final String MAP_FILE = "/res/raw/world.txt";
+    private static final String MACHINES_FILE = "machines.txt";
+
     private GameTile[][] map = new GameTile[Constants.MAP_HEIGHT][Constants.MAP_WIDTH];
     private static final int VISIBLE_WIDTH_START = 16;
     private static final int VISIBLE_HEIGHT_START = 16;
@@ -141,5 +149,36 @@ public class GameMap implements TileMap {
             }
         }
         return 5;
+    }
+
+
+    public void loadMachines(FileIO fileIO) throws IOException, ClassNotFoundException {
+        Scanner scanner = new Scanner(fileIO.readFile(MACHINES_FILE));
+        while(scanner.hasNextLine()) {
+            int i = scanner.nextInt();
+            int j = scanner.nextInt();
+            Machine machine = Machine.loadFromString(scanner.nextLine());
+            map[i][j].setMachine(machine);
+        }
+        scanner.close();
+    }
+
+    public void saveMachines(FileIO fileIO) throws IOException {
+        PrintWriter writer = new PrintWriter(fileIO.writeFile(MACHINES_FILE));
+        for (int i = 0; i < tiledHeight(); i++) {
+            for (int j = 0; j < tiledWidth(); j++) {
+                if (map[i][j].getMachine() != null) {
+                    writer.write(Integer.toString(i)+" "+j+" ");
+                    writer.write(map[i][j].getMachine().saveToString());
+                }
+                writer.write("\n");
+            }
+        }
+        writer.close();
+    }
+
+    @Override
+    public void addMachine(int x, int y, Machine machine) {
+        map[y][x].setMachine(machine);
     }
 }

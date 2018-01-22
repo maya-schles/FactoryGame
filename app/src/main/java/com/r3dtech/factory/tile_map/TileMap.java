@@ -2,8 +2,7 @@ package com.r3dtech.factory.tile_map;
 
 import android.graphics.Point;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import com.r3dtech.factory.Machines.Machine;
 
 /**
  * An interface for a tiled game map.
@@ -23,4 +22,5 @@ public interface TileMap {
     boolean isLocDiscovered(int x, int y);
     int getSmallDistFromDiscovered(int x, int y);
     Point getTileFromLoc(int x, int y);
+    void addMachine(int x, int y, Machine machine);
 }

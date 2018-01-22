@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.r3dtech.factory.Machines.Machine;
 import com.r3dtech.factory.framework.Game;
 import com.r3dtech.factory.tile_map.MapSegment;
 import com.r3dtech.factory.tile_map.MapTile;
@@ -194,5 +195,10 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     @Override
     public int getSmallDistFromDiscovered(int x, int y) {
         return mapSegment.getSmallDistFromDiscovered(x, y);
+    }
+
+    @Override
+    public void addMachine(int x, int y, Machine machine) {
+        mapSegment.addMachine(x, y, machine);
     }
 }

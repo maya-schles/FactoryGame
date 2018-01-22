@@ -31,6 +31,8 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        fileIO = new AndroidFileIO(this);
+
         frameBuffer = Bitmap.createBitmap(1080, 1920, Bitmap.Config.RGB_565);
         screen = getInitScreen();
         screenOverlay = getInitScreenOverlay();
@@ -42,7 +44,6 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
         input.setScaleCallback(getScaleCallback());
         input.setScrollCallback(getScrollCalback());
 
-        fileIO = new AndroidFileIO(this);
     }
 
     @Override

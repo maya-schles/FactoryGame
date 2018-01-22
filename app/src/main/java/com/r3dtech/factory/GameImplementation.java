@@ -4,6 +4,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.r3dtech.factory.Machines.implementation.StoneFurnace;
 import com.r3dtech.factory.crafting.CraftingManager;
 import com.r3dtech.factory.crafting.Recipe;
 import com.r3dtech.factory.crafting.graphics.CraftingScreen;
@@ -36,6 +37,7 @@ public class GameImplementation extends AndroidGame {
     private Inventory inventory = new Inventory();
     private ManualHarvestingManager harvestingManager = new ManualHarvestingManager(inventory);
     private CraftingManager craftingManager;
+    private GameMap map;
 
     private class mScaleCallback implements ScaleCallback {
         @Override
@@ -74,13 +76,17 @@ public class GameImplementation extends AndroidGame {
     }
 
     private TileMap createMap() {
-        TileMap map;
         try {
             map = new GameMap();
         }catch (IOException e) {
             throw new RuntimeException("Map file not found");
         }
         Log.d("WORLD MAP:", map.toString());
+        try {
+            map.loadMachines(getFileIO());
+        } catch (Exception e) {
+            Log.d("MAP_CREATION", "Failed to load machines.");
+        }
         return map;
     }
     @Override
@@ -142,6 +148,11 @@ public class GameImplementation extends AndroidGame {
             inventory.saveToFile(getFileIO());
         } catch (IOException e) {
             Log.d("GAME ", "unable to load inventory to file");
+        }
+        try {
+            map.saveMachines(getFileIO());
+        } catch (IOException e) {
+            Log.d("MACHINE_SAVE", "Failed to save machines to file");
         }
     }
 

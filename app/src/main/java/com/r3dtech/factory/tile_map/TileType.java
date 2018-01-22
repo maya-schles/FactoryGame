@@ -26,6 +26,7 @@ public enum TileType {
     public String getName() {
         return name;
     }
+
     public static TileType fromInt(int i) {
         return values()[i];
     }

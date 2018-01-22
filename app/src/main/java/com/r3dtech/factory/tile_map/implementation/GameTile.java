@@ -1,6 +1,7 @@
 package com.r3dtech.factory.tile_map.implementation;
 
 
+import com.r3dtech.factory.Machines.Machine;
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileType;
 
@@ -13,6 +14,7 @@ import com.r3dtech.factory.tile_map.TileType;
 public class GameTile implements MapTile {
     private TileType tileType;
     private int ver;
+    private Machine machine = null;
 
     public GameTile(TileType tileType, int ver) {
         super();
@@ -50,5 +52,15 @@ public class GameTile implements MapTile {
     @Override
     public int getVer() {
         return ver;
+    }
+
+    @Override
+    public Machine getMachine() {
+        return machine;
+    }
+
+    @Override
+    public void setMachine(Machine machine) {
+        this.machine = machine;
     }
 }

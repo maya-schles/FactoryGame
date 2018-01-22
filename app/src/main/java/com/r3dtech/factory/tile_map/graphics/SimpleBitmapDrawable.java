@@ -100,9 +100,11 @@ public class SimpleBitmapDrawable extends Drawable{
         int rect_size = bounds.height()/size;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                Rect rect = new Rect(i*rect_size, j*rect_size, (i+1)*rect_size, (j+1)*rect_size);
-                rect.offset(bounds.left, bounds.top);
-                canvas.drawRect(rect, paints[bitmap[j][i]]);
+                if(bitmap[j][i] < paints.length) {
+                    Rect rect = new Rect(i * rect_size, j * rect_size, (i + 1) * rect_size, (j + 1) * rect_size);
+                    rect.offset(bounds.left, bounds.top);
+                    canvas.drawRect(rect, paints[bitmap[j][i]]);
+                }
             }
         }
     }

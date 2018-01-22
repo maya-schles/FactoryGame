@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.r3dtech.factory.Machines.Machine;
+import com.r3dtech.factory.Machines.graphics.MachineDrawableCache;
 import com.r3dtech.factory.Utils;
 import com.r3dtech.factory.tile_map.MapSegment;
 import com.r3dtech.factory.tile_map.MapTile;
@@ -27,7 +29,8 @@ import com.r3dtech.factory.tile_map.implementation.GameMapSegment;
 public class MapSegmentDrawable extends Drawable implements MapSegment {
     private MapSegment mapSegment;
     private Rect bounds;
-    private TileDrawableCache drawableCache;
+    private TileDrawableCache drawableCache = new TileDrawableCache();
+    private MachineDrawableCache machineDrawableCache = new MachineDrawableCache();
     private SimpleBitmapDrawable[] fogDrawables = {new FogDrawable(0), new FogDrawable(1), new FogDrawable(2)};
     private SimpleBitmapDrawable[][][] foggedTiles = new SimpleBitmapDrawable[
             TileType.values().length][Constants.TILE_VARIETY][5];
@@ -36,8 +39,8 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
         super();
         Utils.loadHash();
         this.mapSegment = mapSegment;
-        drawableCache = new TileDrawableCache();
         drawableCache.load();
+        machineDrawableCache.load();
 
         for (int i = 0; i < TileType.values().length; i++) {
             for (int j = 0; j < Constants.TILE_VARIETY; j++) {
@@ -163,6 +166,12 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
                 }
                 drawable.setBounds(dstRect);
                 drawable.draw(canvas);
+
+                if (tile.getMachine() != null) {
+                    Drawable machineDrawable = machineDrawableCache.getDrawable(tile.getMachine().getType().toInt());
+                    machineDrawable.setBounds(dstRect);
+                    machineDrawable.draw(canvas);
+                }
             }
         }
     }
@@ -213,5 +222,10 @@ public class MapSegmentDrawable extends Drawable implements MapSegment {
     @Override
     public int getSmallDistFromDiscovered(int x, int y) {
         return mapSegment.getSmallDistFromDiscovered(x, y);
+    }
+
+    @Override
+    public void addMachine(int x, int y, Machine machine) {
+        mapSegment.addMachine(x, y, machine);
     }
 }
