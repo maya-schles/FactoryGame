@@ -2,6 +2,7 @@ package com.r3dtech.factory.crafting.implementation;
 
 
 
+import android.support.annotation.NonNull;
 import android.util.Pair;
 
 import com.r3dtech.factory.crafting.Recipe;
@@ -9,6 +10,8 @@ import com.r3dtech.factory.crafting.RecipePool;
 import com.r3dtech.factory.inventory.GameItem;
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -23,7 +26,7 @@ public class AndroidRecipePool implements RecipePool {
     public AndroidRecipePool() {
         InputStream in = this.getClass().getResourceAsStream(RECIPES_FILE);
         Scanner scanner = new Scanner(in);
-        Recipe[] recipes = new Recipe[scanner.nextInt()];
+        recipes = new Recipe[scanner.nextInt()];
         scanner.nextLine();
         for (int i = 0; i < recipes.length; i++) {
             String line = scanner.nextLine();
@@ -45,8 +48,15 @@ public class AndroidRecipePool implements RecipePool {
     public AndroidRecipePool(Recipe[] recipes) {
         this.recipes = recipes;
     }
+
     @Override
     public Recipe[] getRecipes() {
         return recipes;
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Recipe> iterator() {
+        return Arrays.asList(recipes).iterator();
     }
 }

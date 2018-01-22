@@ -172,7 +172,7 @@ public class MapViewDrawable extends Drawable implements MapSegment{
     }
 
     @Override
-    public MapTile getTileFromLoc(int x, int y) {
+    public Point getTileFromLoc(int x, int y) {
         return mapSegment.getTileFromLoc((int) (x/scale), (int) (y/scale));
     }
 

@@ -1,6 +1,8 @@
 package com.r3dtech.factory.tile_map.implementation;
 
 
+import android.graphics.Point;
+
 import com.r3dtech.factory.tile_map.MapTile;
 import com.r3dtech.factory.tile_map.TileType;
 import com.r3dtech.factory.tile_map.TileMap;
@@ -108,8 +110,8 @@ public class GameMap implements TileMap {
     }
 
     @Override
-    public MapTile getTileFromLoc(int x, int y) {
-        return getTile( x/Constants.TILE_SIZE, y/Constants.TILE_SIZE);
+    public Point getTileFromLoc(int x, int y) {
+        return new Point( x/Constants.TILE_SIZE, y/Constants.TILE_SIZE);
     }
 
     @Override

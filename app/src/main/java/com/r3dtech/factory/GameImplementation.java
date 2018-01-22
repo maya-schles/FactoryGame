@@ -4,9 +4,11 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.r3dtech.factory.crafting.RecipePool;
+import com.r3dtech.factory.crafting.CraftingManager;
+import com.r3dtech.factory.crafting.Recipe;
 import com.r3dtech.factory.crafting.graphics.CraftingScreen;
-import com.r3dtech.factory.crafting.implementation.AndroidRecipePool;
+import com.r3dtech.factory.crafting.graphics.RecipeScreen;
+import com.r3dtech.factory.crafting.implementation.CraftingManagerImplementation;
 import com.r3dtech.factory.resource_harvesting.ManualHarvestingManager;
 import com.r3dtech.factory.framework.ClickCallback;
 import com.r3dtech.factory.framework.GameScreen;
@@ -19,8 +21,7 @@ import com.r3dtech.factory.inventory.Inventory;
 import com.r3dtech.factory.inventory.graphics.InventoryScreen;
 import com.r3dtech.factory.tile_map.graphics.MapScreen;
 import com.r3dtech.factory.tile_map.graphics.MapViewDrawable;
-import com.r3dtech.factory.resource_harvesting.graphics.EmptyOverlay;
-import com.r3dtech.factory.resource_harvesting.graphics.ResourceLoadingOverlay;
+import com.r3dtech.factory.loading_timers.graphics.LoadingTimersOverlay;
 import com.r3dtech.factory.tile_map.TileMap;
 import com.r3dtech.factory.tile_map.implementation.GameMap;
 
@@ -32,10 +33,9 @@ import java.io.IOException;
  */
 public class GameImplementation extends AndroidGame {
     private MapViewDrawable mapView;
-    private ResourceLoadingOverlay resourceLoadingOverlay;
     private Inventory inventory = new Inventory();
     private ManualHarvestingManager harvestingManager = new ManualHarvestingManager(inventory);
-    private RecipePool recipePool;
+    private CraftingManager craftingManager;
 
     private class mScaleCallback implements ScaleCallback {
         @Override
@@ -61,10 +61,8 @@ public class GameImplementation extends AndroidGame {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        recipePool = new AndroidRecipePool();
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getRealSize(size);
-        resourceLoadingOverlay = (ResourceLoadingOverlay) getCurrentScreenOverlay();
         try {
             inventory.loadFromFile(getFileIO());
         }
@@ -72,6 +70,8 @@ public class GameImplementation extends AndroidGame {
             inventory.increaseAmount(GameItem.STONE, 10);
             //throw new RuntimeException("Couldn't load inventory from file");
         }
+        craftingManager = new CraftingManagerImplementation(inventory);
+        inventory.clear();
     }
 
     private TileMap createMap() {
@@ -95,6 +95,7 @@ public class GameImplementation extends AndroidGame {
     public void update(float deltaTime) {
         mapView.update();
         harvestingManager.update(deltaTime);
+        craftingManager.update(deltaTime);
     }
 
     @Override
@@ -114,7 +115,7 @@ public class GameImplementation extends AndroidGame {
 
     @Override
     public ScreenOverlay getInitScreenOverlay() {
-        return new ResourceLoadingOverlay(getFrameBuffer(), harvestingManager, getAssets());
+        return new LoadingTimersOverlay(getFrameBuffer(), harvestingManager, getAssets());
     }
 
     public void manualHarvestResource(GameItem resource) {
@@ -126,13 +127,13 @@ public class GameImplementation extends AndroidGame {
     @Override
     public void setMainScreen() {
         setScreen(new MapScreen(mapView, getFrameBuffer(), this));
-        setScreenOverlay(resourceLoadingOverlay);
+        setScreenOverlay(new LoadingTimersOverlay(getFrameBuffer(), harvestingManager, getAssets()));
     }
 
     @Override
     public void setInventoryScreen() {
         setScreen(new InventoryScreen(getFrameBuffer(), inventory, this, getAssets()));
-        setScreenOverlay(new EmptyOverlay());
+        setScreenOverlay(new LoadingTimersOverlay(getFrameBuffer(), craftingManager, getAssets()));
     }
 
     @Override
@@ -147,7 +148,13 @@ public class GameImplementation extends AndroidGame {
 
     @Override
     public void setCraftingScreen() {
-        setScreen(new CraftingScreen(getFrameBuffer(), inventory, this, getAssets()));
-        setScreenOverlay(new EmptyOverlay());
+        setScreen(new CraftingScreen(getFrameBuffer(), this, getAssets(), craftingManager));
+        setScreenOverlay(new LoadingTimersOverlay(getFrameBuffer(), craftingManager, getAssets()));
+    }
+
+    @Override
+    public void setRecipeScreen(Recipe recipe) {
+        setScreen(new RecipeScreen(getFrameBuffer(), this, getAssets(), craftingManager, recipe));
+        setScreenOverlay(new LoadingTimersOverlay(getFrameBuffer(), craftingManager, getAssets()));
     }
 }

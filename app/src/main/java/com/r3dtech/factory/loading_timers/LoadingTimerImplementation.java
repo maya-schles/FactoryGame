@@ -1,4 +1,4 @@
-package com.r3dtech.factory.resource_harvesting;
+package com.r3dtech.factory.loading_timers;
 
 /**
  * This class serves as a timer with progress checks.

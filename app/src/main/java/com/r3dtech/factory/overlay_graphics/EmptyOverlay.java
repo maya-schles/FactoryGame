@@ -1,4 +1,4 @@
-package com.r3dtech.factory.resource_harvesting.graphics;
+package com.r3dtech.factory.overlay_graphics;
 
 import com.r3dtech.factory.framework.ScreenOverlay;
 

@@ -68,6 +68,10 @@ public class Inventory {
         setAmount(item, getAmount(item)+amountToAdd);
     }
 
+    public void decreaseAmount(GameItem item, int amountToSub) {
+        setAmount(item, getAmount(item)-amountToSub);
+    }
+
     public int getItemNum() {
         int cnt = 0;
         for (int num : inventory.values()) {
@@ -89,5 +93,15 @@ public class Inventory {
             }
         }
         return null;
+    }
+
+    public boolean contains(GameItem item, Integer amount) {
+        return inventory.get(item) >= amount;
+    }
+
+    public void clear() {
+        for (GameItem item: GameItem.values()) {
+            setAmount(item, 0);
+        }
     }
 }

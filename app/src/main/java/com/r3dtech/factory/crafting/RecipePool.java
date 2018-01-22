@@ -7,6 +7,6 @@ package com.r3dtech.factory.crafting;
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 21/01/2018.
  */
 
-public interface RecipePool {
+public interface RecipePool extends Iterable<Recipe>{
     Recipe[] getRecipes();
 }

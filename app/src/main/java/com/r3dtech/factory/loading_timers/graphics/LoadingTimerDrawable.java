@@ -1,4 +1,4 @@
-package com.r3dtech.factory.resource_harvesting.graphics;
+package com.r3dtech.factory.loading_timers.graphics;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -6,12 +6,11 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.r3dtech.factory.resource_harvesting.LoadingTimer;
+import com.r3dtech.factory.loading_timers.LoadingTimer;
 
 /**
  * This class is a drawable loading timer.
@@ -51,14 +50,6 @@ public class LoadingTimerDrawable extends Drawable implements LoadingTimer {
                 barBounds.left +  (int ) (progress()*barBounds.width()), barBounds.bottom);
         canvas.drawRect(progressBounds, progressPaint);
         canvas.drawRect(barBounds, outlinePaint);
-        /*
-        int rx = bounds.height()/4;
-        int ry = rx;
-        canvas.drawRoundRect(barBounds, rx, ry, barPaint);
-        RectF progressBounds = new RectF(barBounds.left, barBounds.top,
-                barBounds.left + progress()*barBounds.width(), barBounds.bottom);
-        canvas.drawRoundRect(progressBounds, rx, ry, progressPaint);
-        canvas.drawRoundRect(barBounds, rx, ry, outlinePaint);*/
     }
 
     @Override

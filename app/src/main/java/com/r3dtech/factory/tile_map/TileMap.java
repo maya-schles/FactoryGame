@@ -1,5 +1,7 @@
 package com.r3dtech.factory.tile_map;
 
+import android.graphics.Point;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -17,8 +19,8 @@ public interface TileMap {
     int tiledWidth();
     int simulatedHeight();
     int simulatedWidth();
-    MapTile getTileFromLoc(int x, int y);
     boolean isDiscovered(int x, int y);
     boolean isLocDiscovered(int x, int y);
     int getSmallDistFromDiscovered(int x, int y);
+    Point getTileFromLoc(int x, int y);
 }

@@ -1,4 +1,4 @@
-package com.r3dtech.factory.overlay_graphics;
+package com.r3dtech.factory.inventory.graphics;
 
 import android.content.res.AssetManager;
 import android.graphics.Canvas;

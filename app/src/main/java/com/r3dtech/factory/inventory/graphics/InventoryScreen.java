@@ -2,20 +2,15 @@ package com.r3dtech.factory.inventory.graphics;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 
 import com.r3dtech.factory.framework.Game;
-import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.inventory.GameItem;
-import com.r3dtech.factory.inventory.GameItemDrawableCache;
 import com.r3dtech.factory.inventory.Inventory;
-import com.r3dtech.factory.overlay_graphics.MenuButton;
 
 /**
  * This class is used as a screen for the inventory;
@@ -23,107 +18,30 @@ import com.r3dtech.factory.overlay_graphics.MenuButton;
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 19/01/2018.
  */
 
-public class InventoryScreen implements GameScreen{
-    private static final int SLOT_BEGIN_TOP = 128;
-    private static final int SLOTS_PER_ROW = 5;
-    private static final int TOP_DIST = 64;
-    private static final int TEXT_BOT_DIST = 16;
-    private static final int LEFT_DIST = 32;
-    private static final int SLOT_SIZE = 160;
-    private static final int MAP_BUTTON_WIDTH = 128;
-    private static final int MAP_BUTTON_HEIGHT = 128;
-    private static final int MAP_BUTTON_RIGHT_DIST = 16;
-    private static final int SLOT_OUTLINE_WIDTH = 8;
-    private static final int BUTTON_WIDTH = 384;
-    private static final int BUTTON_HEIGHT = 96;
+public class InventoryScreen extends InventoryMenuScreen{
     private Rect[][] bounds;
-    private Canvas canvas;
-    private GameItemDrawableCache drawableCache = new GameItemDrawableCache();
     private Inventory inventory;
-    private Game game;
-    private Paint slotPaint = new Paint();
-    private Paint emptySlotPaint = new Paint();
-    private Paint slotOutlinePaint = new Paint();
-    private Drawable inventoryButton;
-    private Drawable craftingButton;
-    private Paint numPaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
-    private Drawable mapButtom;
+
 
     public InventoryScreen(Bitmap frameBuffer, Inventory inventory, Game game, AssetManager assets) {
+        super(frameBuffer, game, assets, Tab.INVENTORY);
         this.game = game;
-        inventoryButton = new MenuButton("Inventory", true, assets);
-        Rect buttonBounds = new Rect(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT);
-        inventoryButton.setBounds(buttonBounds);
-        craftingButton = new MenuButton("Crafting", false, assets);
-        buttonBounds.offset(BUTTON_WIDTH, 0);
-        craftingButton.setBounds(buttonBounds);
         this.inventory = inventory;
-        canvas = new Canvas(frameBuffer);
         bounds = new Rect[(int) Math.ceil(GameItem.values().length/(float) SLOTS_PER_ROW)][SLOTS_PER_ROW];
-        for (int i = 0; i < GameItem.values().length; i++) {
-            int row = i/SLOTS_PER_ROW;
-            int col = i%SLOTS_PER_ROW;
-            int left = col*(LEFT_DIST+SLOT_SIZE) + LEFT_DIST;
-            int top = SLOT_BEGIN_TOP+row*(TOP_DIST+SLOT_SIZE);
-            bounds[row][col] = new Rect(left, top, left+SLOT_SIZE, top+SLOT_SIZE);
-        }
-        numPaint.setColor(Color.BLACK);
-        numPaint.setTextSize(TOP_DIST- TEXT_BOT_DIST);
-        numPaint.setTextAlign(Paint.Align.CENTER);
-        Typeface numFont = Typeface.createFromAsset(assets, "num_font.ttf");
-        numPaint.setTypeface(numFont);
-        emptySlotPaint.setColor(Color.rgb(0xa0, 0xa0, 0xa0));
-        slotPaint.setColor(Color.WHITE);
-        slotOutlinePaint.setColor(Color.rgb(0x11, 0x11, 0x11));
-        slotOutlinePaint.setStyle(Paint.Style.STROKE);
-        slotOutlinePaint.setStrokeWidth(SLOT_OUTLINE_WIDTH);
-        drawableCache.load();
-
-        mapButtom = Drawable.createFromStream(this.getClass().
-                getResourceAsStream("/res/drawable/map_icon.jpg"), "src");
-        mapButtom.setBounds(canvas.getWidth()-MAP_BUTTON_WIDTH-MAP_BUTTON_RIGHT_DIST,
-                0, canvas.getWidth()-MAP_BUTTON_RIGHT_DIST, MAP_BUTTON_HEIGHT);
+        bounds = generateBounds(FIRST_SLOT, GameItem.values().length);
     }
 
-    private void drawSlot(Rect bounds, boolean isEmpty) {
-        canvas.drawRoundRect(new RectF(bounds), bounds.height()/4, bounds.height()/4, slotOutlinePaint);
-        if (! isEmpty) {
-            canvas.drawRoundRect(new RectF(bounds), bounds.height() / 4, bounds.height() / 4, slotPaint);
-        } else {
-            canvas.drawRoundRect(new RectF(bounds), bounds.height() / 4, bounds.height() / 4, emptySlotPaint);
-        }
-
-    }
     @Override
     public void paint() {
-        canvas.drawColor(Color.GRAY);
-        inventoryButton.draw(canvas);
-        craftingButton.draw(canvas);
-        for (int i = 0; i < GameItem.values().length; i++) {
+        super.paint();
+        for (int i = 0; i < inventory.getItemNum(); i++) {
             int row = i/SLOTS_PER_ROW;
             int col = i%SLOTS_PER_ROW;
-            drawSlot(bounds[row][col], !(i < inventory.getItemNum()));
-            if (i < inventory.getItemNum()) {
-                GameItem item = inventory.getItem(i);
-                Drawable icon = drawableCache.getDrawable(item.toInt());
-                icon.setBounds(bounds[row][col]);
-                icon.draw(canvas);
-                canvas.drawText(Integer.toString(inventory.getAmount(item)),
-                        bounds[row][col].centerX(), bounds[row][col].bottom + numPaint.getTextSize(), numPaint);
-            }
+            GameItem item = inventory.getItem(i);
+            drawSlot(bounds[row][col], true, item);
+            canvas.drawText(Integer.toString(inventory.getAmount(item)),
+                    bounds[row][col].centerX(), bounds[row][col].bottom + numPaint.getTextSize(), numPaint);
 
-        }
-
-        mapButtom.draw(canvas);
-    }
-
-    @Override
-    public void onClick(int x, int y) {
-        if (mapButtom.getBounds().contains(x, y)) {
-            game.setMainScreen();
-        }
-        if (craftingButton.getBounds().contains(x, y)) {
-            game.setCraftingScreen();
         }
     }
 }

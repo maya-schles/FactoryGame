@@ -2,6 +2,8 @@ package com.r3dtech.factory.framework;
 
 import android.graphics.Bitmap;
 
+import com.r3dtech.factory.crafting.Recipe;
+
 /**
  * This interface represents a game and binds everything together.
  *
@@ -25,4 +27,5 @@ public interface Game {
     void setMainScreen();
     void setInventoryScreen();
     void setCraftingScreen();
+    void setRecipeScreen(Recipe recipe);
 }

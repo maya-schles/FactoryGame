@@ -141,8 +141,8 @@ public class GameMapSegment implements MapSegment {
     }
 
     @Override
-    public MapTile getTileFromLoc(int x, int y) {
-        return map.getTileFromLoc(x + pos.x, y + pos.y);
+    public Point getTileFromLoc(int x, int y) {
+        return new Point( x/Constants.TILE_SIZE, y/Constants.TILE_SIZE);
     }
 
     @Override

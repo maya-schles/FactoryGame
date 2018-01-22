@@ -1,4 +1,4 @@
-package com.r3dtech.factory.resource_harvesting;
+package com.r3dtech.factory.loading_timers;
 
 /**
  * This interface is for a timer with progress checks.
