@@ -71,7 +71,6 @@ public class GameImplementation extends AndroidGame {
             //throw new RuntimeException("Couldn't load inventory from file");
         }
         craftingManager = new CraftingManagerImplementation(inventory);
-        inventory.clear();
     }
 
     private TileMap createMap() {

@@ -41,7 +41,7 @@ public class RecipeScreen extends InventoryMenuScreen {
     public void paint() {
         super.paint();
 
-        drawSlot(productSlot, true, recipe.getProduct());
+        drawSlot(productSlot, craftingManager.isAvailable(recipe), recipe.getProduct());
         canvas.drawText(recipe.getProduct().getName(),
                 productSlot.centerX(),
                 productSlot.bottom + textPaint.getTextSize(),

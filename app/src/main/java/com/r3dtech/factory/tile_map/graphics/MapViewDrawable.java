@@ -178,7 +178,7 @@ public class MapViewDrawable extends Drawable implements MapSegment{
 
     @Override
     public boolean isLocDiscovered(int x, int y) {
-        return mapSegment.isLocDiscovered((int)(x/scale), (int) (y/scale));
+        return mapSegment.isLocDiscovered( x, y);
     }
 
     @Override

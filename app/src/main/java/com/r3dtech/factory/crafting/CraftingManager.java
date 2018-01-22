@@ -14,4 +14,5 @@ public interface CraftingManager extends TimersManager{
     Recipe[] getAvailableRecipes();
     Recipe[] getUnavailableRecipes();
     Recipe getRecipe(GameItem item);
+    boolean isAvailable(Recipe recipe);
 }

@@ -34,6 +34,7 @@ public class CraftingManagerImplementation extends GameItemTimersManager impleme
         return recipePool.getRecipes();
     }
 
+    @Override
     public boolean isAvailable(Recipe recipe) {
         for (Pair<GameItem, Integer> component : recipe.getComponents()) {
             if (!inventory.contains(component.first, component.second)) {
@@ -80,7 +81,7 @@ public class CraftingManagerImplementation extends GameItemTimersManager impleme
 
     @Override
     public void addTimer(GameItem item) {
-        if (getRecipe(item) != null) {
+        if (getRecipe(item) != null && isAvailable(getRecipe(item))) {
             itemBuffer.add(item);
         }
     }

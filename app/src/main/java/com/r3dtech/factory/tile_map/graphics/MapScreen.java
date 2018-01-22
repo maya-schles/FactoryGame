@@ -46,10 +46,9 @@ public class MapScreen implements GameScreen{
     public void onClick(int x, int y) {
         if (inventoryButton.getBounds().contains(x, y)) {
             game.setInventoryScreen();
-            game.setScreenOverlay(new EmptyOverlay());
         }
         else {
-            Point tileLoc = mapView.getTileFromLoc(x, y);
+            Point tileLoc = mapView.getTileFromLoc(x - canvas.getWidth()/2, y-canvas.getHeight()/2);
             MapTile tile = mapView.getTile(tileLoc.x, tileLoc.y);
             if (tile != null &&
                     mapView.getSmallDistFromDiscovered(tileLoc.x, tileLoc.y) < 5) {
