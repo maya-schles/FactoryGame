@@ -1,6 +1,9 @@
 package com.r3dtech.factory.Machines.implementation;
 
+import android.util.Pair;
+
 import com.r3dtech.factory.Machines.Machine;
+import com.r3dtech.factory.inventory.GameItem;
 
 /**
  * This class is a stone furnace machine.
@@ -27,5 +30,15 @@ public class StoneFurnace implements Machine {
     @Override
     public MachineType getType() {
         return TYPE;
+    }
+
+    @Override
+    public void input(Pair<GameItem, Integer> input) {
+
+    }
+
+    @Override
+    public Pair<GameItem, Integer> output() {
+        return null;
     }
 }

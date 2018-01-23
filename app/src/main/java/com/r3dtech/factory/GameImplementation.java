@@ -1,5 +1,6 @@
 package com.r3dtech.factory;
 
+import android.content.res.AssetManager;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
@@ -166,5 +167,10 @@ public class GameImplementation extends AndroidGame {
     public void setRecipeScreen(Recipe recipe) {
         setScreen(new RecipeScreen(getFrameBuffer(), this, getAssets(), craftingManager, recipe));
         setScreenOverlay(new LoadingTimersOverlay(getFrameBuffer(), craftingManager, getAssets()));
+    }
+
+    @Override
+    public Inventory getInventory() {
+        return inventory;
     }
 }

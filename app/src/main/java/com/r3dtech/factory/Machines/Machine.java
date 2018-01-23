@@ -5,7 +5,6 @@ import android.util.Pair;
 
 import com.r3dtech.factory.Machines.implementation.StoneFurnace;
 import com.r3dtech.factory.inventory.GameItem;
-import com.r3dtech.factory.tile_map.implementation.Constants;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;

@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
 import com.r3dtech.factory.GameImplementation;
+import com.r3dtech.factory.Machines.graphics.MachineScreen;
 import com.r3dtech.factory.framework.Game;
 import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.overlay_graphics.EmptyOverlay;
@@ -50,6 +51,11 @@ public class MapScreen implements GameScreen{
         else {
             Point tileLoc = mapView.getTileFromLoc(x - canvas.getWidth()/2, y-canvas.getHeight()/2);
             MapTile tile = mapView.getTile(tileLoc.x, tileLoc.y);
+            if (tile.getMachine() != null) {
+                game.setScreen(new MachineScreen(game.getFrameBuffer(), game.getInventory(), game, game.getAssets()));
+                game.setScreenOverlay(new EmptyOverlay());
+                return;
+            }
             if (tile != null &&
                     mapView.getSmallDistFromDiscovered(tileLoc.x, tileLoc.y) < 5) {
                 ((GameImplementation) game).manualHarvestResource(

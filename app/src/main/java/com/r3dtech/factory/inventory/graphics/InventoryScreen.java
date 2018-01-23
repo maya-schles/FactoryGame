@@ -19,29 +19,37 @@ import com.r3dtech.factory.inventory.Inventory;
  */
 
 public class InventoryScreen extends InventoryMenuScreen{
-    private Rect[][] bounds;
-    private Inventory inventory;
+    protected Rect[][] bounds;
+    protected Inventory inventory;
+    protected int selected = -1;
 
 
     public InventoryScreen(Bitmap frameBuffer, Inventory inventory, Game game, AssetManager assets) {
         super(frameBuffer, game, assets, Tab.INVENTORY);
         this.game = game;
         this.inventory = inventory;
-        bounds = new Rect[(int) Math.ceil(GameItem.values().length/(float) SLOTS_PER_ROW)][SLOTS_PER_ROW];
-        bounds = generateBounds(FIRST_SLOT, GameItem.values().length);
+        bounds = new Rect[(int) Math.ceil(inventory.getSlotsMax()/SLOTS_PER_ROW)][SLOTS_PER_ROW];
+        bounds = generateBounds(inventory.getSlotsMax());
     }
 
     @Override
     public void paint() {
         super.paint();
-        for (int i = 0; i < inventory.getItemNum(); i++) {
+        for (int i = 0; i < inventory.getSlotsMax(); i++) {
             int row = i/SLOTS_PER_ROW;
             int col = i%SLOTS_PER_ROW;
             GameItem item = inventory.getItem(i);
-            drawSlot(bounds[row][col], true, item);
-            canvas.drawText(Integer.toString(inventory.getAmount(item)),
-                    bounds[row][col].centerX(), bounds[row][col].bottom + numPaint.getTextSize(), numPaint);
+            drawSlot(bounds[row][col], i < inventory.getItemNum(), item, i == selected);
+            if (item != null) {
+                canvas.drawText(Integer.toString(inventory.getAmount(item)),
+                        bounds[row][col].centerX(), bounds[row][col].bottom + numPaint.getTextSize(), numPaint);
+            }
 
         }
+    }
+
+    @Override
+    protected Rect getFirstSlot() {
+        return FIRST_SLOT;
     }
 }

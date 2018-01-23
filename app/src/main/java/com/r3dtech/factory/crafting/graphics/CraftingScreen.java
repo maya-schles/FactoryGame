@@ -24,7 +24,7 @@ public class CraftingScreen extends InventoryMenuScreen {
         super(frameBuffer, game, assets, Tab.CRAFTING);
         this.craftingManager = craftingManager;
 
-        bounds = generateBounds(FIRST_SLOT, GameItem.values().length);
+        bounds = generateBounds(GameItem.values().length);
     }
 
     @Override

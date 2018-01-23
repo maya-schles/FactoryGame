@@ -23,6 +23,7 @@ import java.util.Scanner;
  */
 
 public class Inventory {
+    private static final int SLOT_MAX = 20;
     private static final String INVENTORY_FILE = "inventory.txt";
     private HashMap<GameItem, Integer> inventory = new HashMap<>(GameItem.values().length);
 
@@ -61,7 +62,9 @@ public class Inventory {
     }
 
     private void setAmount(GameItem item, int amount) {
-        inventory.put(item, amount);
+        if (inventory.get(item) != 0 || getItemNum() < SLOT_MAX) {
+            inventory.put(item, amount);
+        }
     }
 
     public void increaseAmount(GameItem item, int amountToAdd) {
@@ -103,5 +106,9 @@ public class Inventory {
         for (GameItem item: GameItem.values()) {
             setAmount(item, 0);
         }
+    }
+
+    public int getSlotsMax() {
+        return SLOT_MAX;
     }
 }

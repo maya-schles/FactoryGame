@@ -34,7 +34,7 @@ public class RecipeScreen extends InventoryMenuScreen {
         productSlot = new Rect(FIRST_SLOT);
         Rect firstComponentSlot = new Rect(productSlot);
         firstComponentSlot.offset(0, COMPONENT_DIST_UP+SLOT_SIZE);
-        bounds = generateBounds(firstComponentSlot, recipe.getComponents().length);
+        bounds = generateBounds(recipe.getComponents().length);
     }
 
     @Override
@@ -68,5 +68,12 @@ public class RecipeScreen extends InventoryMenuScreen {
         if (productSlot.contains(x, y)) {
             craftingManager.addTimer(recipe.getProduct());
         }
+    }
+
+    @Override
+    protected Rect getFirstSlot() {
+        Rect firstComponentSlot = new Rect(FIRST_SLOT);
+        firstComponentSlot.offset(0, COMPONENT_DIST_UP+SLOT_SIZE);
+        return firstComponentSlot;
     }
 }

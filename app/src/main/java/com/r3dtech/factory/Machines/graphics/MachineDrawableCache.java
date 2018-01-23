@@ -1,13 +1,7 @@
 package com.r3dtech.factory.Machines.graphics;
 
 import com.r3dtech.factory.Machines.Machine;
-import com.r3dtech.factory.tile_map.TileType;
-import com.r3dtech.factory.tile_map.graphics.FogDrawable;
-import com.r3dtech.factory.tile_map.graphics.ForestDrawable;
-import com.r3dtech.factory.tile_map.graphics.GrassDrawable;
 import com.r3dtech.factory.tile_map.graphics.SimpleBitmapDrawable;
-import com.r3dtech.factory.tile_map.graphics.StoneDrawable;
-import com.r3dtech.factory.tile_map.implementation.Constants;
 
 import java.lang.reflect.Constructor;
 
