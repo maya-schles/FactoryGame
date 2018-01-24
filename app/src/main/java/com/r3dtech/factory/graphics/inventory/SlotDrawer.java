@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 
 import com.r3dtech.factory.graphics.DrawableCaches;
 import com.r3dtech.factory.graphics.GenericDrawer;
+import com.r3dtech.factory.logic.inventory.ItemStack;
 
 /**
  * This class is used to draw a slot.
@@ -70,19 +71,20 @@ public class SlotDrawer extends GenericDrawer<SlotBundle> {
         } else {
             canvas.drawRoundRect(new RectF(bounds), bounds.height() / 4, bounds.height() / 4, emptySlotPaint);
         }
-        if (!object.itemStack.isEmpty()) {
-            Drawable icon = DrawableCaches.getItemIcon(object.itemStack.getItem().toInt());
+        ItemStack itemStack = object.slot.getItemStack();
+        if (!itemStack.isEmpty()) {
+            Drawable icon = DrawableCaches.getItemIcon(itemStack.getItem().toInt());
             icon.setBounds(bounds);
             icon.draw(canvas);
 
             switch (object.textOrNum) {
                 case NUM:
-                    canvas.drawText(Integer.toString(object.itemStack.getAmount()),
+                    canvas.drawText(Integer.toString(itemStack.getAmount()),
                             object.slot.centerX(), object.slot.bottom()+numPaint.getTextSize(),
                             numPaint);
                     break;
                 case TEXT:
-                    canvas.drawText(object.itemStack.getItem().getName(),
+                    canvas.drawText(itemStack.getItem().getName(),
                             object.slot.centerX(), object.slot.bottom()+textPaint.getTextSize(),
                             textPaint);
                     break;

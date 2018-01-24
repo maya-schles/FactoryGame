@@ -5,14 +5,13 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
 import com.r3dtech.factory.MyGame;
+import com.r3dtech.factory.Utils;
 import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.graphics.GenericDrawer;
 import com.r3dtech.factory.graphics.inventory.Slot;
 import com.r3dtech.factory.graphics.inventory.SlotBundle;
 import com.r3dtech.factory.graphics.inventory.SlotDrawer;
-import com.r3dtech.factory.logic.inventory.GameItem;
 import com.r3dtech.factory.logic.inventory.Inventory;
-import com.r3dtech.factory.logic.inventory.ItemStack;
 
 /**
  * This class is a general machine's screen.
@@ -20,7 +19,7 @@ import com.r3dtech.factory.logic.inventory.ItemStack;
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 24/01/2018.
  */
 
-public class MachineScreen implements GameScreen {
+public abstract class MachineScreen implements GameScreen {
     private static final int MAP_BUTTON_WIDTH = 128;
     private static final int MAP_BUTTON_HEIGHT = 128;
     private static final int MAP_BUTTON_RIGHT_DIST = 16;
@@ -30,7 +29,6 @@ public class MachineScreen implements GameScreen {
     protected MyGame game;
     private Drawable mapButton;
 
-    private Slot[] slots;
     protected Inventory inventory;
     protected GenericDrawer<SlotBundle> slotDrawer;
     protected int selected = -1;
@@ -44,22 +42,37 @@ public class MachineScreen implements GameScreen {
         mapButton.setBounds(canvas.getWidth() - MAP_BUTTON_WIDTH - MAP_BUTTON_RIGHT_DIST,
                 0, canvas.getWidth() - MAP_BUTTON_RIGHT_DIST, MAP_BUTTON_HEIGHT);
 
+        slotDrawer = new SlotDrawer(game.getAssets());
+    }
+
+    private Slot[] generateInvSlots() {
+        Slot[] slots;
+
         Slot firstSlot = Slot.getDefaultSlot();
         firstSlot.offset(0, canvas.getHeight()/2);
 
         slots = Slot.generateSlots(inventory.getSlotsMax(), firstSlot);
-        slotDrawer = new SlotDrawer(game.getAssets());
+        for (int i = 0; i < slots.length; i++) {
+            slots[i].setItemStack(inventory.getItemStack(i));
+        }
+        return slots;
     }
 
+    abstract protected Slot[] generateMachineSlots();
+
+    private Slot[] generateSlots() {
+        return Utils.concat(generateMachineSlots(), generateInvSlots());
+    }
     @Override
     public void paint() {
         canvas.drawColor(Color.GRAY);
 
-        for (int i = 0; i < inventory.getSlotsMax(); i++) {
-            GameItem item = inventory.getItem(i);
-            slotDrawer.draw(canvas, new SlotBundle(inventory.getItemStack(i), slots[i],
-                    !inventory.getItemStack(i).isEmpty(), i == selected, SlotBundle.TextOrNum.NUM));
+        Slot[] slots = generateSlots();
+        for (int i = 0; i < slots.length; i++) {
+            slotDrawer.draw(canvas, new SlotBundle(slots[i], !slots[i].isEmpty(),
+                    i == selected, SlotBundle.TextOrNum.NUM));
         }
+
         mapButton.draw(canvas);
     }
 
@@ -67,10 +80,27 @@ public class MachineScreen implements GameScreen {
     public void onClick(int x, int y) {
         if (mapButton.getBounds().contains(x, y)) {
             game.setMapScreen();
+            return;
         }
-        for (int i = 0; i < inventory.getItemNum(); i++) {
+
+        Slot[] slots = generateSlots();
+
+        for (int i = 0; i < slots.length; i++) {
             if (slots[i].getBounds().contains(x, y)) {
-                selected = (selected == i) ? -1 : i;
+                if (i == selected) {
+                    selected = -1;
+                    return;
+                }
+                if (selected != -1 && (slots[i].isEmpty() ||
+                        slots[i].getItemStack().getItem() == slots[selected].getItemStack().getItem())) {
+                    slots[i].getItemStack().add(slots[selected].getItemStack());
+                    selected = -1;
+                    return;
+                }
+                if (!slots[i].isEmpty()) {
+                    selected = i;
+                }
+                return;
             }
         }
     }

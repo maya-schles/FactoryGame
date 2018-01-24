@@ -29,7 +29,6 @@ public class RecipeScreen extends InventoryMenuScreen {
 
     private Recipe recipe;
     private Slot productSlot;
-    private Slot[] slots;
     private Inventory inventory;
 
     private GenericDrawer<SlotBundle> slotDrawer;
@@ -44,10 +43,7 @@ public class RecipeScreen extends InventoryMenuScreen {
         this.inventory = game.getInventory();
 
         productSlot = new Slot(firstSlot);
-
-        Slot firstComponentSlot = productSlot.adjacentSlot(Slot.AdjacentSlot.BELOW);
-        firstComponentSlot.offset(0, COMPONENT_DIST_UP);
-        slots = Slot.generateSlots(recipe.getComponents().length, firstComponentSlot);
+        productSlot.setItemStack(new ItemStack(recipe.getProduct(), 1));
 
         slotDrawer = new SlotDrawer(game.getAssets());
 
@@ -58,20 +54,31 @@ public class RecipeScreen extends InventoryMenuScreen {
         titlePaint.setTypeface(textFont);
     }
 
+    private Slot[] generateSlots() {
+        Slot[] slots;
+        Slot firstComponentSlot = productSlot.adjacentSlot(Slot.AdjacentSlot.BELOW);
+        firstComponentSlot.offset(0, COMPONENT_DIST_UP);
+        slots = Slot.generateSlots(recipe.getComponents().length, firstComponentSlot);
+        for (int i = 0; i < slots.length; i++) {
+            slots[i].setItemStack(recipe.getComponents()[i]);
+        }
+        return slots;
+    }
+
     @Override
     public void paint() {
         super.paint();
 
-        slotDrawer.draw(canvas, new SlotBundle(new ItemStack(recipe.getProduct(), 1), productSlot,
-                craftingManager.isAvailable(recipe), false, SlotBundle.TextOrNum.TEXT));
+        Slot[] slots = generateSlots();
+        slotDrawer.draw(canvas, new SlotBundle(productSlot, craftingManager.isAvailable(recipe),
+                false, SlotBundle.TextOrNum.TEXT));
 
         canvas.drawText("Components: ",
                 productSlot.centerX(), productSlot.bottom() + COMPONENT_DIST_UP-TITLE_DIST, titlePaint);
-        for (int i = 0; i < recipe.getComponents().length; i++) {
-            ItemStack componenet = recipe.getComponents()[i];
-            slotDrawer.draw(canvas, new SlotBundle(componenet, slots[i],
-                    inventory.contains(componenet.getItem(), componenet.getAmount()), false,
-                    SlotBundle.TextOrNum.NUM));
+
+        for (Slot slot: slots) {
+            slotDrawer.draw(canvas, new SlotBundle(slot, inventory.contains(slot.getItemStack()),
+                    false, SlotBundle.TextOrNum.NUM));
         }
     }
 

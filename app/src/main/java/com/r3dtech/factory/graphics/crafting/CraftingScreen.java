@@ -7,7 +7,6 @@ import com.r3dtech.factory.graphics.inventory.Slot;
 import com.r3dtech.factory.graphics.inventory.SlotBundle;
 import com.r3dtech.factory.graphics.inventory.SlotDrawer;
 import com.r3dtech.factory.logic.crafting.CraftingManager;
-import com.r3dtech.factory.logic.inventory.GameItem;
 import com.r3dtech.factory.logic.inventory.ItemStack;
 
 /**
@@ -17,7 +16,6 @@ import com.r3dtech.factory.logic.inventory.ItemStack;
  */
 
 public class CraftingScreen extends InventoryMenuScreen {
-    private Slot[] slots;
     private CraftingManager craftingManager;
     private GenericDrawer<SlotBundle> slotDrawer;
 
@@ -25,42 +23,37 @@ public class CraftingScreen extends InventoryMenuScreen {
         super(game, Tab.CRAFTING);
 
         craftingManager = game.getCraftingManager();
-        slots = Slot.generateSlots(GameItem.values().length, firstSlot);
         slotDrawer = new SlotDrawer(game.getAssets());
     }
 
+    private Slot[] generateSlots() {
+        Slot[] slots;
+        slots = Slot.generateSlots(craftingManager.getRecipes().length, firstSlot);
+        for (int i = 0; i < slots.length; i++) {
+            slots[i].setItemStack(new ItemStack(craftingManager.getRecipe(i).getProduct(), 1));
+        }
+        return slots;
+    }
     @Override
     public void paint() {
         super.paint();
 
-        for (int i = 0; i < craftingManager.getRecipes().length; i++) {
-            int availableRecipesLength = craftingManager.getAvailableRecipes().length;
-            GameItem item;
+        Slot[] slots = generateSlots();
 
-            if (i < availableRecipesLength) {
-                item = craftingManager.getAvailableRecipes()[i].getProduct();
-            } else {
-                item = craftingManager.getUnavailableRecipes()[i - availableRecipesLength].getProduct();
-            }
-
-            slotDrawer.draw(canvas, new SlotBundle(new ItemStack(item, 1), slots[i],
-                    i < availableRecipesLength, false, SlotBundle.TextOrNum.TEXT));
+        int availableRecipesLength = craftingManager.getAvailableRecipes().length;
+        for (int i = 0; i < slots.length; i++) {
+            slotDrawer.draw(canvas, new SlotBundle(slots[i], i < availableRecipesLength,
+                    false, SlotBundle.TextOrNum.TEXT));
         }
     }
 
     @Override
     public void onClick(int x, int y) {
         super.onClick(x, y);
-        for (int i = 0; i < craftingManager.getRecipes().length; i++) {
-            int availableRecipesLength = craftingManager.getAvailableRecipes().length;
-            if (slots[i].getBounds().contains(x, y)) {
-                GameItem item;
-                if (i < availableRecipesLength) {
-                    item = craftingManager.getAvailableRecipes()[i].getProduct();
-                } else {
-                    item = craftingManager.getUnavailableRecipes()[i-availableRecipesLength].getProduct();
-                }
-                game.setRecipeScreen(craftingManager.getRecipe(item));
+        Slot[] slots = generateSlots();
+        for(Slot slot: slots) {
+            if(slot.getBounds().contains(x, y)) {
+                game.setRecipeScreen(craftingManager.getRecipe(slot.getItemStack().getItem()));
             }
         }
     }

@@ -52,20 +52,12 @@ public class ItemStack {
         return amount;
     }
 
-    public boolean decreaseAmount(int amountToDecrease) {
-        if (amountToDecrease < amount) {
-            setAmount(amount-amountToDecrease);
-            return true;
-        }
-        return false;
+    public void decreaseAmount(int amountToDecrease) {
+        setAmount(amount-amountToDecrease);
     }
 
-    public boolean increaseAmount(int amountToIncrease) {
-        if (amountToIncrease < STACK_LIMIT - amount) {
-            setAmount(amount+amountToIncrease);
-            return true;
-        }
-        return false;
+    public void increaseAmount(int amountToIncrease) {
+        setAmount(amount+amountToIncrease);
     }
 
     public boolean isFull() {
@@ -81,8 +73,9 @@ public class ItemStack {
     }
 
     public void add(ItemStack stack) {
-        if (stack.getItem() == item && !isFull()) {
+        if (isEmpty() || (stack.getItem() == item && !isFull())) {
             amount = Math.min(amount+stack.amount, STACK_LIMIT);
+            item = stack.getItem();
             stack.amount = Math.max(0, stack.amount + amount - STACK_LIMIT);
         }
     }

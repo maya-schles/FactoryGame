@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -20,11 +18,11 @@ import java.util.Scanner;
 public class Inventory {
     private static final int SLOT_MAX = 20;
     private static final String INVENTORY_FILE = "inventory.txt";
-    private Map<GameItem, Integer> inventory = new HashMap<>(GameItem.values().length);
+    private ItemStack[] inventory = new ItemStack[SLOT_MAX];
 
     public Inventory() {
-        for (GameItem item: GameItem.values()) {
-            inventory.put(item, 0);
+        for (int i = 0; i < inventory.length; i++) {
+            inventory[i] = new ItemStack();
         }
     }
 
@@ -32,10 +30,8 @@ public class Inventory {
         InputStream in = fileIO.readFile(INVENTORY_FILE);
         Scanner scanner = new Scanner(in);
         scanner.useDelimiter("[:\n]");
-        for (int i = 0; i < GameItem.values().length; i++) {
-            GameItem item = GameItem.values()[scanner.nextInt()];
-            int amount = scanner.nextInt();
-            inventory.put(item, amount);
+        for (int i = 0; i < SLOT_MAX && scanner.hasNextLine();) {
+            inventory[i] = ItemStack.fromString(scanner.nextLine());
         }
         scanner.close();
     }
@@ -43,24 +39,50 @@ public class Inventory {
     public void saveToFile(FileIO fileIO) throws IOException {
         OutputStream out = fileIO.writeFile(INVENTORY_FILE);
         PrintWriter writer = new PrintWriter(out);
-        for(int i = 0; i< GameItem.values().length; i++) {
-            writer.write(Integer.toString(i));
-            writer.write(":");
-            writer.write(Integer.toString(inventory.get(GameItem.values()[i])));
-            writer.write("\n");
+        for(ItemStack stack: inventory) {
+            if (!stack.isEmpty()) {
+                writer.write(ItemStack.descString(stack));
+                writer.write("\n");
+            }
         }
         writer.close();
     }
 
+    private int findIndex(GameItem item) {
+        for(int i = 0; i < inventory.length; i++) {
+            if (inventory[i].getItem() == item) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private int getFirstEmptySlot() {
+        for (int i = 0; i < inventory.length; i++) {
+            if(inventory[i].isEmpty()) {
+                return i;
+            }
+        }
+        return -1;
+    }
     public int getAmount(GameItem item) {
-        return inventory.get(item);
+        int i = findIndex(item);
+        if ( i == -1) {
+            return 0;
+        }
+        return inventory[i].getAmount();
     }
 
     private void setAmount(GameItem item, int amount) {
-        if (inventory.get(item) != 0 || getItemNum() < SLOT_MAX) {
-            int newAmount = Math.max(0, Math.min(ItemStack.STACK_LIMIT, amount));
-            inventory.put(item, amount);
+        int i = findIndex(item);
+        if ( i == -1) {
+            int j = getFirstEmptySlot();
+            if (j != -1) {
+                inventory[j] = new ItemStack(item, amount);
+            }
+            return;
         }
+        inventory[i].increaseAmount(amount - inventory[i].getAmount());
     }
 
     public void increaseAmount(GameItem item, int amountToAdd) {
@@ -73,34 +95,26 @@ public class Inventory {
 
     public int getItemNum() {
         int cnt = 0;
-        for (int num : inventory.values()) {
-            if (num > 0) {
+        for (ItemStack stack: inventory) {
+            if (!stack.isEmpty()) {
                 cnt++;
             }
         }
         return cnt;
     }
 
-    public GameItem getItem(int n) {
-        int cnt = 0;
-        for (GameItem item : GameItem.values()) {
-            if (inventory.get(item) > 0) {
-                if (cnt == n) {
-                    return item;
-                }
-                cnt++;
-            }
-        }
-        return null;
-    }
 
-    public boolean contains(GameItem item, Integer amount) {
-        return inventory.get(item) >= amount;
+    public boolean contains(ItemStack stack) {
+        int i = findIndex(stack.getItem());
+        if (i != -1 && inventory[i].getAmount() >= stack.getAmount()) {
+            return true;
+        }
+        return false;
     }
 
     public void clear() {
-        for (GameItem item: GameItem.values()) {
-            setAmount(item, 0);
+        for (int i = 0; i < inventory.length; i++) {
+            inventory[i] = new ItemStack();
         }
     }
 
@@ -109,14 +123,6 @@ public class Inventory {
     }
 
     public ItemStack getItemStack(int i) {
-        GameItem item = getItem(i);
-        if (item == null) {
-            return new ItemStack();
-        }
-        return new ItemStack(item, getAmount(item));
-    }
-
-    public void setItemStack(ItemStack stack) {
-        setAmount(stack.getItem(), stack.getAmount());
+        return inventory[i];
     }
 }

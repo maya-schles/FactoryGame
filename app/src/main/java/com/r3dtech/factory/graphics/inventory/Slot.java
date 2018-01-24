@@ -2,13 +2,15 @@ package com.r3dtech.factory.graphics.inventory;
 
 import android.graphics.Rect;
 
+import com.r3dtech.factory.logic.inventory.ItemStack;
+
 /**
  * This class represents manages everything to do with slot locations.
  *
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 23/01/2018.
  */
 
-public class Slot {
+public class Slot{
     public static final int SLOT_SIZE = 160;
     private static final int SLOT_BEGIN_LEFT = 64;
     private static final int SLOT_BEGIN_TOP = 64;
@@ -23,6 +25,7 @@ public class Slot {
         RIGHT
     }
     private Rect bounds;
+    private ItemStack itemStack;
 
     public Slot(int left, int top) {
         bounds = new Rect(left, top, left+SLOT_SIZE, top+SLOT_SIZE);
@@ -93,5 +96,17 @@ public class Slot {
                 break;
         }
         return res;
+    }
+
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
+
+    public void setItemStack(ItemStack itemStack) {
+        this.itemStack = itemStack;
+    }
+
+    public boolean isEmpty() {
+        return itemStack.isEmpty();
     }
 }

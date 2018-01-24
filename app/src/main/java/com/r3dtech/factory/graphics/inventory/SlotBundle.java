@@ -14,23 +14,20 @@ public class SlotBundle {
         NUM
     }
 
-    ItemStack itemStack;
     Slot slot;
     boolean isFull;
     boolean isSelected;
     TextOrNum textOrNum;
 
-    public SlotBundle(ItemStack itemStack, Slot slot, boolean isFull, boolean isSelected, TextOrNum textOrNum) {
-        this.itemStack = itemStack;
+    public SlotBundle(Slot slot, boolean isFull, boolean isSelected, TextOrNum textOrNum) {
         this.slot = slot;
         this.isFull = isFull;
         this.isSelected = isSelected;
         this.textOrNum = textOrNum;
     }
-    public SlotBundle(ItemStack itemStack, Slot slot) {
-        this.itemStack = itemStack;
+    public SlotBundle(Slot slot) {
         this.slot = slot;
-        this.isFull = true;
+        this.isFull = !slot.isEmpty();
         this.isSelected = false;
         this.textOrNum = TextOrNum.NUM;
     }

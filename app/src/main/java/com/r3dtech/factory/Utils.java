@@ -2,12 +2,9 @@ package com.r3dtech.factory;
 
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.SparseIntArray;
 
-import com.r3dtech.factory.logic.tile_map.implementation.Constants;
-
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A class for general utility function.
@@ -25,6 +22,11 @@ public class Utils {
     }
     public static Point offset(Point a, Point b) {
         return new Point(a.x + b.x, a.y + b.y);
+    }
+    public static <T> T[] concat(T[] first, T[] second) {
+        T[] result = Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, result, first.length, second.length);
+        return result;
     }
     public static int[] IntegerListToIntArray(List<Integer> list) {
         int[] res = new int[list.size()];

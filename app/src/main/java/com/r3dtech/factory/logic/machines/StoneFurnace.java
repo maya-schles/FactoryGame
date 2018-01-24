@@ -50,13 +50,10 @@ public class StoneFurnace implements Machine {
     }
 
     private boolean canSmelt() {
-        if (currFuel == 0 && fuel.getAmount() == 0) {
+        if ((!isSmeltable(smeltable.getItem()) || smeltable.isEmpty())) {
             return false;
         }
-        if (smeltable.isEmpty()) {
-            return false;
-        }
-        if (output.getItem() != getSmeltRes(smeltable.getItem())) {
+        if (!output.isEmpty() && output.getItem() != getSmeltRes(smeltable.getItem())) {
             return false;
         }
         if (output.isFull()) {
@@ -72,17 +69,13 @@ public class StoneFurnace implements Machine {
     private boolean isFuel(GameItem item) {
         return fuelTimes[item.toInt()] > 0;
     }
+
     private void smelt() {
          if (canSmelt()) {
              smeltable.decreaseAmount(1);
 
              output.setItem(getSmeltRes(smeltable.getItem()));
              output.increaseAmount(1);
-
-             if(currFuel == 0) {
-                 currFuel += fuelTimes[fuel.getItem().toInt()];
-                 fuel.decreaseAmount(1);
-             }
          }
     }
 
@@ -97,7 +90,9 @@ public class StoneFurnace implements Machine {
     }
 
     public void addFuel(ItemStack stack) {
-        fuel.add(stack);
+        if (isFuel(stack.getItem())) {
+            fuel.add(stack);
+        }
     }
 
 
@@ -124,9 +119,21 @@ public class StoneFurnace implements Machine {
         return null;
     }
 
+    private void fuelUp() {
+        if(isFuel(fuel.getItem())&&!fuel.isEmpty()) {
+            currFuel += fuelTimes[fuel.getItem().toInt()];
+            fuel.decreaseAmount(1);
+        }
+    }
     @Override
     public void process(float deltaTime) {
-        if(currFuel != 0) {
+        if (currFuel <= 0) {
+            fuelUp();
+        }
+        if (isSmeltable(smeltable.getItem()) && !smeltable.isEmpty() && !timer.isRunning()) {
+            timer.reset();
+        }
+        if(currFuel > 0) {
             timer.update(deltaTime);
             if (timer.isRunning()) {
                 currFuel -= deltaTime;

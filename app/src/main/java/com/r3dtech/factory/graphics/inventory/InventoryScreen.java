@@ -13,7 +13,7 @@ import com.r3dtech.factory.logic.inventory.ItemStack;
  */
 
 public class InventoryScreen extends InventoryMenuScreen {
-    private Slot[] slots;
+
     private Inventory inventory;
     private GenericDrawer<SlotBundle> slotDrawer;
 
@@ -21,19 +21,24 @@ public class InventoryScreen extends InventoryMenuScreen {
         super(game, Tab.INVENTORY);
 
         inventory = game.getInventory();
-        slots = Slot.generateSlots(inventory.getSlotsMax(), firstSlot);
         slotDrawer = new SlotDrawer(game.getAssets());
+    }
+
+    private Slot[] generateSlots() {
+        Slot[] slots;
+        slots = Slot.generateSlots(inventory.getSlotsMax(), firstSlot);
+        for (int i = 0; i < slots.length; i++) {
+            slots[i].setItemStack(inventory.getItemStack(i));
+        }
+        return slots;
     }
 
     @Override
     public void paint() {
         super.paint();
-        for (int i = 0; i < inventory.getSlotsMax(); i++) {
-            GameItem item = inventory.getItem(i);
-            int amount = (item == null)?0 : inventory.getAmount(item);
-            ItemStack itemStack = new ItemStack(item, amount);
-            slotDrawer.draw(canvas, new SlotBundle(itemStack, slots[i],
-                    item != null, false, SlotBundle.TextOrNum.NUM));
+        Slot[] slots  = generateSlots();
+        for (Slot slot: slots) {
+            slotDrawer.draw(canvas, new SlotBundle(slot));
         }
     }
 }

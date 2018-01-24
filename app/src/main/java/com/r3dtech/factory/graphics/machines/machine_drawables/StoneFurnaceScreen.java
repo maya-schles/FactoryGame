@@ -2,7 +2,6 @@ package com.r3dtech.factory.graphics.machines.machine_drawables;
 
 import com.r3dtech.factory.MyGame;
 import com.r3dtech.factory.graphics.inventory.Slot;
-import com.r3dtech.factory.graphics.inventory.SlotBundle;
 import com.r3dtech.factory.graphics.machines.MachineScreen;
 import com.r3dtech.factory.logic.inventory.ItemStack;
 import com.r3dtech.factory.logic.machines.StoneFurnace;
@@ -26,23 +25,12 @@ public class StoneFurnaceScreen extends MachineScreen {
     }
 
     @Override
-    public void paint() {
-        super.paint();
-        slotDrawer.draw(canvas, new SlotBundle(furnace.getSmeltable(), smeltable));
-        slotDrawer.draw(canvas, new SlotBundle(furnace.getFuel(), fuel));
-        slotDrawer.draw(canvas, new SlotBundle(furnace.getOutput(), product));
+    protected Slot[] generateMachineSlots() {
+        smeltable.setItemStack(furnace.getSmeltable());
+        fuel.setItemStack(furnace.getFuel());
+        product.setItemStack(furnace.getOutput());
+        Slot[] slots = {smeltable, fuel, product};
+        return slots;
     }
 
-    @Override
-    public void onClick(int x, int y) {
-        super.onClick(x, y);
-        if (smeltable.getBounds().contains(x, y)) {
-            if (selected != -1) {
-                ItemStack itemStack = inventory.getItemStack(selected);
-                furnace.addSmeltable(itemStack);
-                inventory.setItemStack(itemStack);
-                selected = -1;
-            }
-        }
-    }
 }

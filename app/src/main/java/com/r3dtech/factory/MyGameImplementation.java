@@ -51,7 +51,7 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
         super.onCreate(savedInstanceState);
         try {
             inventory.loadFromFile(getFileIO());
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.d("INVENTORY_LOADING", "couldn't load inventory from file");
         }
         map = generateMap();
@@ -159,7 +159,7 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
 
     @Override
     public void setMachineScreen(Machine machine) {
-        GameScreen screen = new MachineScreen(this);
+        GameScreen screen = null;
         switch (machine.getType()) {
             case STONE_FURNACE:
                 screen = new StoneFurnaceScreen(this, (StoneFurnace) machine);
