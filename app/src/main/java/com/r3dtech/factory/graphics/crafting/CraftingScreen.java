@@ -3,9 +3,9 @@ package com.r3dtech.factory.graphics.crafting;
 import com.r3dtech.factory.MyGameImplementation;
 import com.r3dtech.factory.graphics.GenericDrawer;
 import com.r3dtech.factory.graphics.inventory.InventoryMenuScreen;
-import com.r3dtech.factory.graphics.inventory.Slot;
-import com.r3dtech.factory.graphics.inventory.SlotBundle;
-import com.r3dtech.factory.graphics.inventory.SlotDrawer;
+import com.r3dtech.factory.graphics.slots.Slot;
+import com.r3dtech.factory.graphics.slots.SlotBundle;
+import com.r3dtech.factory.graphics.slots.SlotDrawer;
 import com.r3dtech.factory.logic.crafting.CraftingManager;
 import com.r3dtech.factory.logic.inventory.ItemStack;
 

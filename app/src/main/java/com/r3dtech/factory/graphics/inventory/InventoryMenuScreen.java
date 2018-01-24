@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 
 import com.r3dtech.factory.MyGame;
 import com.r3dtech.factory.framework.GameScreen;
+import com.r3dtech.factory.graphics.slots.Slot;
 
 
 /**

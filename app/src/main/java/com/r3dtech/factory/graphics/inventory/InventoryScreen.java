@@ -2,9 +2,10 @@ package com.r3dtech.factory.graphics.inventory;
 
 import com.r3dtech.factory.MyGameImplementation;
 import com.r3dtech.factory.graphics.GenericDrawer;
-import com.r3dtech.factory.logic.inventory.GameItem;
+import com.r3dtech.factory.graphics.slots.Slot;
+import com.r3dtech.factory.graphics.slots.SlotBundle;
+import com.r3dtech.factory.graphics.slots.SlotDrawer;
 import com.r3dtech.factory.logic.inventory.Inventory;
-import com.r3dtech.factory.logic.inventory.ItemStack;
 
 /**
  * This is the inventory screen.

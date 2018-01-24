@@ -15,22 +15,24 @@ import java.util.Scanner;
  */
 
 public class StoneFurnace implements Machine {
-    private static final MachineType TYPE = MachineType.STONE_FURNACE;
+    public static final int MAX_FUEL = 3000;
+    private static final GameItem[] smeltResults = {GameItem.STONE_BRICK, null, null, null};
+    private static final int[] fuelTimes = {0, 300, 0, 0};
 
+    private static final MachineType TYPE = MachineType.STONE_FURNACE;
     private TimerCallback callback = new TimerCallback() {
         @Override
         public void onTimerDone(LoadingTimer timer) {
             smelt();
+            timer.reset();
         }
     };
     private ItemStack fuel = new ItemStack();
+
     private ItemStack smeltable = new ItemStack();
+
     private ItemStack output = new ItemStack();
-
     private LoadingTimer timer = new LoadingTimer(300, callback);
-
-    private GameItem[] smeltResults = {GameItem.STONE_BRICK, null, null};
-    private int[] fuelTimes = {0, 500, 0};
 
     private int currFuel = 0;
 
@@ -130,14 +132,14 @@ public class StoneFurnace implements Machine {
         if (currFuel <= 0) {
             fuelUp();
         }
-        if (isSmeltable(smeltable.getItem()) && !smeltable.isEmpty() && !timer.isRunning()) {
+
+        if (!canSmelt()) {
             timer.reset();
         }
-        if(currFuel > 0) {
+
+        if(canSmelt() && currFuel > 0) {
             timer.update(deltaTime);
-            if (timer.isRunning()) {
-                currFuel -= deltaTime;
-            }
+            currFuel -= deltaTime;
         }
     }
 
@@ -155,5 +157,9 @@ public class StoneFurnace implements Machine {
 
     public LoadingTimer getTimer() {
         return timer;
+    }
+
+    public int getCurrFuel() {
+        return currFuel;
     }
 }

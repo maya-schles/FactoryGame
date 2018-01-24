@@ -34,14 +34,16 @@ public class LoadingTimerDrawer extends GenericDrawer<LoadingTimer> {
 
     @Override
     public void draw(Canvas canvas, LoadingTimer object) {
-        // draw icon
-        Rect iconBounds = new Rect(bounds.left, bounds.top, bounds.left + bounds.height(),
-                bounds.bottom);
-        icon.setBounds(iconBounds);
-        icon.draw(canvas);
+        Rect iconBounds = new Rect(bounds.left,bounds.top, bounds.left,bounds.bottom);
 
+        // draw icon
+        if (icon != null) {
+            iconBounds.right += bounds.height();
+            icon.setBounds(iconBounds);
+            icon.draw(canvas);
+        }
         // draw bar
-        int barWidth = bounds.width() - bounds.height();
+        int barWidth = bounds.width() - iconBounds.width();
         Rect barBounds = new Rect(iconBounds.right, bounds.top, bounds.left + barWidth,
                 bounds.bottom);
         canvas.drawRect(barBounds, barPaint);

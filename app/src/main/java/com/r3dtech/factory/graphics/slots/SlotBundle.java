@@ -1,6 +1,4 @@
-package com.r3dtech.factory.graphics.inventory;
-
-import com.r3dtech.factory.logic.inventory.ItemStack;
+package com.r3dtech.factory.graphics.slots;
 
 /**
  * This class is a bundle that holds everything to describe a slot.

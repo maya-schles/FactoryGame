@@ -30,7 +30,7 @@ public class Inventory {
         InputStream in = fileIO.readFile(INVENTORY_FILE);
         Scanner scanner = new Scanner(in);
         scanner.useDelimiter("[:\n]");
-        for (int i = 0; i < SLOT_MAX && scanner.hasNextLine();) {
+        for (int i = 0; i < SLOT_MAX && scanner.hasNextLine(); i++) {
             inventory[i] = ItemStack.fromString(scanner.nextLine());
         }
         scanner.close();

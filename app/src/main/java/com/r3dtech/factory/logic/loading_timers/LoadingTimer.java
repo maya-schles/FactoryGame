@@ -14,7 +14,6 @@ public class LoadingTimer {
 
     public LoadingTimer(int goalTime, TimerCallback callback) {
         this.goalTime = goalTime;
-        this.currTime = goalTime;
         this.callback = callback;
     }
 
@@ -29,6 +28,7 @@ public class LoadingTimer {
             if (isDone()) {
                 isRunning = false;
                 callback.onTimerDone(this);
+                currTime = 0;
             }
         }
     }

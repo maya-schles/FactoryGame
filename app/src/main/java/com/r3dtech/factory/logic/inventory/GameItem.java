@@ -12,11 +12,7 @@ public enum GameItem {
     STONE("stone"),
     WOOD("wood"),
     STONE_BRICK("stone_brick"),
-    PLACEHOLDER1("placeholder"),
-    PLACEHOLDER2("placeholder"),
-    PLACEHOLDER3("placeholder"),
-    PLACEHOLDER4("placeholder"),
-    PLACEHOLDER5("placeholder"),;
+    STONE_FURNACE("stone_furnace");
 
     private String name;
 

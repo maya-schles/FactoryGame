@@ -87,7 +87,6 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
             map.loadMachines(getFileIO());
         } catch (IOException e) {
             Log.d(TAG, "couldn't load machines, couldn't read file");
-            map.addMachine(64, 64, new StoneFurnace());
         } catch (ClassNotFoundException e) {
             Log.d(TAG, "couldn't load machines, couldn't generate a machine");
         }

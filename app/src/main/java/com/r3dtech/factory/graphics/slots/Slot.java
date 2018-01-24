@@ -1,4 +1,4 @@
-package com.r3dtech.factory.graphics.inventory;
+package com.r3dtech.factory.graphics.slots;
 
 import android.graphics.Rect;
 
