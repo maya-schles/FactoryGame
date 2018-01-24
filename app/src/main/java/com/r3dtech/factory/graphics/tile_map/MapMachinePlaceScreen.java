@@ -21,22 +21,30 @@ public class MapMachinePlaceScreen extends MapScreen{
     private static final int DONE_BUTTON_HEIGHT = 128;
 
     private static final String DONE_BUTTON_FILE = "/res/drawable/done.jpg";
+
     private Machine.MachineType type;
     private MapTile machineLoc = null;
+    private Drawable doneButton;
 
     public MapMachinePlaceScreen(MyGameImplementation game, TileMap map, Machine.MachineType type) {
         super(game, map);
         this.type = type;
 
-        inventoryButton = Drawable.createFromStream(this.getClass().
+        doneButton= Drawable.createFromStream(this.getClass().
                 getResourceAsStream(DONE_BUTTON_FILE), "src");
-        inventoryButton.setBounds(canvas.getClipBounds().right- DONE_BUTTON_WIDTH,
+        doneButton.setBounds(canvas.getClipBounds().right- DONE_BUTTON_WIDTH,
                 0, canvas.getClipBounds().right, DONE_BUTTON_HEIGHT);
     }
 
     @Override
+    public void paint() {
+        super.paint();
+        doneButton.draw(canvas);
+    }
+
+    @Override
     public void onClick(int x, int y) {
-        if (inventoryButton.getBounds().contains(x, y)) {
+        if (doneButton.getBounds().contains(x, y)) {
             machineLoc.setMachine(Machine.createMachine(type));
             game.setMapScreen();
             return;
@@ -49,6 +57,11 @@ public class MapMachinePlaceScreen extends MapScreen{
         machineLoc = perspective.getTile(clickTileLoc.x, clickTileLoc.y);
         machineLoc.setMachine(
                 new GhostMachine(type.toInt()+ MachineDrawableCache.GREEN_TYPE_OFFSET));
+    }
+
+    @Override
+    protected boolean drawArrows() {
+        return false;
     }
 }
 

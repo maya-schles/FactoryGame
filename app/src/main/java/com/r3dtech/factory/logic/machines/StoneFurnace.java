@@ -44,6 +44,7 @@ public class StoneFurnace implements Machine {
 
     public StoneFurnace(String string) {
         Scanner scanner = new Scanner(string);
+        outputDirection = OutputDirection.fromInt(scanner.nextInt());
         fuel = ItemStack.fromString(scanner.next());
         smeltable = ItemStack.fromString(scanner.next());
         output = ItemStack.fromString(scanner.next());
@@ -103,6 +104,7 @@ public class StoneFurnace implements Machine {
     @Override
     public String saveToString() {
         return Integer.toString(TYPE.toInt())+" "
+                +outputDirection.toInt()+" "
                 +ItemStack.descString(fuel)+" "
                 +ItemStack.descString(smeltable) + " "
                 +ItemStack.descString(output);

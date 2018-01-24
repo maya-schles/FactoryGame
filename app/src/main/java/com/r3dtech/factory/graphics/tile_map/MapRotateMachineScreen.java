@@ -18,12 +18,14 @@ public class MapRotateMachineScreen extends MapScreen{
 
     private static final String DONE_BUTTON_FILE = "/res/drawable/done.jpg";
 
+    private Drawable doneButton;
+
     public MapRotateMachineScreen(MyGameImplementation game, TileMap map) {
         super(game, map);
 
-        inventoryButton = Drawable.createFromStream(this.getClass().
+        doneButton = Drawable.createFromStream(this.getClass().
                 getResourceAsStream(DONE_BUTTON_FILE), "src");
-        inventoryButton.setBounds(canvas.getClipBounds().right- DONE_BUTTON_WIDTH,
+        doneButton.setBounds(canvas.getClipBounds().right- DONE_BUTTON_WIDTH,
                 0, canvas.getClipBounds().right, DONE_BUTTON_HEIGHT);
 
         drawer = new PerspectiveDrawer(new MapSegmentDrawer(true));
@@ -31,12 +33,23 @@ public class MapRotateMachineScreen extends MapScreen{
     }
 
     @Override
+    public void paint() {
+        super.paint();
+        doneButton.draw(canvas);
+    }
+
+    @Override
     public void onClick(int x, int y) {
-        if (inventoryButton.getBounds().contains(x, y)) {
+        if (doneButton.getBounds().contains(x, y)) {
             game.setMapScreen();
             return;
         }
         Point clickTileLoc = perspective.getTileFromLoc(x-canvas.getWidth()/2, y-canvas.getHeight()/2);
         perspective.getTile(clickTileLoc.x, clickTileLoc.y).getMachine().rotate();
+    }
+
+    @Override
+    protected boolean drawArrows() {
+        return true;
     }
 }

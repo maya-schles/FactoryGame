@@ -43,6 +43,9 @@ public interface Machine {
         DOWN,
         LEFT;
 
+        public static OutputDirection fromInt(int i) {
+            return values()[i];
+        }
         public int toInt() {
             return Arrays.asList(values()).indexOf(this);
         }

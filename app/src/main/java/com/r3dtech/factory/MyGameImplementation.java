@@ -9,15 +9,14 @@ import com.r3dtech.factory.framework.ScreenOverlay;
 import com.r3dtech.factory.framework.implementation.AndroidEmptyOverlay;
 import com.r3dtech.factory.framework.implementation.AndroidGame;
 import com.r3dtech.factory.graphics.DrawableCaches;
-import com.r3dtech.factory.graphics.SimpleBitmapDrawable;
 import com.r3dtech.factory.graphics.crafting.CraftingScreen;
 import com.r3dtech.factory.graphics.crafting.RecipeScreen;
 import com.r3dtech.factory.graphics.inventory.InventoryScreen;
 import com.r3dtech.factory.graphics.loading_timers.LoadingTimersOverlay;
-import com.r3dtech.factory.graphics.machines.MachineScreen;
 import com.r3dtech.factory.graphics.machines.machine_drawables.StoneFurnaceScreen;
 import com.r3dtech.factory.graphics.tile_map.MapMachinePlaceScreen;
 import com.r3dtech.factory.graphics.tile_map.MapRotateMachineScreen;
+import com.r3dtech.factory.graphics.tile_map.MapViewScreen;
 import com.r3dtech.factory.logic.crafting.CraftingManager;
 import com.r3dtech.factory.logic.crafting.Recipe;
 import com.r3dtech.factory.logic.inventory.GameItem;
@@ -26,7 +25,6 @@ import com.r3dtech.factory.logic.loading_timers.GameItemTimersManager;
 import com.r3dtech.factory.logic.machines.Machine;
 import com.r3dtech.factory.logic.machines.StoneFurnace;
 import com.r3dtech.factory.logic.tile_map.TileMap;
-import com.r3dtech.factory.graphics.tile_map.MapScreen;
 import com.r3dtech.factory.logic.tile_map.implementation.GameMap;
 
 import java.io.IOException;
@@ -113,7 +111,7 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
 
     @Override
     public GameScreen getInitScreen() {
-        return new MapScreen(this, map);
+        return new MapViewScreen(this, map);
     }
 
     @Override
