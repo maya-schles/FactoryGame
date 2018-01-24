@@ -40,7 +40,9 @@ public class GameItemTimersManager implements TimersManager {
 
     @Override
     public void addTimer(GameItem item) {
-        itemBuffer.add(item);
+        if (item != null) {
+            itemBuffer.add(item);
+        }
     }
 
     @Override

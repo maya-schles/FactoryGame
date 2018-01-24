@@ -1,6 +1,6 @@
 package com.r3dtech.factory.graphics.inventory;
 
-import com.r3dtech.factory.MyGame;
+import com.r3dtech.factory.MyGameImplementation;
 import com.r3dtech.factory.graphics.GenericDrawer;
 import com.r3dtech.factory.logic.inventory.GameItem;
 import com.r3dtech.factory.logic.inventory.Inventory;
@@ -17,7 +17,7 @@ public class InventoryScreen extends InventoryMenuScreen {
     private Inventory inventory;
     private GenericDrawer<SlotBundle> slotDrawer;
 
-    public InventoryScreen(MyGame game) {
+    public InventoryScreen(MyGameImplementation game) {
         super(game, Tab.INVENTORY);
 
         inventory = game.getInventory();

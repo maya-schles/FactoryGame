@@ -1,6 +1,6 @@
 package com.r3dtech.factory.graphics.crafting;
 
-import com.r3dtech.factory.MyGame;
+import com.r3dtech.factory.MyGameImplementation;
 import com.r3dtech.factory.graphics.GenericDrawer;
 import com.r3dtech.factory.graphics.inventory.InventoryMenuScreen;
 import com.r3dtech.factory.graphics.inventory.Slot;
@@ -21,7 +21,7 @@ public class CraftingScreen extends InventoryMenuScreen {
     private CraftingManager craftingManager;
     private GenericDrawer<SlotBundle> slotDrawer;
 
-    public CraftingScreen(MyGame game) {
+    public CraftingScreen(MyGameImplementation game) {
         super(game, Tab.CRAFTING);
 
         craftingManager = game.getCraftingManager();

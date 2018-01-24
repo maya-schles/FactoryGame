@@ -1,6 +1,7 @@
-package com.r3dtech.factory.graphics.machines;
+package com.r3dtech.factory.graphics.machines.machine_drawables;
 
 import com.r3dtech.factory.graphics.SimpleBitmapDrawable;
+import com.r3dtech.factory.logic.inventory.ItemStack;
 import com.r3dtech.factory.logic.machines.Machine;
 
 import java.lang.reflect.Constructor;

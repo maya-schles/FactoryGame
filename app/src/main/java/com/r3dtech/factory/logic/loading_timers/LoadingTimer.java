@@ -45,4 +45,8 @@ public class LoadingTimer {
         currTime = 0;
         isRunning = true;
     }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
 }

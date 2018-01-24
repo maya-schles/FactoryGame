@@ -5,9 +5,10 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
-import com.r3dtech.factory.MyGame;
+import com.r3dtech.factory.MyGameImplementation;
 import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.graphics.GenericDrawer;
+import com.r3dtech.factory.logic.loading_timers.GameItemTimersManager;
 import com.r3dtech.factory.logic.tile_map.MapSegmentPerspective;
 import com.r3dtech.factory.logic.tile_map.MapTile;
 import com.r3dtech.factory.logic.tile_map.TileMap;
@@ -27,16 +28,18 @@ public class MapScreen implements GameScreen{
 
     private Canvas canvas;
     private Drawable inventoryButton;
-    private MyGame game;
+    private MyGameImplementation game;
     private Rect bounds;
     private SpaceDrawable space = new SpaceDrawable();
     private MapSegmentPerspective perspective;
     private GenericDrawer<MapSegmentPerspective> drawer = new PerspectiveDrawer();
+    private GameItemTimersManager harvestManager;
 
 
 
-    public MapScreen(MyGame game, TileMap map) {
+    public MapScreen(MyGameImplementation game, TileMap map) {
         this.game = game;
+        harvestManager = game.getHarvestManager();
 
         canvas = new Canvas(game.getFrameBuffer());
         bounds = canvas.getClipBounds();
@@ -72,14 +75,18 @@ public class MapScreen implements GameScreen{
             return;
         }
 
+
         Point tileLoc = perspective.getTileFromLoc(x - canvas.getWidth()/2, y - canvas.getHeight()/2);
         MapTile tile = perspective.getTile(tileLoc.x, tileLoc.y);
+        if(tile == null) {
+            return;
+        }
         if (tile.getMachine() != null) {
             game.setMachineScreen(tile.getMachine());
             return;
         }
-        if (tile != null && perspective.getSmallDistFromDiscovered(tileLoc.x, tileLoc.y) < TileMap.SMALL_DISCOVERED_DIST) {
-        game.harvest(tile);
+        if (perspective.getSmallDistFromDiscovered(tileLoc.x, tileLoc.y) < TileMap.SMALL_DISCOVERED_DIST) {
+            harvestManager.addTimer(tile.tileType().getResource());
         }
     }
 

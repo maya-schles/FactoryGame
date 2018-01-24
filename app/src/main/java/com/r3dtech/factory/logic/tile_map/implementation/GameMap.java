@@ -14,7 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import javax.crypto.Mac;
 
 
 /**
@@ -145,6 +149,21 @@ public class GameMap implements TileMap {
             map[i][j].setMachine(machine);
         }
         scanner.close();
+    }
+
+    @Override
+    public Machine[] getMachines() {
+        List<Machine> machines = new ArrayList<>();
+        for (int i = 0; i < tiledHeight(); i++) {
+            for (int j = 0; j < tiledWidth(); j++) {
+                if (map[i][j].getMachine() != null) {
+                    machines.add(map[i][j].getMachine());
+                }
+            }
+        }
+        Machine[] machinesArray = new Machine[machines.size()];
+        machines.toArray(machinesArray);
+        return machinesArray;
     }
 
     public void saveMachines(FileIO fileIO) throws IOException {

@@ -31,9 +31,8 @@ public class MachineScreen implements GameScreen {
     private Drawable mapButton;
 
     private Slot[] slots;
-    private Inventory inventory;
-    private Slot firstSlot;
-    private GenericDrawer<SlotBundle> slotDrawer;
+    protected Inventory inventory;
+    protected GenericDrawer<SlotBundle> slotDrawer;
     protected int selected = -1;
 
     public MachineScreen(MyGame game) {
@@ -45,7 +44,7 @@ public class MachineScreen implements GameScreen {
         mapButton.setBounds(canvas.getWidth() - MAP_BUTTON_WIDTH - MAP_BUTTON_RIGHT_DIST,
                 0, canvas.getWidth() - MAP_BUTTON_RIGHT_DIST, MAP_BUTTON_HEIGHT);
 
-        firstSlot = Slot.getDefaultSlot();
+        Slot firstSlot = Slot.getDefaultSlot();
         firstSlot.offset(0, canvas.getHeight()/2);
 
         slots = Slot.generateSlots(inventory.getSlotsMax(), firstSlot);
@@ -58,10 +57,8 @@ public class MachineScreen implements GameScreen {
 
         for (int i = 0; i < inventory.getSlotsMax(); i++) {
             GameItem item = inventory.getItem(i);
-            int amount = (item == null)?0 : inventory.getAmount(item);
-            ItemStack itemStack = new ItemStack(item, amount);
-            slotDrawer.draw(canvas, new SlotBundle(itemStack, slots[i],
-                    item != null, i == selected, SlotBundle.TextOrNum.NUM));
+            slotDrawer.draw(canvas, new SlotBundle(inventory.getItemStack(i), slots[i],
+                    !inventory.getItemStack(i).isEmpty(), i == selected, SlotBundle.TextOrNum.NUM));
         }
         mapButton.draw(canvas);
     }

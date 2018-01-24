@@ -26,4 +26,5 @@ public interface TileMap {
     int getSmallDistFromDiscovered(int x, int y);
     Point getTileFromLoc(int x, int y);
     void addMachine(int x, int y, Machine machine);
+    Machine[] getMachines();
 }

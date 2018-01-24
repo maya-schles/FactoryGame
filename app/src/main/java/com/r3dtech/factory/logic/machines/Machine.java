@@ -38,6 +38,7 @@ public interface Machine {
     String saveToString();
     void input(ItemStack input);
     ItemStack output();
+    void process(float deltaTime);
 
     static Machine loadFromString(String string) {
         Scanner scanner = new Scanner(string);

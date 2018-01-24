@@ -1,4 +1,4 @@
-package com.r3dtech.factory.graphics.machines;
+package com.r3dtech.factory.graphics.machines.machine_drawables;
 
 import android.graphics.Color;
 

@@ -131,4 +131,9 @@ public class GameMapSegment implements MapSegment {
     public void addMachine(int x, int y, Machine machine) {
         map.addMachine(x + topLeftTile().x, y + topLeftTile().y, machine);
     }
+
+    @Override
+    public Machine[] getMachines() {
+        return map.getMachines();
+    }
 }

@@ -1,4 +1,4 @@
-package com.r3dtech.factory.graphics.tile_map;
+package com.r3dtech.factory.graphics.tile_map.tile_drawables;
 
 import android.util.Log;
 

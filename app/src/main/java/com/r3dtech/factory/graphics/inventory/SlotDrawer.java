@@ -70,7 +70,7 @@ public class SlotDrawer extends GenericDrawer<SlotBundle> {
         } else {
             canvas.drawRoundRect(new RectF(bounds), bounds.height() / 4, bounds.height() / 4, emptySlotPaint);
         }
-        if (object.itemStack.getItem() != null) {
+        if (!object.itemStack.isEmpty()) {
             Drawable icon = DrawableCaches.getItemIcon(object.itemStack.getItem().toInt());
             icon.setBounds(bounds);
             icon.draw(canvas);

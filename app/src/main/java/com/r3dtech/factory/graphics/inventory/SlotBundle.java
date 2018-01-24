@@ -27,4 +27,11 @@ public class SlotBundle {
         this.isSelected = isSelected;
         this.textOrNum = textOrNum;
     }
+    public SlotBundle(ItemStack itemStack, Slot slot) {
+        this.itemStack = itemStack;
+        this.slot = slot;
+        this.isFull = true;
+        this.isSelected = false;
+        this.textOrNum = TextOrNum.NUM;
+    }
 }

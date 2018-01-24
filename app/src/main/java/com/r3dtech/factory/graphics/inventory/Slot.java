@@ -16,6 +16,12 @@ public class Slot {
     protected static final int TOP_DIST = 64;
     protected static final int LEFT_DIST = 32;
 
+    public enum AdjacentSlot {
+        ABOVE,
+        BELOW,
+        LEFT,
+        RIGHT
+    }
     private Rect bounds;
 
     public Slot(int left, int top) {
@@ -68,5 +74,24 @@ public class Slot {
 
     public void offset(int dx, int dy) {
         bounds.offset(dx, dy);
+    }
+
+    public Slot adjacentSlot(AdjacentSlot slot) {
+        Slot res = new Slot(this);
+        switch (slot) {
+            case LEFT:
+                res.offset(-(SLOT_SIZE+LEFT_DIST), 0);
+                break;
+            case ABOVE:
+                res.offset(0, -(SLOT_SIZE+TOP_DIST));
+                break;
+            case RIGHT:
+                res.offset(SLOT_SIZE+LEFT_DIST, 0);
+                break;
+            case BELOW:
+                res.offset(0, SLOT_SIZE+TOP_DIST);
+                break;
+        }
+        return res;
     }
 }

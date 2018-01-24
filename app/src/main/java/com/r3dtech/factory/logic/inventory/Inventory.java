@@ -1,5 +1,6 @@
 package com.r3dtech.factory.logic.inventory;
 
+
 import com.r3dtech.factory.framework.FileIO;
 
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class Inventory {
 
     private void setAmount(GameItem item, int amount) {
         if (inventory.get(item) != 0 || getItemNum() < SLOT_MAX) {
+            int newAmount = Math.max(0, Math.min(ItemStack.STACK_LIMIT, amount));
             inventory.put(item, amount);
         }
     }
@@ -106,4 +108,15 @@ public class Inventory {
         return SLOT_MAX;
     }
 
+    public ItemStack getItemStack(int i) {
+        GameItem item = getItem(i);
+        if (item == null) {
+            return new ItemStack();
+        }
+        return new ItemStack(item, getAmount(item));
+    }
+
+    public void setItemStack(ItemStack stack) {
+        setAmount(stack.getItem(), stack.getAmount());
+    }
 }

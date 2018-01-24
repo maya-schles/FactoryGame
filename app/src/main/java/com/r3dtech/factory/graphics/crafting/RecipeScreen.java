@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
-import com.r3dtech.factory.MyGame;
+import com.r3dtech.factory.MyGameImplementation;
 import com.r3dtech.factory.graphics.GenericDrawer;
 import com.r3dtech.factory.graphics.inventory.InventoryMenuScreen;
 import com.r3dtech.factory.graphics.inventory.Slot;
@@ -36,7 +36,7 @@ public class RecipeScreen extends InventoryMenuScreen {
 
     private Paint titlePaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
 
-    public RecipeScreen(MyGame game, Recipe recipe) {
+    public RecipeScreen(MyGameImplementation game, Recipe recipe) {
         super(game, Tab.CRAFTING);
 
         this.craftingManager = game.getCraftingManager();
@@ -44,8 +44,9 @@ public class RecipeScreen extends InventoryMenuScreen {
         this.inventory = game.getInventory();
 
         productSlot = new Slot(firstSlot);
-        Slot firstComponentSlot = new Slot(productSlot);
-        firstComponentSlot.offset(0, COMPONENT_DIST_UP + Slot.SLOT_SIZE);
+
+        Slot firstComponentSlot = productSlot.adjacentSlot(Slot.AdjacentSlot.BELOW);
+        firstComponentSlot.offset(0, COMPONENT_DIST_UP);
         slots = Slot.generateSlots(recipe.getComponents().length, firstComponentSlot);
 
         slotDrawer = new SlotDrawer(game.getAssets());
