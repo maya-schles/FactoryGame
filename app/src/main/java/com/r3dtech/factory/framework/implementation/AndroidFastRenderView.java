@@ -2,7 +2,6 @@ package com.r3dtech.factory.framework.implementation;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 

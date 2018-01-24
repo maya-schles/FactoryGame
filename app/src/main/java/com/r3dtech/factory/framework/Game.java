@@ -1,10 +1,6 @@
 package com.r3dtech.factory.framework;
 
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-
-import com.r3dtech.factory.crafting.Recipe;
-import com.r3dtech.factory.inventory.Inventory;
 
 /**
  * This interface represents a game and binds everything together.
@@ -20,16 +16,9 @@ public interface Game {
     ScreenOverlay getCurrentScreenOverlay();
     GameScreen getInitScreen();
     ScreenOverlay getInitScreenOverlay();
-    GameInput getInput();
     Bitmap getFrameBuffer();
     ScaleCallback getScaleCallback();
     ScrollCallback getScrollCalback();
     ClickCallback getClickCallback();
     FileIO getFileIO();
-    void setMainScreen();
-    void setInventoryScreen();
-    void setCraftingScreen();
-    void setRecipeScreen(Recipe recipe);
-    Inventory getInventory();
-    AssetManager getAssets();
 }

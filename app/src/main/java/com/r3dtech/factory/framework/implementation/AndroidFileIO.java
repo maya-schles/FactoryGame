@@ -1,14 +1,10 @@
 package com.r3dtech.factory.framework.implementation;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
 import com.r3dtech.factory.framework.FileIO;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,7 +18,7 @@ import java.io.OutputStream;
 public class AndroidFileIO implements FileIO {
     private Context context;
 
-    public AndroidFileIO(Context context) {
+    AndroidFileIO(Context context) {
         this.context = context;
     }
 

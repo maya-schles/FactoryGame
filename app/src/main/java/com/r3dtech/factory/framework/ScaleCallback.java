@@ -7,5 +7,5 @@ package com.r3dtech.factory.framework;
  */
 
 public interface ScaleCallback {
-    public void onScale(float scale);
+    void onScale(float scale);
 }

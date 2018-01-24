@@ -1,17 +1,25 @@
 package com.r3dtech.factory.framework.implementation;
 
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.r3dtech.factory.framework.ClickCallback;
 import com.r3dtech.factory.framework.FileIO;
 import com.r3dtech.factory.framework.Game;
 import com.r3dtech.factory.framework.GameInput;
 import com.r3dtech.factory.framework.GameScreen;
+import com.r3dtech.factory.framework.ScaleCallback;
 import com.r3dtech.factory.framework.ScreenOverlay;
+import com.r3dtech.factory.framework.ScrollCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,8 +32,30 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
     private GameScreen screen;
     private ScreenOverlay screenOverlay;
     private Bitmap frameBuffer;
-    private GameInput input;
     private FileIO fileIO;
+
+    private List<Float> scaleEvents = new ArrayList<>();
+    private List<Pair<Float, Float>> scrollEvents = new ArrayList<>();
+    private List<Point> clickEvents = new ArrayList<>();
+
+    private ScaleCallback scaleCallback = new ScaleCallback() {
+        @Override
+        public void onScale(float scale) {
+            scaleEvents.add(scale);
+        }
+    };
+    private ScrollCallback scrollCallback = new ScrollCallback() {
+        @Override
+        public void onScroll(float dx, float dy) {
+            scrollEvents.add(new Pair<>(dx, dy));
+        }
+    };
+    private ClickCallback clickCallback = new ClickCallback() {
+        @Override
+        public void onClick(int x, int y) {
+            clickEvents.add(new Point(x, y));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +64,20 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
         fileIO = new AndroidFileIO(this);
 
         frameBuffer = Bitmap.createBitmap(1080, 1920, Bitmap.Config.RGB_565);
+
+    }
+
+    protected void onPostCreate() {
         screen = getInitScreen();
         screenOverlay = getInitScreenOverlay();
         renderView = new AndroidFastRenderView(this);
         setContentView(renderView);
         hide();
-        input = new AndroidInput(this, renderView);
+        GameInput input = new AndroidInput(this, renderView);
         input.setClickCallback(getClickCallback());
         input.setScaleCallback(getScaleCallback());
         input.setScrollCallback(getScrollCalback());
-
     }
-
     @Override
     public void setScreen(GameScreen screen) {
         this.screen = screen;
@@ -59,11 +91,6 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
     @Override
     public Bitmap getFrameBuffer() {
         return frameBuffer;
-    }
-
-    @Override
-    public GameInput getInput() {
-        return input;
     }
 
     @Override
@@ -108,5 +135,42 @@ public abstract class AndroidGame extends AppCompatActivity implements Game{
     @Override
     public ScreenOverlay getCurrentScreenOverlay() {
         return screenOverlay;
+    }
+
+    @Override
+    public ScaleCallback getScaleCallback() {
+        return scaleCallback;
+    }
+
+    @Override
+    public ScrollCallback getScrollCalback() {
+        return scrollCallback;
+    }
+
+    @Override
+    public ClickCallback getClickCallback() {
+        return clickCallback;
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        List<Float> currScaleEvents = new ArrayList<>(scaleEvents);
+        List<Pair<Float, Float>> currScrollEvents = new ArrayList<>(scrollEvents);
+        List<Point> currClickEvents = new ArrayList<>(clickEvents);
+
+        for (Float scale: currScaleEvents) {
+            screen.onScale(scale);
+        }
+        scaleEvents.clear();
+
+        for (Pair<Float, Float> deltas : currScrollEvents) {
+            screen.onScroll(deltas.first, deltas.second);
+        }
+        scrollEvents.clear();
+
+        for (Point click: currClickEvents) {
+            screen.onClick(click.x, click.y);
+        }
+        clickEvents.clear();
     }
 }

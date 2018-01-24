@@ -34,7 +34,7 @@ public class AndroidInput implements GameInput, View.OnTouchListener {
     private float mLastTouchX;
     private  float mLastTouchY;
 
-    public AndroidInput(Context context, View view) {
+    AndroidInput(Context context, View view) {
         view.setOnTouchListener(this);
         scaleDetector = new ScaleGestureDetector(context, new ScaleListener());
     }

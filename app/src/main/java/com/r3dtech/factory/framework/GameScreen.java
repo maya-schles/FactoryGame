@@ -9,4 +9,6 @@ package com.r3dtech.factory.framework;
 public interface GameScreen {
     void paint();
     void onClick(int x, int y);
+    void onScale(float scale);
+    void onScroll(float dx, float dy);
 }
