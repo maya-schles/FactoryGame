@@ -85,7 +85,7 @@ public class MapSegmentDrawer extends GenericDrawer<MapSegment> {
                 drawable.draw(canvas);
 
                 if (tile.getMachine() != null) {
-                    Drawable machineDrawable = DrawableCaches.getMachine(tile.getMachine().getType().toInt());
+                    Drawable machineDrawable = DrawableCaches.getMachine(tile.getMachine().getType());
                     machineDrawable.setBounds(dstRect);
                     machineDrawable.draw(canvas);
                 }

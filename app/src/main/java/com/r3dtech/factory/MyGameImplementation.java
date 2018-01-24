@@ -8,6 +8,7 @@ import com.r3dtech.factory.framework.GameScreen;
 import com.r3dtech.factory.framework.ScreenOverlay;
 import com.r3dtech.factory.framework.implementation.AndroidEmptyOverlay;
 import com.r3dtech.factory.framework.implementation.AndroidGame;
+import com.r3dtech.factory.graphics.DrawableCaches;
 import com.r3dtech.factory.graphics.SimpleBitmapDrawable;
 import com.r3dtech.factory.graphics.crafting.CraftingScreen;
 import com.r3dtech.factory.graphics.crafting.RecipeScreen;
@@ -15,6 +16,7 @@ import com.r3dtech.factory.graphics.inventory.InventoryScreen;
 import com.r3dtech.factory.graphics.loading_timers.LoadingTimersOverlay;
 import com.r3dtech.factory.graphics.machines.MachineScreen;
 import com.r3dtech.factory.graphics.machines.machine_drawables.StoneFurnaceScreen;
+import com.r3dtech.factory.graphics.tile_map.MapMachinePlaceScreen;
 import com.r3dtech.factory.logic.crafting.CraftingManager;
 import com.r3dtech.factory.logic.crafting.Recipe;
 import com.r3dtech.factory.logic.inventory.GameItem;
@@ -55,6 +57,11 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
             Log.d("INVENTORY_LOADING", "couldn't load inventory from file");
         }
         map = generateMap();
+        if (inventory.getAmount(GameItem.STONE_FURNACE) == 0) {
+            inventory.increaseAmount(GameItem.STONE_FURNACE, 1);
+        }
+
+        DrawableCaches.load();
         onPostCreate();
     }
 
@@ -159,12 +166,18 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
     @Override
     public void setMachineScreen(Machine machine) {
         GameScreen screen = null;
-        switch (machine.getType()) {
+        switch (Machine.MachineType.fromInt(machine.getType())) {
             case STONE_FURNACE:
                 screen = new StoneFurnaceScreen(this, (StoneFurnace) machine);
                 break;
         }
         setScreen(screen);
+        setScreenOverlay(new AndroidEmptyOverlay());
+    }
+
+    @Override
+    public void setMachinePlaceScreen(Machine.MachineType type) {
+        setScreen(new MapMachinePlaceScreen(this, map, type));
         setScreenOverlay(new AndroidEmptyOverlay());
     }
 }

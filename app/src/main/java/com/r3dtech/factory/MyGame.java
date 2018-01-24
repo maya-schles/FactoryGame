@@ -19,11 +19,11 @@ public interface MyGame extends Game{
     Inventory getInventory();
     CraftingManager getCraftingManager();
     GameItemTimersManager getHarvestManager();
+    AssetManager getAssets();
     void setMapScreen();
     void setInventoryScreen();
     void setCraftingScreen();
     void setRecipeScreen(Recipe recipe);
     void setMachineScreen(Machine machine);
-    AssetManager getAssets();
-
+    void setMachinePlaceScreen(Machine.MachineType type);
 }

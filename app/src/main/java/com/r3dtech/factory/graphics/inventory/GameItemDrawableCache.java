@@ -2,6 +2,7 @@ package com.r3dtech.factory.graphics.inventory;
 
 import android.graphics.drawable.Drawable;
 
+import com.r3dtech.factory.graphics.machines.machine_drawables.StoneFurnaceDrawable;
 import com.r3dtech.factory.logic.inventory.GameItem;
 
 /**

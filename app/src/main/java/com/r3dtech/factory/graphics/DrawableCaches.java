@@ -18,9 +18,7 @@ public class DrawableCaches {
     private static GameItemDrawableCache itemDrawableCache = new GameItemDrawableCache();
     private static MachineDrawableCache machineDrawableCache = new MachineDrawableCache();
 
-    private static boolean isLoaded = load();
-
-    private static boolean load() {
+    public static boolean load() {
         tileDrawableCache.load();
         itemDrawableCache.load();
         machineDrawableCache.load();

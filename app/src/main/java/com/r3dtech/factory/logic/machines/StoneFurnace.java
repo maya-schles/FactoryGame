@@ -107,8 +107,8 @@ public class StoneFurnace implements Machine {
     }
 
     @Override
-    public MachineType getType() {
-        return TYPE;
+    public int getType() {
+        return TYPE.toInt();
     }
 
     @Override

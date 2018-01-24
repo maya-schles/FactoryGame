@@ -1,9 +1,12 @@
 package com.r3dtech.factory.logic.machines;
 
+import com.r3dtech.factory.logic.inventory.GameItem;
 import com.r3dtech.factory.logic.inventory.ItemStack;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -13,6 +16,13 @@ import java.util.Scanner;
  */
 
 public interface Machine {
+    static Map<GameItem, MachineType> machineItems = getMachineItems();
+
+    static Map<GameItem, MachineType> getMachineItems() {
+        Map<GameItem, MachineType> res = new HashMap<>();
+        res.put(GameItem.STONE_FURNACE, MachineType.STONE_FURNACE);
+        return res;
+    }
     enum MachineType {
         STONE_FURNACE(StoneFurnace.class);
 
@@ -34,11 +44,20 @@ public interface Machine {
         }
     }
 
-    MachineType getType();
+    int getType();
     String saveToString();
     void input(ItemStack input);
     ItemStack output();
     void process(float deltaTime);
+
+    static Machine createMachine(MachineType type) {
+        try {
+            Constructor<Machine> constructor = type.getMachineClass().getConstructor();
+            return constructor.newInstance();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     static Machine loadFromString(String string) {
         Scanner scanner = new Scanner(string);
@@ -55,5 +74,9 @@ public interface Machine {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    static MachineType getMachine(GameItem item) {
+        return machineItems.get(item);
     }
 }

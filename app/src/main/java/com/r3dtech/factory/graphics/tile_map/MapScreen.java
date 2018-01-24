@@ -26,12 +26,12 @@ public class MapScreen implements GameScreen{
 
     private static final String INVENTORY_BUTTON_FILE = "/res/drawable/inventory.jpg";
 
-    private Canvas canvas;
-    private Drawable inventoryButton;
-    private MyGameImplementation game;
+    protected Canvas canvas;
+    protected Drawable inventoryButton;
+    protected MyGameImplementation game;
     private Rect bounds;
     private SpaceDrawable space = new SpaceDrawable();
-    private MapSegmentPerspective perspective;
+    protected MapSegmentPerspective perspective;
     private GenericDrawer<MapSegmentPerspective> drawer = new PerspectiveDrawer();
     private GameItemTimersManager harvestManager;
 

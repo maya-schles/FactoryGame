@@ -136,6 +136,14 @@ public class SimpleBitmapDrawable extends Drawable{
         return new SimpleBitmapDrawable(resBitmap, resColors);
     }
 
+    public SimpleBitmapDrawable offsetColor(int color, int alpha) {
+        int[] newColors = colors;
+        for (int i = 0; i < newColors.length; i++) {
+            newColors[i] = colorOffset(colors[i], color, alpha);
+        }
+        return new SimpleBitmapDrawable(bitmap, newColors);
+    }
+
     private static int colorOffset(int color, int colorOffset, int alpha) {
         Color color1 = Color.valueOf(color);
         Color colorOffset1 = Color.valueOf(colorOffset);
