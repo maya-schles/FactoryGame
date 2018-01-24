@@ -16,6 +16,10 @@ import com.r3dtech.factory.logic.tile_map.MapSegmentPerspective;
 public class PerspectiveDrawer extends GenericDrawer<MapSegmentPerspective> {
     private GenericDrawer<MapSegment> drawer = new MapSegmentDrawer();
 
+    public PerspectiveDrawer(GenericDrawer<MapSegment> drawer) {
+        this.drawer = drawer;
+    }
+
     @Override
     public void draw(Canvas canvas, MapSegmentPerspective object) {
         float scale = object.getScale();

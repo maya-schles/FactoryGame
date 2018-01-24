@@ -26,4 +26,5 @@ public interface MyGame extends Game{
     void setRecipeScreen(Recipe recipe);
     void setMachineScreen(Machine machine);
     void setMachinePlaceScreen(Machine.MachineType type);
+    void setMachineRotateScreen();
 }

@@ -32,7 +32,7 @@ public class MapScreen implements GameScreen{
     private Rect bounds;
     private SpaceDrawable space = new SpaceDrawable();
     protected MapSegmentPerspective perspective;
-    private GenericDrawer<MapSegmentPerspective> drawer = new PerspectiveDrawer();
+    protected GenericDrawer<MapSegmentPerspective> drawer = new PerspectiveDrawer(new MapSegmentDrawer());
     private GameItemTimersManager harvestManager;
 
 
@@ -82,7 +82,8 @@ public class MapScreen implements GameScreen{
             return;
         }
         if (tile.getMachine() != null) {
-            game.setMachineScreen(tile.getMachine());
+            game.setMachineRotateScreen();
+            //game.setMachineScreen(tile.getMachine());
             return;
         }
         if (perspective.getSmallDistFromDiscovered(tileLoc.x, tileLoc.y) < TileMap.SMALL_DISCOVERED_DIST) {

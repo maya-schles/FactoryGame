@@ -36,6 +36,8 @@ public class StoneFurnace implements Machine {
 
     private int currFuel = 0;
 
+    private OutputDirection outputDirection = OutputDirection.DOWN;
+
     public StoneFurnace(){
 
     }
@@ -161,5 +163,15 @@ public class StoneFurnace implements Machine {
 
     public int getCurrFuel() {
         return currFuel;
+    }
+
+    @Override
+    public OutputDirection getOutputDirection() {
+        return outputDirection;
+    }
+
+    @Override
+    public void rotate() {
+        outputDirection = outputDirection.rotate();
     }
 }

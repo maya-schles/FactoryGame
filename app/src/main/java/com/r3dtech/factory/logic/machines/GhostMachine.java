@@ -10,7 +10,6 @@ import com.r3dtech.factory.logic.inventory.ItemStack;
 
 public class GhostMachine implements Machine {
     private int type;
-
     public GhostMachine(int type) {
         this.type = type;
     }
@@ -37,6 +36,16 @@ public class GhostMachine implements Machine {
 
     @Override
     public void process(float deltaTime) {
+
+    }
+
+    @Override
+    public OutputDirection getOutputDirection() {
+        return null;
+    }
+
+    @Override
+    public void rotate() {
 
     }
 }

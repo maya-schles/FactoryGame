@@ -16,13 +16,6 @@ import java.util.Scanner;
  */
 
 public interface Machine {
-    static Map<GameItem, MachineType> machineItems = getMachineItems();
-
-    static Map<GameItem, MachineType> getMachineItems() {
-        Map<GameItem, MachineType> res = new HashMap<>();
-        res.put(GameItem.STONE_FURNACE, MachineType.STONE_FURNACE);
-        return res;
-    }
     enum MachineType {
         STONE_FURNACE(StoneFurnace.class);
 
@@ -44,11 +37,36 @@ public interface Machine {
         }
     }
 
+    enum OutputDirection {
+        UP,
+        RIGHT,
+        DOWN,
+        LEFT;
+
+        public int toInt() {
+            return Arrays.asList(values()).indexOf(this);
+        }
+
+        public OutputDirection rotate() {
+            return values()[(toInt()+1) % 4];
+        }
+    }
+
+    static Map<GameItem, MachineType> machineItems = getMachineItems();
+
+    static Map<GameItem, MachineType> getMachineItems() {
+        Map<GameItem, MachineType> res = new HashMap<>();
+        res.put(GameItem.STONE_FURNACE, MachineType.STONE_FURNACE);
+        return res;
+    }
+
     int getType();
     String saveToString();
     void input(ItemStack input);
     ItemStack output();
     void process(float deltaTime);
+    OutputDirection getOutputDirection();
+    void rotate();
 
     static Machine createMachine(MachineType type) {
         try {

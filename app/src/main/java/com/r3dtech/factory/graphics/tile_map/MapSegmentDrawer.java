@@ -9,6 +9,7 @@ import com.r3dtech.factory.Utils;
 import com.r3dtech.factory.graphics.DrawableCaches;
 import com.r3dtech.factory.graphics.GenericDrawer;
 import com.r3dtech.factory.graphics.SimpleBitmapDrawable;
+import com.r3dtech.factory.graphics.machines.ArrowBitmapDrawable;
 import com.r3dtech.factory.graphics.tile_map.tile_drawables.FogDrawable;
 import com.r3dtech.factory.logic.tile_map.MapSegment;
 import com.r3dtech.factory.logic.tile_map.MapTile;
@@ -28,8 +29,15 @@ public class MapSegmentDrawer extends GenericDrawer<MapSegment> {
     private SimpleBitmapDrawable[][][] foggedTiles = new SimpleBitmapDrawable[
             TileType.values().length][Constants.TILE_VARIETY][TileMap.SMALL_DISCOVERED_DIST+1];
 
+    private boolean drawArrows;
+
     MapSegmentDrawer() {
+        this(false);
+    }
+
+    MapSegmentDrawer(boolean drawArrows) {
         initFoggedTiles();
+        this.drawArrows = drawArrows;
     }
     private void initFoggedTiles() {
         SimpleBitmapDrawable[] fogDrawables = {new FogDrawable(0), new FogDrawable(1), new FogDrawable(2)};
@@ -88,6 +96,11 @@ public class MapSegmentDrawer extends GenericDrawer<MapSegment> {
                     Drawable machineDrawable = DrawableCaches.getMachine(tile.getMachine().getType());
                     machineDrawable.setBounds(dstRect);
                     machineDrawable.draw(canvas);
+                    if (drawArrows) {
+                        Drawable arrow = new ArrowBitmapDrawable(tile.getMachine().getOutputDirection());
+                        arrow.setBounds(dstRect);
+                        arrow.draw(canvas);
+                    }
                 }
             }
         }

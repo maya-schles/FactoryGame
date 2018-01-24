@@ -17,6 +17,7 @@ import com.r3dtech.factory.graphics.loading_timers.LoadingTimersOverlay;
 import com.r3dtech.factory.graphics.machines.MachineScreen;
 import com.r3dtech.factory.graphics.machines.machine_drawables.StoneFurnaceScreen;
 import com.r3dtech.factory.graphics.tile_map.MapMachinePlaceScreen;
+import com.r3dtech.factory.graphics.tile_map.MapRotateMachineScreen;
 import com.r3dtech.factory.logic.crafting.CraftingManager;
 import com.r3dtech.factory.logic.crafting.Recipe;
 import com.r3dtech.factory.logic.inventory.GameItem;
@@ -57,10 +58,6 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
             Log.d("INVENTORY_LOADING", "couldn't load inventory from file");
         }
         map = generateMap();
-        if (inventory.getAmount(GameItem.STONE_FURNACE) == 0) {
-            inventory.increaseAmount(GameItem.STONE_FURNACE, 1);
-        }
-
         DrawableCaches.load();
         onPostCreate();
     }
@@ -178,6 +175,12 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
     @Override
     public void setMachinePlaceScreen(Machine.MachineType type) {
         setScreen(new MapMachinePlaceScreen(this, map, type));
+        setScreenOverlay(new AndroidEmptyOverlay());
+    }
+
+    @Override
+    public void setMachineRotateScreen() {
+        setScreen(new MapRotateMachineScreen(this, map));
         setScreenOverlay(new AndroidEmptyOverlay());
     }
 }
