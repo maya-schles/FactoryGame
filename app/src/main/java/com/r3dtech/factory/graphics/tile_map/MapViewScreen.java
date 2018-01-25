@@ -15,17 +15,17 @@ import com.r3dtech.factory.logic.tile_map.TileMap;
  */
 
 public class MapViewScreen extends MapScreen {
-    private static final int INVENTORY_BUTTON_WIDTH = 128;
-    private static final int INVENTORY_BUTTON_HEIGHT = 128;
-
-    private static final int ROTATE_BUTTON_WIDTH = 128;
-    private static final int ROTATE_BUTTON_HEIGHT = 128;
+    protected static final int BUTTON_WIDTH = 128;
+    protected static final int BUTTON_HEIGHT = 128;
 
     private static final String INVENTORY_BUTTON_FILE = "/res/drawable/inventory.jpg";
     private static final String ROTATE_BUTTON_FILE = "/res/drawable/rotate.jpg";
+    private static final String DELETE_BUTTON_FILE = "/res/drawable/delete.jpg";
 
     private Drawable inventoryButton;
     private Drawable rotateButton;
+    private Drawable deleteButton;
+
     private GameItemTimersManager harvestManager;
 
     public MapViewScreen(MyGameImplementation game, TileMap map) {
@@ -34,13 +34,18 @@ public class MapViewScreen extends MapScreen {
 
         inventoryButton = Drawable.createFromStream(this.getClass().
                 getResourceAsStream(INVENTORY_BUTTON_FILE), "src");
-        inventoryButton.setBounds(canvas.getClipBounds().right-INVENTORY_BUTTON_WIDTH,
-                0, canvas.getClipBounds().right, INVENTORY_BUTTON_HEIGHT);
+        inventoryButton.setBounds(canvas.getClipBounds().right-BUTTON_WIDTH,
+                0, canvas.getClipBounds().right, BUTTON_HEIGHT);
 
         rotateButton = Drawable.createFromStream(this.getClass().
                 getResourceAsStream(ROTATE_BUTTON_FILE), "src");
-        rotateButton.setBounds(inventoryButton.getBounds().left - ROTATE_BUTTON_WIDTH,
-                0, inventoryButton.getBounds().left, ROTATE_BUTTON_HEIGHT);
+        rotateButton.setBounds(inventoryButton.getBounds().left - BUTTON_WIDTH,
+                0, inventoryButton.getBounds().left, BUTTON_HEIGHT);
+
+        deleteButton = Drawable.createFromStream(this.getClass().
+                getResourceAsStream(DELETE_BUTTON_FILE), "src");
+        deleteButton.setBounds(rotateButton.getBounds().left - BUTTON_WIDTH,
+                0, rotateButton.getBounds().left, BUTTON_HEIGHT);
     }
 
     @Override
@@ -48,6 +53,7 @@ public class MapViewScreen extends MapScreen {
         super.paint();
         inventoryButton.draw(canvas);
         rotateButton.draw(canvas);
+        deleteButton.draw(canvas);
     }
 
     @Override
@@ -59,7 +65,9 @@ public class MapViewScreen extends MapScreen {
         if(rotateButton.getBounds().contains(x, y)) {
             game.setMachineRotateScreen();
         }
-
+        if(deleteButton.getBounds().contains(x, y)) {
+            game.setMachineDeleteScreen();
+        }
         Point tileLoc = perspective.getTileFromLoc(x - canvas.getWidth()/2, y - canvas.getHeight()/2);
         MapTile tile = perspective.getTile(tileLoc.x, tileLoc.y);
         if(tile == null) {

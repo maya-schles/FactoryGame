@@ -3,8 +3,7 @@ package com.r3dtech.factory.graphics.machines.machine_drawables;
 import android.graphics.Color;
 
 import com.r3dtech.factory.graphics.SimpleBitmapDrawable;
-import com.r3dtech.factory.logic.inventory.ItemStack;
-import com.r3dtech.factory.logic.machines.Machine;
+import com.r3dtech.factory.logic.machines.MachineType;
 
 import java.lang.reflect.Constructor;
 
@@ -15,9 +14,11 @@ import java.lang.reflect.Constructor;
  */
 public class MachineDrawableCache {
     public static int GREEN_TYPE_OFFSET = 100;
+    public static int RED_TYPE_OFFSET = 200;
     private static int COLOR_OFFSET_ALPHA = 127;
-    private SimpleBitmapDrawable[] drawables = new SimpleBitmapDrawable[Machine.MachineType.values().length];
-    private SimpleBitmapDrawable[] greenDrawables = new SimpleBitmapDrawable[Machine.MachineType.values().length];
+    private SimpleBitmapDrawable[] drawables = new SimpleBitmapDrawable[MachineType.values().length];
+    private SimpleBitmapDrawable[] greenDrawables = new SimpleBitmapDrawable[MachineType.values().length];
+    private SimpleBitmapDrawable[] redDrawables = new SimpleBitmapDrawable[MachineType.values().length];
     private Class[] drawableClasses = {StoneFurnaceDrawable.class};
 
     public void load() {
@@ -33,9 +34,16 @@ public class MachineDrawableCache {
         for (int type = 0; type < drawables.length; type++) {
             greenDrawables[type] = drawables[type].offsetColor(Color.GREEN, COLOR_OFFSET_ALPHA);
         }
+
+        for (int type = 0; type < drawables.length; type++) {
+            redDrawables[type] = drawables[type].offsetColor(Color.RED, COLOR_OFFSET_ALPHA);
+        }
     }
 
     public SimpleBitmapDrawable getDrawable(int machineType) {
+        if (machineType >= RED_TYPE_OFFSET) {
+            return redDrawables[machineType-RED_TYPE_OFFSET];
+        }
         if (machineType >= GREEN_TYPE_OFFSET) {
             return greenDrawables[machineType-GREEN_TYPE_OFFSET];
         } else {

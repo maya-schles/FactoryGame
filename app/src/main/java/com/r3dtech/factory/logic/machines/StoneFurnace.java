@@ -18,14 +18,13 @@ public class StoneFurnace implements Machine {
     public static final int MAX_FUEL = 3000;
     private static final GameItem[] smeltResults = {GameItem.STONE_BRICK, null, null, null};
     private static final int[] fuelTimes = {0, 300, 0, 0};
-
     private static final MachineType TYPE = MachineType.STONE_FURNACE;
-    private TimerCallback callback = new TimerCallback() {
-        @Override
-        public void onTimerDone(LoadingTimer timer) {
-            smelt();
-            timer.reset();
-        }
+
+    private MachineState state = MachineState.NORMAL;
+
+    private TimerCallback callback = (timer) -> {
+        timer.reset();
+        smelt();
     };
     private ItemStack fuel = new ItemStack();
 
@@ -38,11 +37,11 @@ public class StoneFurnace implements Machine {
 
     private OutputDirection outputDirection = OutputDirection.DOWN;
 
-    public StoneFurnace(){
+    StoneFurnace(){
 
     }
 
-    public StoneFurnace(String string) {
+    StoneFurnace(String string) {
         Scanner scanner = new Scanner(string);
         outputDirection = OutputDirection.fromInt(scanner.nextInt());
         fuel = ItemStack.fromString(scanner.next());
@@ -61,10 +60,7 @@ public class StoneFurnace implements Machine {
         if (!output.isEmpty() && output.getItem() != getSmeltRes(smeltable.getItem())) {
             return false;
         }
-        if (output.isFull()) {
-            return false;
-        }
-        return true;
+        return (!output.isFull());
     }
 
     private boolean isSmeltable(GameItem item) {
@@ -84,22 +80,6 @@ public class StoneFurnace implements Machine {
          }
     }
 
-    public void addSmeltable(ItemStack stack) {
-        if (!isSmeltable(stack.getItem())) {
-            return;
-        }
-        if (smeltable.isEmpty() && !stack.isEmpty()) {
-            timer.reset();
-        }
-        smeltable.add(stack);
-    }
-
-    public void addFuel(ItemStack stack) {
-        if (isFuel(stack.getItem())) {
-            fuel.add(stack);
-        }
-    }
-
 
     @Override
     public String saveToString() {
@@ -111,18 +91,8 @@ public class StoneFurnace implements Machine {
     }
 
     @Override
-    public int getType() {
-        return TYPE.toInt();
-    }
-
-    @Override
-    public void input(ItemStack input) {
-
-    }
-
-    @Override
-    public ItemStack output() {
-        return null;
+    public MachineType getType() {
+        return TYPE;
     }
 
     private void fuelUp() {
@@ -131,6 +101,7 @@ public class StoneFurnace implements Machine {
             fuel.decreaseAmount(1);
         }
     }
+
     @Override
     public void process(float deltaTime) {
         if (currFuel <= 0) {
@@ -175,5 +146,15 @@ public class StoneFurnace implements Machine {
     @Override
     public void rotate() {
         outputDirection = outputDirection.rotate();
+    }
+
+    @Override
+    public void setState(MachineState state) {
+        this.state = state;
+    }
+
+    @Override
+    public MachineState getState() {
+        return state;
     }
 }

@@ -9,9 +9,10 @@ import android.graphics.Point;
 
 public class Constants {
     public static final int TILE_VARIETY = 3;
-    public static final int MAP_WIDTH = 128;
-    public static final int MAP_HEIGHT = 128;
     public static final int TILE_SIZE = 32;
+
+    static final int MAP_WIDTH = 128;
+    static final int MAP_HEIGHT = 128;
 
     static final int WORLD_WIDTH = MAP_WIDTH*TILE_SIZE;
     static final int WORLD_HEIGHT = MAP_HEIGHT*TILE_SIZE;

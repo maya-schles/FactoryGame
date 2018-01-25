@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.crypto.Mac;
-
 
 /**
  * This class represents a tiled map of the game.

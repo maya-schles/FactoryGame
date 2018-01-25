@@ -1,12 +1,11 @@
 package com.r3dtech.factory.graphics.tile_map;
 
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 
 import com.r3dtech.factory.MyGameImplementation;
-import com.r3dtech.factory.graphics.machines.machine_drawables.MachineDrawableCache;
-import com.r3dtech.factory.logic.machines.GhostMachine;
 import com.r3dtech.factory.logic.machines.Machine;
+import com.r3dtech.factory.logic.machines.MachineState;
+import com.r3dtech.factory.logic.machines.MachineType;
 import com.r3dtech.factory.logic.tile_map.MapTile;
 import com.r3dtech.factory.logic.tile_map.TileMap;
 
@@ -16,52 +15,50 @@ import com.r3dtech.factory.logic.tile_map.TileMap;
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 24/01/2018.
  */
 
-public class MapMachinePlaceScreen extends MapScreen{
-    private static final int DONE_BUTTON_WIDTH = 128;
-    private static final int DONE_BUTTON_HEIGHT = 128;
-
-    private static final String DONE_BUTTON_FILE = "/res/drawable/done.jpg";
-
-    private Machine.MachineType type;
+public class MapMachinePlaceScreen extends MapEditScreen{
+    private Machine machine;
     private MapTile machineLoc = null;
-    private Drawable doneButton;
 
-    public MapMachinePlaceScreen(MyGameImplementation game, TileMap map, Machine.MachineType type) {
+    public MapMachinePlaceScreen(MyGameImplementation game, TileMap map, MachineType type) {
         super(game, map);
-        this.type = type;
-
-        doneButton= Drawable.createFromStream(this.getClass().
-                getResourceAsStream(DONE_BUTTON_FILE), "src");
-        doneButton.setBounds(canvas.getClipBounds().right- DONE_BUTTON_WIDTH,
-                0, canvas.getClipBounds().right, DONE_BUTTON_HEIGHT);
+        machine = Machine.createMachine(type);
     }
 
-    @Override
-    public void paint() {
-        super.paint();
-        doneButton.draw(canvas);
-    }
-
-    @Override
-    public void onClick(int x, int y) {
-        if (doneButton.getBounds().contains(x, y)) {
-            machineLoc.setMachine(Machine.createMachine(type));
-            game.setMapScreen();
+    public void onGetClick(int x, int y) {
+        Point clickTileLoc = perspective.getTileFromLoc(x-canvas.getWidth()/2, y-canvas.getHeight()/2);
+        MapTile newMachineLoc = perspective.getTile(clickTileLoc.x, clickTileLoc.y);
+        if (newMachineLoc == null || newMachineLoc.getMachine() != null) {
             return;
         }
-
-        Point clickTileLoc = perspective.getTileFromLoc(x-canvas.getWidth()/2, y-canvas.getHeight()/2);
         if (machineLoc != null) {
             machineLoc.setMachine(null);
         }
-        machineLoc = perspective.getTile(clickTileLoc.x, clickTileLoc.y);
-        machineLoc.setMachine(
-                new GhostMachine(type.toInt()+ MachineDrawableCache.GREEN_TYPE_OFFSET));
+        machineLoc = newMachineLoc;
+        if (perspective.isDiscovered(clickTileLoc.x, clickTileLoc.y)) {
+            machine.setState(MachineState.GREEN);
+        }
+        else {
+            machine.setState(MachineState.RED);
+        }
+        machineLoc.setMachine(machine);
     }
 
     @Override
     protected boolean drawArrows() {
         return false;
+    }
+
+    @Override
+    void done() {
+        game.getInventory().decreaseAmount(Machine.getItem(machine.getType()),1);
+        machine.setState(MachineState.NORMAL);
+    }
+
+    @Override
+    void cancel() {
+        if (machineLoc != null) {
+            machineLoc.setMachine(null);
+        }
     }
 }
 

@@ -3,7 +3,7 @@ package com.r3dtech.factory.graphics.machines;
 import android.graphics.Color;
 
 import com.r3dtech.factory.graphics.SimpleBitmapDrawable;
-import com.r3dtech.factory.logic.machines.Machine;
+import com.r3dtech.factory.logic.machines.OutputDirection;
 
 /**
  * This class is an arrow drawable.
@@ -52,7 +52,7 @@ public class ArrowBitmapDrawable extends SimpleBitmapDrawable {
     private static final int[][][] vers = {UpArrow, RightArrow, DownArrow, LeftArrow};
     private static final int[] colors = {Color.RED};
 
-    public ArrowBitmapDrawable(Machine.OutputDirection direction) {
+    public ArrowBitmapDrawable(OutputDirection direction) {
         super(vers[direction.toInt()], colors);
     }
 }

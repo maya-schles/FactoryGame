@@ -12,8 +12,10 @@ public interface MapSegment extends TileMap {
     TileMap getMap();
     void setSizeX(int sizeX);
     void setSizeY(int sizeY);
+
     void movePos(int dx, int dy);
     Point getPosOffset();
+
     int getLeftDist();
     int getTopDist();
     Point topLeftTile();

@@ -4,7 +4,6 @@ import com.r3dtech.factory.logic.inventory.GameItem;
 import com.r3dtech.factory.logic.inventory.ItemStack;
 
 import java.lang.reflect.Constructor;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -16,46 +15,7 @@ import java.util.Scanner;
  */
 
 public interface Machine {
-    enum MachineType {
-        STONE_FURNACE(StoneFurnace.class);
-
-        private Class machineClass;
-
-        MachineType(Class machineClass) {
-            this.machineClass = machineClass;
-        }
-
-        public Class getMachineClass() {
-            return machineClass;
-        }
-        public int toInt() {
-            return Arrays.asList(values()).indexOf(this);
-        }
-
-        public static MachineType fromInt(int i) {
-            return values()[i];
-        }
-    }
-
-    enum OutputDirection {
-        UP,
-        RIGHT,
-        DOWN,
-        LEFT;
-
-        public static OutputDirection fromInt(int i) {
-            return values()[i];
-        }
-        public int toInt() {
-            return Arrays.asList(values()).indexOf(this);
-        }
-
-        public OutputDirection rotate() {
-            return values()[(toInt()+1) % 4];
-        }
-    }
-
-    static Map<GameItem, MachineType> machineItems = getMachineItems();
+    Map<GameItem, MachineType> machineItems = getMachineItems();
 
     static Map<GameItem, MachineType> getMachineItems() {
         Map<GameItem, MachineType> res = new HashMap<>();
@@ -63,13 +23,13 @@ public interface Machine {
         return res;
     }
 
-    int getType();
+    MachineType getType();
     String saveToString();
-    void input(ItemStack input);
-    ItemStack output();
     void process(float deltaTime);
     OutputDirection getOutputDirection();
     void rotate();
+    void setState(MachineState state);
+    MachineState getState();
 
     static Machine createMachine(MachineType type) {
         try {
@@ -99,5 +59,14 @@ public interface Machine {
 
     static MachineType getMachine(GameItem item) {
         return machineItems.get(item);
+    }
+
+    static GameItem getItem(MachineType machineType) {
+        for (Map.Entry<GameItem, MachineType> entry : machineItems.entrySet()) {
+            if (entry.getValue() == machineType) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

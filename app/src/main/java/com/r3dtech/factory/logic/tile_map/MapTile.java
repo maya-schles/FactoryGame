@@ -12,6 +12,7 @@ import com.r3dtech.factory.logic.machines.Machine;
 public interface MapTile {
     TileType tileType();
     int getVer();
+
     Machine getMachine();
     void setMachine(Machine machine);
 }

@@ -14,15 +14,16 @@ import com.r3dtech.factory.graphics.crafting.RecipeScreen;
 import com.r3dtech.factory.graphics.inventory.InventoryScreen;
 import com.r3dtech.factory.graphics.loading_timers.LoadingTimersOverlay;
 import com.r3dtech.factory.graphics.machines.machine_drawables.StoneFurnaceScreen;
+import com.r3dtech.factory.graphics.tile_map.MapDestroyMachineScreen;
 import com.r3dtech.factory.graphics.tile_map.MapMachinePlaceScreen;
 import com.r3dtech.factory.graphics.tile_map.MapRotateMachineScreen;
 import com.r3dtech.factory.graphics.tile_map.MapViewScreen;
 import com.r3dtech.factory.logic.crafting.CraftingManager;
 import com.r3dtech.factory.logic.crafting.Recipe;
-import com.r3dtech.factory.logic.inventory.GameItem;
 import com.r3dtech.factory.logic.inventory.Inventory;
 import com.r3dtech.factory.logic.loading_timers.GameItemTimersManager;
 import com.r3dtech.factory.logic.machines.Machine;
+import com.r3dtech.factory.logic.machines.MachineType;
 import com.r3dtech.factory.logic.machines.StoneFurnace;
 import com.r3dtech.factory.logic.tile_map.TileMap;
 import com.r3dtech.factory.logic.tile_map.implementation.GameMap;
@@ -36,12 +37,7 @@ import java.io.IOException;
 public class MyGameImplementation extends AndroidGame implements MyGame {
     private TileMap map;
     private Inventory inventory = new Inventory();
-    private GameItemTimersManager.GameItemTimerCallback addItemCallback = new GameItemTimersManager.GameItemTimerCallback() {
-        @Override
-        public void onTimerDone(GameItem item) {
-            inventory.increaseAmount(item, 1);
-        }
-    };
+    private GameItemTimersManager.GameItemTimerCallback addItemCallback = (item) -> inventory.increaseAmount(item, 1);
 
     private GameItemTimersManager harvestManager = new GameItemTimersManager(addItemCallback);
 
@@ -85,13 +81,14 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
             Log.d(TAG, "Failed to load game map "+e.getMessage());
             return null;
         }
+        /*
         try {
             map.loadMachines(getFileIO());
         } catch (IOException e) {
             Log.d(TAG, "couldn't load machines, couldn't read file");
         } catch (ClassNotFoundException e) {
             Log.d(TAG, "couldn't load machines, couldn't generate a machine");
-        }
+        }*/
         return map;
     }
 
@@ -161,7 +158,7 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
     @Override
     public void setMachineScreen(Machine machine) {
         GameScreen screen = null;
-        switch (Machine.MachineType.fromInt(machine.getType())) {
+        switch (machine.getType()) {
             case STONE_FURNACE:
                 screen = new StoneFurnaceScreen(this, (StoneFurnace) machine);
                 break;
@@ -171,7 +168,7 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
     }
 
     @Override
-    public void setMachinePlaceScreen(Machine.MachineType type) {
+    public void setMachinePlaceScreen(MachineType type) {
         setScreen(new MapMachinePlaceScreen(this, map, type));
         setScreenOverlay(new AndroidEmptyOverlay());
     }
@@ -179,6 +176,12 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
     @Override
     public void setMachineRotateScreen() {
         setScreen(new MapRotateMachineScreen(this, map));
+        setScreenOverlay(new AndroidEmptyOverlay());
+    }
+
+    @Override
+    public void setMachineDeleteScreen() {
+        setScreen(new MapDestroyMachineScreen(this, map));
         setScreenOverlay(new AndroidEmptyOverlay());
     }
 }

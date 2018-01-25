@@ -11,6 +11,7 @@ import com.r3dtech.factory.graphics.GenericDrawer;
 import com.r3dtech.factory.graphics.SimpleBitmapDrawable;
 import com.r3dtech.factory.graphics.machines.ArrowBitmapDrawable;
 import com.r3dtech.factory.graphics.tile_map.tile_drawables.FogDrawable;
+import com.r3dtech.factory.logic.machines.Machine;
 import com.r3dtech.factory.logic.tile_map.MapSegment;
 import com.r3dtech.factory.logic.tile_map.MapTile;
 import com.r3dtech.factory.logic.tile_map.TileMap;
@@ -92,8 +93,10 @@ public class MapSegmentDrawer extends GenericDrawer<MapSegment> {
                 drawable.setBounds(dstRect);
                 drawable.draw(canvas);
 
-                if (tile.getMachine() != null) {
-                    Drawable machineDrawable = DrawableCaches.getMachine(tile.getMachine().getType());
+                Machine machine = tile.getMachine();
+                if (machine != null) {
+                    int machineDrawableInt = machine.getType().toInt() + machine.getState().getOffset();
+                    Drawable machineDrawable = DrawableCaches.getMachine(machineDrawableInt);
                     machineDrawable.setBounds(dstRect);
                     machineDrawable.draw(canvas);
                     if (drawArrows) {

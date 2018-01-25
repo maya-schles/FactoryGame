@@ -7,6 +7,7 @@ import com.r3dtech.factory.graphics.slots.SlotBundle;
 import com.r3dtech.factory.graphics.slots.SlotDrawer;
 import com.r3dtech.factory.logic.inventory.Inventory;
 import com.r3dtech.factory.logic.machines.Machine;
+import com.r3dtech.factory.logic.machines.MachineType;
 
 /**
  * This is the inventory screen.
@@ -50,9 +51,8 @@ public class InventoryScreen extends InventoryMenuScreen {
         Slot[] slots = generateSlots();
         for (Slot slot: slots) {
             if (slot.getBounds().contains(x, y)) {
-                Machine.MachineType type = Machine.getMachine(slot.getItemStack().getItem());
+                MachineType type = Machine.getMachine(slot.getItemStack().getItem());
                 if (type != null) {
-                    slot.getItemStack().decreaseAmount(1);
                     game.setMachinePlaceScreen(type);
                 }
                 return;

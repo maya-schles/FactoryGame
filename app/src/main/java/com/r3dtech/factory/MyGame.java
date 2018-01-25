@@ -8,6 +8,7 @@ import com.r3dtech.factory.logic.crafting.Recipe;
 import com.r3dtech.factory.logic.inventory.Inventory;
 import com.r3dtech.factory.logic.loading_timers.GameItemTimersManager;
 import com.r3dtech.factory.logic.machines.Machine;
+import com.r3dtech.factory.logic.machines.MachineType;
 
 /**
  * This interface is the interface that binds al aspects of the game together.
@@ -25,6 +26,7 @@ public interface MyGame extends Game{
     void setCraftingScreen();
     void setRecipeScreen(Recipe recipe);
     void setMachineScreen(Machine machine);
-    void setMachinePlaceScreen(Machine.MachineType type);
+    void setMachinePlaceScreen(MachineType type);
     void setMachineRotateScreen();
+    void setMachineDeleteScreen();
 }
