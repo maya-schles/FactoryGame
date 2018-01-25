@@ -65,7 +65,8 @@ public class Inventory {
         }
         return -1;
     }
-    public int getAmount(GameItem item) {
+
+    private int getAmount(GameItem item) {
         int i = findIndex(item);
         if ( i == -1) {
             return 0;
@@ -93,16 +94,6 @@ public class Inventory {
         setAmount(item, getAmount(item)-amountToSub);
     }
 
-    public int getItemNum() {
-        int cnt = 0;
-        for (ItemStack stack: inventory) {
-            if (!stack.isEmpty()) {
-                cnt++;
-            }
-        }
-        return cnt;
-    }
-
 
     public boolean contains(ItemStack stack) {
         int i = findIndex(stack.getItem());
@@ -124,5 +115,9 @@ public class Inventory {
 
     public ItemStack getItemStack(int i) {
         return inventory[i];
+    }
+
+    public void addItemStack(ItemStack stack) {
+        increaseAmount(stack.getItem(), stack.getAmount());
     }
 }

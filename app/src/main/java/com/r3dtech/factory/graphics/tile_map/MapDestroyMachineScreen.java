@@ -3,12 +3,15 @@ package com.r3dtech.factory.graphics.tile_map;
 import android.graphics.Point;
 
 import com.r3dtech.factory.MyGameImplementation;
+import com.r3dtech.factory.logic.inventory.ItemStack;
+import com.r3dtech.factory.logic.machines.Machine;
 import com.r3dtech.factory.logic.machines.MachineState;
 import com.r3dtech.factory.logic.tile_map.MapTile;
 import com.r3dtech.factory.logic.tile_map.TileMap;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * This is a screen for destroying machines.
@@ -47,12 +50,19 @@ public class MapDestroyMachineScreen extends MapEditScreen {
     @Override
     void done() {
         for (MapTile tile : tileList) {
+            Machine machine = tile.getMachine();
+            game.getInventory().increaseAmount(Machine.getItem(machine.getType()), 1);
+            for (ItemStack stack : machine.getItems()) {
+                game.getInventory().addItemStack(stack);
+            }
             tile.setMachine(null);
         }
     }
 
     @Override
     void cancel() {
-
+        for (MapTile tile : tileList) {
+            tile.getMachine().setState(MachineState.NORMAL);
+        }
     }
 }

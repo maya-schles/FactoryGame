@@ -157,4 +157,10 @@ public class StoneFurnace implements Machine {
     public MachineState getState() {
         return state;
     }
+
+    @Override
+    public ItemStack[] getItems() {
+        ItemStack[] res = {smeltable, fuel, output};
+        return res;
+    }
 }

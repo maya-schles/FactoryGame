@@ -30,6 +30,7 @@ public interface Machine {
     void rotate();
     void setState(MachineState state);
     MachineState getState();
+    ItemStack[] getItems();
 
     static Machine createMachine(MachineType type) {
         try {
