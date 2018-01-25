@@ -1,13 +1,9 @@
-package com.r3dtech.factory.graphics.tile_map.tile_drawables;
+package com.r3dtech.factory.graphics.map.tile_drawables;
 
 import android.util.Log;
 
 import com.r3dtech.factory.logic.tile_map.TileType;
-import com.r3dtech.factory.graphics.tile_map.tile_drawables.FogDrawable;
-import com.r3dtech.factory.graphics.tile_map.tile_drawables.ForestDrawable;
-import com.r3dtech.factory.graphics.tile_map.tile_drawables.GrassDrawable;
 import com.r3dtech.factory.graphics.SimpleBitmapDrawable;
-import com.r3dtech.factory.graphics.tile_map.tile_drawables.StoneDrawable;
 import com.r3dtech.factory.logic.tile_map.implementation.Constants;
 
 import java.lang.reflect.Constructor;

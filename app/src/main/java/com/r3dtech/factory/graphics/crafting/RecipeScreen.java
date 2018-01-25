@@ -25,6 +25,7 @@ public class RecipeScreen extends InventoryMenuScreen {
     private static final int TITLE_SIZE = 32;
     private static final int COMPONENT_DIST_UP = 256;
     private static final int TITLE_DIST = 32;
+
     private CraftingManager craftingManager;
 
     private Recipe recipe;
@@ -36,7 +37,7 @@ public class RecipeScreen extends InventoryMenuScreen {
     private Paint titlePaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
 
     public RecipeScreen(MyGameImplementation game, Recipe recipe) {
-        super(game, Tab.CRAFTING);
+        super(game);
 
         this.craftingManager = game.getCraftingManager();
         this.recipe = recipe;
@@ -90,4 +91,18 @@ public class RecipeScreen extends InventoryMenuScreen {
         }
     }
 
+    @Override
+    public void onScale(float scale) {
+
+    }
+
+    @Override
+    public void onScroll(float dx, float dy) {
+
+    }
+
+    @Override
+    protected Tab getTab() {
+        return Tab.CRAFTING;
+    }
 }

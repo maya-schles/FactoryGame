@@ -1,4 +1,4 @@
-package com.r3dtech.factory.graphics.tile_map;
+package com.r3dtech.factory.graphics.map;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -10,7 +10,7 @@ import com.r3dtech.factory.graphics.DrawableCaches;
 import com.r3dtech.factory.graphics.GenericDrawer;
 import com.r3dtech.factory.graphics.SimpleBitmapDrawable;
 import com.r3dtech.factory.graphics.machines.ArrowBitmapDrawable;
-import com.r3dtech.factory.graphics.tile_map.tile_drawables.FogDrawable;
+import com.r3dtech.factory.graphics.map.tile_drawables.FogDrawable;
 import com.r3dtech.factory.logic.machines.Machine;
 import com.r3dtech.factory.logic.tile_map.MapSegment;
 import com.r3dtech.factory.logic.tile_map.MapTile;

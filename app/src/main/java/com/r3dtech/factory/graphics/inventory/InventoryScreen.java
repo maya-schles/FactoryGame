@@ -16,12 +16,11 @@ import com.r3dtech.factory.logic.machines.MachineType;
  */
 
 public class InventoryScreen extends InventoryMenuScreen {
-
     private Inventory inventory;
     private GenericDrawer<SlotBundle> slotDrawer;
 
     public InventoryScreen(MyGameImplementation game) {
-        super(game, Tab.INVENTORY);
+        super(game);
 
         inventory = game.getInventory();
         slotDrawer = new SlotDrawer(game.getAssets());
@@ -58,5 +57,20 @@ public class InventoryScreen extends InventoryMenuScreen {
                 return;
             }
         }
+    }
+
+    @Override
+    protected Tab getTab() {
+        return Tab.INVENTORY;
+    }
+
+    @Override
+    public void onScale(float scale) {
+
+    }
+
+    @Override
+    public void onScroll(float dx, float dy) {
+
     }
 }

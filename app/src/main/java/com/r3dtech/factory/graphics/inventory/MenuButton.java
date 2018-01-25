@@ -1,68 +1,30 @@
 package com.r3dtech.factory.graphics.inventory;
 
 import android.content.res.AssetManager;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import com.r3dtech.factory.graphics.ButtonCallback;
+import com.r3dtech.factory.graphics.DrawableButton;
 
 /**
- * This class is a drawable of a menu button.
+ * This class is a menu button.
  *
- * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 21/01/2018.
+ * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 25/01/2018.
  */
 
-class MenuButton extends Drawable {
-    private static final int TEXT_SIZE = 64;
-    private static final int OUTLINE_WIDTH = 8;
-    private static final int SIDE_BUFFER = 4;
-    private String text;
-    private Paint textPaint = new Paint(Paint.FAKE_BOLD_TEXT_FLAG);
-    private Paint outlinePaint = new Paint();
+public class MenuButton extends DrawableButton {
+    private static final int BUTTON_WIDTH = 384;
+    private static final int BUTTON_HEIGHT = 96;
 
-    MenuButton(String text, boolean isSelected, AssetManager assets) {
-        this.text = text;
-        int color = isSelected? Color.YELLOW:Color.BLACK;
-        outlinePaint.setColor(color);
-        outlinePaint.setStyle(Paint.Style.STROKE);
-        outlinePaint.setStrokeWidth(OUTLINE_WIDTH);
-        textPaint.setColor(color);
-        textPaint.setTextSize(TEXT_SIZE);
-        Typeface textFont = Typeface.createFromAsset(assets, "text_font.ttf");
-        textPaint.setTypeface(textFont);
-
+    public MenuButton(ButtonCallback callback, String text, boolean isSelected, AssetManager assets) {
+        super(new MenuButtonDrawable(text, isSelected, assets), callback);
     }
 
-    @Override
-    public void draw(@NonNull Canvas canvas) {
-        Rect bounds = getBounds();
-        Rect outlineRect = new Rect(
-                bounds.left+OUTLINE_WIDTH/2+SIDE_BUFFER,
-                bounds.top+OUTLINE_WIDTH/2+SIDE_BUFFER,
-                bounds.right-OUTLINE_WIDTH/2-SIDE_BUFFER,
-                bounds.bottom-OUTLINE_WIDTH/2-SIDE_BUFFER);
-        canvas.drawRect(outlineRect, outlinePaint);
-        canvas.drawText(text, outlineRect.left, bounds.bottom-(bounds.height()-textPaint.getTextSize())/2, textPaint);
-    }
-
-    @Override
-    public void setAlpha(int i) {
-
-    }
-
-    @Override
-    public void setColorFilter(@Nullable ColorFilter colorFilter) {
-
-    }
-
-    @Override
-    public int getOpacity() {
-        return PixelFormat.OPAQUE;
+    public static void setButtonBounds(DrawableButton[] buttons) {
+        Rect buttonBounds = new Rect(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT);
+        for (DrawableButton button : buttons) {
+            button.setBounds(buttonBounds);
+            buttonBounds.offset(BUTTON_WIDTH, 0);
+        }
     }
 }

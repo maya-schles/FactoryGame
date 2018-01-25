@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 
 import com.r3dtech.factory.graphics.inventory.GameItemDrawableCache;
 import com.r3dtech.factory.graphics.machines.machine_drawables.MachineDrawableCache;
-import com.r3dtech.factory.graphics.tile_map.tile_drawables.TileDrawableCache;
+import com.r3dtech.factory.graphics.map.tile_drawables.TileDrawableCache;
 
 /**
  * This class holds all the drawable caches.

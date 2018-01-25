@@ -20,7 +20,7 @@ public class CraftingScreen extends InventoryMenuScreen {
     private GenericDrawer<SlotBundle> slotDrawer;
 
     public CraftingScreen(MyGameImplementation game) {
-        super(game, Tab.CRAFTING);
+        super(game);
 
         craftingManager = game.getCraftingManager();
         slotDrawer = new SlotDrawer(game.getAssets());
@@ -56,5 +56,20 @@ public class CraftingScreen extends InventoryMenuScreen {
                 game.setRecipeScreen(craftingManager.getRecipe(slot.getItemStack().getItem()));
             }
         }
+    }
+
+    @Override
+    public void onScale(float scale) {
+
+    }
+
+    @Override
+    public void onScroll(float dx, float dy) {
+
+    }
+
+    @Override
+    protected Tab getTab() {
+        return Tab.CRAFTING;
     }
 }
