@@ -28,7 +28,7 @@ public class StoneFurnaceDrawable extends SimpleBitmapDrawable {
             Color.rgb(0xe8, 0xbf, 0x27),
             Color.rgb(0xe8, 0xd5, 0x27)};
 
-    public StoneFurnaceDrawable() {
+    public StoneFurnaceDrawable(Integer direction) {
         super(bitmap, colors);
     }
 }

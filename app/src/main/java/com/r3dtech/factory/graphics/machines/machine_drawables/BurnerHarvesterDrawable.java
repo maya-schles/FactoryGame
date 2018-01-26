@@ -25,7 +25,7 @@ public class BurnerHarvesterDrawable extends SimpleBitmapDrawable {
             Color.rgb(0x66, 0x66, 0x66),
             Color.rgb(0x83, 0x45, 0x2a)};
 
-    public BurnerHarvesterDrawable() {
+    public BurnerHarvesterDrawable(Integer direction) {
         super(bitmap, colors);
     }
 }

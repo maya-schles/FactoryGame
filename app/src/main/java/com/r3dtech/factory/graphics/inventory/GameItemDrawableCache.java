@@ -18,7 +18,7 @@ public class GameItemDrawableCache {
     public void load() {
         for (int item = 0; item < drawables.length; item++) {
             if (item == GameItem.BURNER_HARVESTER.toInt()) {
-                drawables[item] = new BurnerHarvesterDrawable();
+                drawables[item] = new BurnerHarvesterDrawable(0);
             } else {
                 drawables[item] = Drawable.createFromStream(this.getClass().getResourceAsStream(
                         "/res/drawable/icon_" + GameItem.values()[item].getName() + ".jpg"), "src");

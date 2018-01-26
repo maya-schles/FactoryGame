@@ -96,7 +96,7 @@ public class MapSegmentDrawer extends GenericDrawer<MapSegment> {
                 Machine machine = tile.getMachine();
                 if (machine != null) {
                     int machineDrawableInt = machine.getType().toInt() + machine.getState().getOffset();
-                    Drawable machineDrawable = DrawableCaches.getMachine(machineDrawableInt);
+                    Drawable machineDrawable = DrawableCaches.getMachine(machineDrawableInt, machine.getOutputDirection());
                     machineDrawable.setBounds(dstRect);
                     machineDrawable.draw(canvas);
                     if (drawArrows) {
