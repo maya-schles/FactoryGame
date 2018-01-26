@@ -21,7 +21,7 @@ import com.r3dtech.factory.logic.inventory.ItemStack;
 public class SlotDrawer extends GenericDrawer<SlotBundle> {
     private static final int SLOT_OUTLINE_WIDTH = 8;
     private static final int NUM_TEXT_SIZE = 48;
-    private static final int TEXT_SIZE = 32;
+    private static final int TEXT_SIZE = 28;
 
     private Paint slotPaint = new Paint();
     private Paint emptySlotPaint = new Paint();

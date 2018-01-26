@@ -13,7 +13,8 @@ import com.r3dtech.factory.graphics.crafting.CraftingScreen;
 import com.r3dtech.factory.graphics.crafting.RecipeScreen;
 import com.r3dtech.factory.graphics.inventory.InventoryScreen;
 import com.r3dtech.factory.graphics.loading_timers.LoadingTimersOverlay;
-import com.r3dtech.factory.graphics.machines.machine_drawables.StoneFurnaceScreen;
+import com.r3dtech.factory.graphics.machines.BurnerHarvesterScreen;
+import com.r3dtech.factory.graphics.machines.StoneFurnaceScreen;
 import com.r3dtech.factory.graphics.map.editing.MapDestroyMachineScreen;
 import com.r3dtech.factory.graphics.map.editing.MapMachinePlaceScreen;
 import com.r3dtech.factory.graphics.map.editing.MapRotateMachineScreen;
@@ -22,6 +23,7 @@ import com.r3dtech.factory.logic.crafting.CraftingManager;
 import com.r3dtech.factory.logic.crafting.Recipe;
 import com.r3dtech.factory.logic.inventory.Inventory;
 import com.r3dtech.factory.logic.loading_timers.GameItemTimersManager;
+import com.r3dtech.factory.logic.machines.BurnerHarvester;
 import com.r3dtech.factory.logic.machines.Machine;
 import com.r3dtech.factory.logic.machines.MachineType;
 import com.r3dtech.factory.logic.machines.StoneFurnace;
@@ -81,20 +83,19 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
             Log.d(TAG, "Failed to load game map "+e.getMessage());
             return null;
         }
-        /*
         try {
             map.loadMachines(getFileIO());
         } catch (IOException e) {
             Log.d(TAG, "couldn't load machines, couldn't read file");
         } catch (ClassNotFoundException e) {
             Log.d(TAG, "couldn't load machines, couldn't generate a machine");
-        }*/
+        }
         return map;
     }
 
     private void updateMachines(float deltaTime) {
         for(Machine machine: map.getMachines()) {
-            machine.process(deltaTime);
+            machine.update(deltaTime);
         }
     }
 
@@ -162,6 +163,8 @@ public class MyGameImplementation extends AndroidGame implements MyGame {
             case STONE_FURNACE:
                 screen = new StoneFurnaceScreen(this, (StoneFurnace) machine);
                 break;
+            case BURNER_HARVESTER:
+                screen = new BurnerHarvesterScreen(this, (BurnerHarvester) machine);
         }
         setScreen(screen);
         setScreenOverlay(new AndroidEmptyOverlay());

@@ -1,4 +1,4 @@
-package com.r3dtech.factory.graphics.machines.machine_drawables;
+package com.r3dtech.factory.graphics.machines;
 
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -7,8 +7,8 @@ import com.r3dtech.factory.MyGame;
 import com.r3dtech.factory.graphics.GenericDrawer;
 import com.r3dtech.factory.graphics.slots.Slot;
 import com.r3dtech.factory.graphics.loading_timers.LoadingTimerDrawer;
-import com.r3dtech.factory.graphics.machines.MachineScreen;
 import com.r3dtech.factory.logic.loading_timers.LoadingTimer;
+import com.r3dtech.factory.logic.machines.FueledProcessingMachine;
 import com.r3dtech.factory.logic.machines.StoneFurnace;
 
 /**
@@ -19,6 +19,7 @@ import com.r3dtech.factory.logic.machines.StoneFurnace;
 
 public class StoneFurnaceScreen extends MachineScreen {
     private static final int TIMER_SIDE_DIST = 32;
+
     private StoneFurnace furnace;
     private Slot smeltable = Slot.getDefaultSlot();
     private Slot fuel = smeltable.adjacentSlot(Slot.AdjacentSlot.BELOW);
@@ -51,7 +52,7 @@ public class StoneFurnaceScreen extends MachineScreen {
     public void paint() {
         super.paint();
         timerDrawer.draw(canvas, furnace.getTimer());
-        fuelLevelDrawer.draw(canvas, furnace.getCurrFuel()/(float) furnace.MAX_FUEL);
+        fuelLevelDrawer.draw(canvas, furnace.getCurrFuel()/(float) FueledProcessingMachine.MAX_FUEL);
     }
     @Override
     protected Slot[] generateMachineSlots() {

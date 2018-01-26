@@ -74,9 +74,10 @@ public class ItemStack {
 
     public void add(ItemStack stack) {
         if (isEmpty() || (stack.getItem() == item && !isFull())) {
+            int oldAmount = amount;
             amount = Math.min(amount+stack.amount, STACK_LIMIT);
             item = stack.getItem();
-            stack.amount = Math.max(0, stack.amount + amount - STACK_LIMIT);
+            stack.amount = Math.max(0, stack.amount + oldAmount - STACK_LIMIT);
         }
     }
 }

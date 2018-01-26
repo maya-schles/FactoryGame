@@ -120,7 +120,7 @@ public class GameMap implements TileMap {
 
     @Override
     public boolean isDiscovered(int x, int y) {
-        return isValidTile(x, y) && isDiscovered[y][x];
+        return isValidTile(x, y);
 
     }
 

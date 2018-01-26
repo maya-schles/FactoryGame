@@ -7,7 +7,8 @@ import java.util.Arrays;
  * Created by Maya Schlesinger(maya.schlesinger@gmail.com) on 25/01/2018.
  */
 public enum MachineType {
-    STONE_FURNACE(StoneFurnace.class);
+    STONE_FURNACE(StoneFurnace.class),
+    BURNER_HARVESTER(BurnerHarvester.class);
 
     private Class machineClass;
 

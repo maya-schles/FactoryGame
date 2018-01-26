@@ -14,7 +14,9 @@ import java.util.Arrays;
 public enum TileType {
     FOREST("forest", GameItem.WOOD),
     GRASS("grass", null),
-    STONE("stone", GameItem.STONE);
+    STONE("stone", GameItem.STONE),
+    COAL_ORE("coal_ore", GameItem.COAL),
+    IRON_ORE("iron_ore", GameItem.IRON);
 
     private String name;
     private GameItem resource;

@@ -28,7 +28,7 @@ public class RecipePool implements Iterable<Recipe> {
         for (int i = 0; i < recipes.length; i++) {
             String line = scanner.nextLine();
             Scanner lineScanner = new Scanner(line);
-            lineScanner.useDelimiter("[=:, ]");
+            lineScanner.useDelimiter("[=: ]");
             GameItem product = GameItem.fromInt(lineScanner.nextInt());
             ItemStack[] components = new ItemStack[lineScanner.nextInt()];
             for (int j = 0; j < components.length; j++) {

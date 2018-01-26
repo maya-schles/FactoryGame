@@ -2,6 +2,7 @@ package com.r3dtech.factory.graphics.inventory;
 
 import android.graphics.drawable.Drawable;
 
+import com.r3dtech.factory.graphics.machines.machine_drawables.BurnerHarvesterDrawable;
 import com.r3dtech.factory.graphics.machines.machine_drawables.StoneFurnaceDrawable;
 import com.r3dtech.factory.logic.inventory.GameItem;
 
@@ -16,8 +17,12 @@ public class GameItemDrawableCache {
 
     public void load() {
         for (int item = 0; item < drawables.length; item++) {
-            drawables[item] = Drawable.createFromStream(this.getClass().getResourceAsStream(
-                    "/res/drawable/icon_"+ GameItem.values()[item].getName()+".jpg"), "src");
+            if (item == GameItem.BURNER_HARVESTER.toInt()) {
+                drawables[item] = new BurnerHarvesterDrawable();
+            } else {
+                drawables[item] = Drawable.createFromStream(this.getClass().getResourceAsStream(
+                        "/res/drawable/icon_" + GameItem.values()[item].getName() + ".jpg"), "src");
+            }
         }
     }
 

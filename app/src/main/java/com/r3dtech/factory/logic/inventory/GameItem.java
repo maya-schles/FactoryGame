@@ -12,8 +12,14 @@ public enum GameItem {
     STONE("stone"),
     WOOD("wood"),
     STONE_BRICK("stone_brick"),
-    STONE_FURNACE("stone_furnace");
+    STONE_FURNACE("stone_furnace"),
+    COAL("coal"),
+    IRON("iron"),
+    IRON_PLATE("iron_plate"),
+    IRON_GEAR("iron_gear"),
+    BURNER_HARVESTER("burner_harvester");
 
+    private static int[] fuelLevels = {0, 300, 0, 0, 1000, 0, 0};
     private String name;
 
     GameItem(String name) {
@@ -30,5 +36,9 @@ public enum GameItem {
 
     public static GameItem fromInt(int i) {
         return values()[i];
+    }
+
+    public int getFuelLevel() {
+        return fuelLevels[toInt()];
     }
 }

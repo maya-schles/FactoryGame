@@ -1,4 +1,4 @@
-package com.r3dtech.factory.graphics.machines.machine_drawables;
+package com.r3dtech.factory.graphics.machines;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

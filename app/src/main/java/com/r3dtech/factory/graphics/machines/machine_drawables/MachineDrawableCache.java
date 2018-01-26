@@ -17,9 +17,10 @@ public class MachineDrawableCache {
     public static int RED_TYPE_OFFSET = 200;
     private static int COLOR_OFFSET_ALPHA = 127;
     private SimpleBitmapDrawable[] drawables = new SimpleBitmapDrawable[MachineType.values().length];
-    private SimpleBitmapDrawable[] greenDrawables = new SimpleBitmapDrawable[MachineType.values().length];
-    private SimpleBitmapDrawable[] redDrawables = new SimpleBitmapDrawable[MachineType.values().length];
-    private Class[] drawableClasses = {StoneFurnaceDrawable.class};
+    private SimpleBitmapDrawable[] greenDrawables = new SimpleBitmapDrawable[drawables.length];
+    private SimpleBitmapDrawable[] redDrawables = new SimpleBitmapDrawable[drawables.length];
+    private Class[] drawableClasses = {StoneFurnaceDrawable.class,
+            BurnerHarvesterDrawable.class};
 
     public void load() {
         for (int type = 0; type < drawables.length; type++) {

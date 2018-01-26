@@ -21,7 +21,8 @@ public class TileDrawableCache {
             ForestDrawable.class,
             GrassDrawable.class,
             StoneDrawable.class,
-            FogDrawable.class};
+            CoalDrawable.class,
+            IronDrawable.class};
 
     private SimpleBitmapDrawable[][] drawables = new SimpleBitmapDrawable[TileType.values().length][Constants.TILE_VARIETY];
 

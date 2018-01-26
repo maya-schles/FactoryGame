@@ -1,7 +1,9 @@
 package com.r3dtech.factory.logic.tile_map.implementation;
 
 
+import com.r3dtech.factory.logic.machines.BurnerHarvester;
 import com.r3dtech.factory.logic.machines.Machine;
+import com.r3dtech.factory.logic.machines.MachineType;
 import com.r3dtech.factory.logic.tile_map.MapTile;
 import com.r3dtech.factory.logic.tile_map.TileType;
 
@@ -44,5 +46,8 @@ public class GameTile implements MapTile {
     @Override
     public void setMachine(Machine machine) {
         this.machine = machine;
+        if (machine.getType() == MachineType.BURNER_HARVESTER) {
+            ((BurnerHarvester) machine).setResource(tileType.getResource());
+        }
     }
 }
